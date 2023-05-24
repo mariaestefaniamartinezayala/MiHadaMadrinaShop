@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace MiHadaMadrinaShop.Models
+{
+    public partial class Direccione
+    {
+        public Direccione()
+        {
+            Pedidos = new HashSet<Pedido>();
+        }
+
+        public long IdDireccion { get; set; }
+        public string? CodPostal { get; set; }
+        public string? Direccion { get; set; }
+        public string? Localidad { get; set; }
+        public string? Pais { get; set; }
+        public string? Provincia { get; set; }
+        public long IdDatosUsuario { get; set; }
+
+        public virtual DatosUsuario IdDatosUsuarioNavigation { get; set; } = null!;
+        public virtual ICollection<Pedido> Pedidos { get; set; }
+    }
+}
