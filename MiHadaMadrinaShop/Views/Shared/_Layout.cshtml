@@ -1,12 +1,22 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es-es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MiHadaMadrinaShop</title>
+    <meta name="keywords" content="Scrap, Scrapbooking, Papeler&iacute;a, Regalos, Bebes, &Aacute;lbum, Decoraci&oacute;n" />
+    <meta name="description" content="Tienda Online venta de articulos de scrapbooking" />
+    <meta name="robots" content="index,nofollow" />
+    <meta name="author" content="Andrea Lamus Prada" />
+    <meta name="author" content="Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala" />
+    <meta name="copyright" content="(C) DevFAndy - 2023" />
+    <title>@ViewData["Title"] - Mi Hada Madrina Hand Made</title>
+    @*Bootstrap CSS*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*Fontawesome icons*@
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MiHadaMadrinaShop.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MiHadaMadrinaHandMadeRazor.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -22,9 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Productos" asp-action="Index">Productos</a>
-                        </li>
+                        <partial name="_GestionPartial" />
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
@@ -40,11 +48,22 @@
         </main>
     </div>
 
+    <partial name="_CookieConsentPartial" />
     <footer class="border-top footer text-muted">
+        <p class="text-wrap">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="">DevFAndy</a></p>
+        <p class="text-wrap">
+            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Home" asp-action="Privacy" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
+            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
+            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
+            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
+        </p>
         <div class="container">
-            &copy; 2023 - MiHadaMadrinaShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <p class="flex-fill d-inline-block px-3">Desarrollado por</p>
+            <p class="flex-fill d-inline-block px-3">Andrea Lamus Prada </p>
+            <p class="flex-fill d-inline-block px-3">Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala</p>
         </div>
     </footer>
+    @*jQuery first, then Bootstrap JS*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

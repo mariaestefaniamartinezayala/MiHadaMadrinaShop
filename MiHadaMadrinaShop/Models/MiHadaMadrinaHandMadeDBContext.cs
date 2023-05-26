@@ -52,6 +52,8 @@ namespace MiHadaMadrinaShop.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseCollation("Latin1_General_CI_AS");
+
             modelBuilder.Entity<AspNetRole>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
@@ -483,6 +485,12 @@ namespace MiHadaMadrinaShop.Models
                     .HasForeignKey(d => d.IdDatosUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_T_Cesta_DatosUsuario");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.TCesta)
+                    .HasForeignKey(d => d.IdProducto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_T_Cesta_Productos");
             });
 
             OnModelCreatingPartial(modelBuilder);

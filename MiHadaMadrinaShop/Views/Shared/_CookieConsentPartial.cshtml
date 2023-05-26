@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+    {
+    <div class="container-fluid fixed-bottom text-center">
+        <div id="cookieConsent" class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong class="text-wrap">
+                &Uacute;nicamente utilizamos cookies para el funcionamiento del sitio web.
+            </strong><br />
+            <span class="text-wrap">Nuestra web no recopila informaci&oacute;n de uso, preferencias ni informaci&oacute;n personal, excepto la proporcionada para realizar la autenticaci&oacute;n.</span><br />
+            <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                <span aria-hidden="true">Aceptar</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        (
+            function () {
+                var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+                button.addEventListener("click", function (event) {
+                    document.cookie = button.dataset.cookieString;
+                }, false);
+            }
+        )();
+    </script>
+    }

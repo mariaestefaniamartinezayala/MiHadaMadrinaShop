@@ -1,0 +1,47 @@
+﻿@using MiHadaMadrinaShop.Areas.Public.Controllers;
+
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="Public" asp-controller="Home" asp-action="Index">
+            <img class="imagen-icon pr-1" src="~/img/logo-MiHadaMadrinaHandMade.png" alt="Logo Mi Hada Madrina">
+            <span>Mi Hada Madrina</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-md-inline-flex">
+            <ul class="navbar-nav flex-grow-1 justify-content-end text-right">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light text-dark font-weight-bold ml-1 text-right px-2" asp-area="Public" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i>  Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<a name="docs">&nbsp;</a>
+
+<div class="container-fluid w-auto mb-3">
+    <div class="row justify-content-center align-self-center">
+        <div class="col-11 col-md-8 container-shadow px-3 bg-white py-4">
+            <div class="col-12 text-center my-3">
+                <img src="~/img/download.svg" alt="Descarga de ficheros" class="img-fluid imagen-width" />
+            </div>
+            <div class="col-12 h3 text-center pb-2 color-text font-weight-bold" id="archivosDigitales">
+                C&oacute;mo descargar los archivos digitales 
+            </div>
+            <div class="col-12">
+                <div class="col-12 alert alert-primary text-center">
+                    El trozo de texto estándar de Lorem Ipsum usado desde el año 1500 es reproducido debajo para aquellos interesados. Las secciones 1.10.32 y 1.10.33 
+                    de "de Finibus Bonorum et Malorum" por Cicero son también reproducidas en su forma original exacta, acompañadas por versiones en Inglés de la traducción realizada en 1914 por H. Rackham.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

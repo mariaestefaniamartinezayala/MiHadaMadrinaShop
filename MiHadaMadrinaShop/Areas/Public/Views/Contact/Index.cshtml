@@ -1,0 +1,56 @@
+﻿@using MiHadaMadrinaShop.Controllers;
+
+<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img class="imagen-icon pr-1" src="~/img/logo-MiHadaMadrinaHandMade.png" alt="Logo Mi Hada Madrina">
+            <span>Mi Hada Madrina</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="container w-auto mb-3">
+    <div class="row justify-content-center align-self-center">
+        <div class="col-11 col-md-8 container-shadow p-3 bg-white">
+            <div class="col-12 h3 text-center color-text font-weight-bold">
+                Cont&aacute;ctanos
+            </div>
+            <div class="col-12 h5 text-justify mb-4">
+                Somos DevFAndy, un equipo de desarrolladores recientemente establecido en Murcia, que une un grupo de Profesionales muy capaces y experimentados en el dise&ntilde;o y desarrollo de aplicaciones web, m&oacute;vil y/o multiplataforma, con un arco de habilidades multidisciplinar que abarca diversas tecnolog&iacute;as y gran elasticidad frente a propuestas de nuevos proyectos. Si deseas ponerte en contacto con nosotros puedes rellenar este formulario y te responderemos lo antes posible.
+            </div>
+            <div class="col-12">
+                <form enctype="text/plain" action="mailto:devfandy@outlook.com" method="post">
+                    <div class="form-row align-items-center">
+                        <div class="col-12">
+                            <label class="control-label label-form pl-1" for="name">Nombre</label>
+                            <input type="text" class="form-control mb-2" id="name" placeholder="Nombre">
+                        </div>
+                        <div class="col-12">
+                            <label class="control-label label-form pl-1" for="email">Email</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">&#64;</div>
+                                </div>
+                                <input type="text" class="form-control" id="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="control-label label-form pl-1" for="message">Mensaje</label>
+                            <div class="input-group mb-2">
+                                <textarea rows="5" cols="55" class="form-control" id="message" placeholder="Mensaje..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center mb-3">
+                            <button class="btn btn-lg btn-block btn-outline-secondary font-weight-bold" type="submit"><i class="fas fa-envelope"></i>  Enviar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ namespace MiHadaMadrinaShop.Models
         public Producto()
         {
             ProductosPedidos = new HashSet<ProductosPedido>();
+            TCesta = new HashSet<TCestum>();
             IdCategoria = new HashSet<Categoria>();
         }
 
@@ -24,6 +25,7 @@ namespace MiHadaMadrinaShop.Models
         public string? UrlProductoDigital { get; set; }
 
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
+        public virtual ICollection<TCestum> TCesta { get; set; }
 
         public virtual ICollection<Categoria> IdCategoria { get; set; }
     }

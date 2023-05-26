@@ -15,5 +15,6 @@ namespace MiHadaMadrinaShop.Models
         public long IdDatosUsuario { get; set; }
 
         public virtual DatosUsuario IdDatosUsuarioNavigation { get; set; } = null!;
+        public virtual Producto IdProductoNavigation { get; set; } = null!;
     }
 }
