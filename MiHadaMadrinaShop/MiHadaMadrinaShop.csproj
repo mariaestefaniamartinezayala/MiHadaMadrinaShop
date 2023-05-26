@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Public\" />
     <Folder Include="Bak\" />
   </ItemGroup>
 

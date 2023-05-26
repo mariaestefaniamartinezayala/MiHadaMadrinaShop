@@ -474,22 +474,27 @@ namespace MiHadaMadrinaShop.Models
 
                 entity.ToTable("T_Cesta");
 
+                entity.Property(e => e.IdAppNetUsers).HasMaxLength(450);
+
                 entity.Property(e => e.Iva).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Total).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.TotalSinIva).HasColumnType("decimal(10, 2)");
 
+                entity.HasOne(d => d.IdAppNetUsersNavigation)
+                    .WithMany(p => p.TCesta)
+                    .HasForeignKey(d => d.IdAppNetUsers)
+                    .HasConstraintName("FK_T_Cesta_AspNetUsers");
+
                 entity.HasOne(d => d.IdDatosUsuarioNavigation)
                     .WithMany(p => p.TCesta)
                     .HasForeignKey(d => d.IdDatosUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_T_Cesta_DatosUsuario");
 
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.TCesta)
                     .HasForeignKey(d => d.IdProducto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_T_Cesta_Productos");
             });
 

@@ -11,6 +11,7 @@ namespace MiHadaMadrinaShop.Models
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
             DatosUsuarios = new HashSet<DatosUsuario>();
+            TCesta = new HashSet<TCestum>();
             Roles = new HashSet<AspNetRole>();
         }
 
@@ -34,6 +35,7 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual ICollection<DatosUsuario> DatosUsuarios { get; set; }
+        public virtual ICollection<TCestum> TCesta { get; set; }
 
         public virtual ICollection<AspNetRole> Roles { get; set; }
     }
