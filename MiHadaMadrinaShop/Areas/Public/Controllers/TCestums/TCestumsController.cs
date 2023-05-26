@@ -26,7 +26,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         // GET: Public/TCestums
         public async Task<IActionResult> Index()
         {
-            var miHadaMadrinaHandMadeDBContext = _context.TCesta.Include(t => t.IdDatosUsuarioNavigation);
+            var miHadaMadrinaHandMadeDBContext = _context.TCesta.Include(t => t.IdAppNetUsersNavigation).Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()));
             return View(await miHadaMadrinaHandMadeDBContext.ToListAsync());
         }
 
@@ -39,7 +39,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             }
 
             var tCestum = await _context.TCesta
-                .Include(t => t.IdDatosUsuarioNavigation)
+                .Include(t => t.IdAppNetUsersNavigation)
                 .FirstOrDefaultAsync(m => m.IdCesta == id);
             if (tCestum == null)
             {
@@ -52,7 +52,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         // GET: Public/TCestums/Create
         public IActionResult Create()
         {
-            ViewData["IdDatosUsuario"] = new SelectList(_context.DatosUsuarios, "IdDatosUsuario", "IdDatosUsuario");
+            ViewData["IdDatosUsuario"] = new SelectList(_context.AspNetUsers, "IdDatosUsuario", "IdDatosUsuario");
             return View();
         }
 
@@ -69,7 +69,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDatosUsuario"] = new SelectList(_context.DatosUsuarios, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
+            ViewData["IdDatosUsuario"] = new SelectList(_context.AspNetUsers, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
             return View(tCestum);
         }
 
@@ -86,7 +86,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             {
                 return NotFound();
             }
-            ViewData["IdDatosUsuario"] = new SelectList(_context.DatosUsuarios, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
+            ViewData["IdDatosUsuario"] = new SelectList(_context.AspNetUsers, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
             return View(tCestum);
         }
 
@@ -122,7 +122,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDatosUsuario"] = new SelectList(_context.DatosUsuarios, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
+            ViewData["IdDatosUsuario"] = new SelectList(_context.AspNetUsers, "IdDatosUsuario", "IdDatosUsuario", tCestum.IdDatosUsuario);
             return View(tCestum);
         }
 
@@ -135,7 +135,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             }
 
             var tCestum = await _context.TCesta
-                .Include(t => t.IdDatosUsuarioNavigation)
+                .Include(t => t.IdAppNetUsersNavigation)
                 .FirstOrDefaultAsync(m => m.IdCesta == id);
             if (tCestum == null)
             {

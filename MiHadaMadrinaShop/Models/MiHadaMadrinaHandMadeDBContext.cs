@@ -24,16 +24,12 @@ namespace MiHadaMadrinaShop.Models
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<Categoria> Categorias { get; set; } = null!;
         public virtual DbSet<Comentario> Comentarios { get; set; } = null!;
-        public virtual DbSet<DatosUsuario> DatosUsuarios { get; set; } = null!;
         public virtual DbSet<Direccione> Direcciones { get; set; } = null!;
         public virtual DbSet<Estado> Estados { get; set; } = null!;
         public virtual DbSet<Factura> Facturas { get; set; } = null!;
         public virtual DbSet<FormasDeEntrega> FormasDeEntregas { get; set; } = null!;
         public virtual DbSet<FormasDeEnvio> FormasDeEnvios { get; set; } = null!;
         public virtual DbSet<FormasDePago> FormasDePagos { get; set; } = null!;
-        public virtual DbSet<Menu> Menus { get; set; } = null!;
-        public virtual DbSet<Modulo> Modulos { get; set; } = null!;
-        public virtual DbSet<Operacione> Operaciones { get; set; } = null!;
         public virtual DbSet<Pedido> Pedidos { get; set; } = null!;
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<ProductosPedido> ProductosPedidos { get; set; } = null!;
@@ -45,8 +41,6 @@ namespace MiHadaMadrinaShop.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost; Database=MiHadaMadrinaHandMadeDB; Integrated Security=True; Encrypt=False");
             }
         }
 
@@ -82,13 +76,30 @@ namespace MiHadaMadrinaShop.Models
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
+                entity.Property(e => e.Apellidos).HasMaxLength(100);
+
                 entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.EmailConfirmed)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.IdSexo).HasDefaultValueSql("((3))");
+
+                entity.Property(e => e.Nombre).HasMaxLength(50);
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasOne(d => d.IdSexoNavigation)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.IdSexo)
+                    .HasConstraintName("FK_AspNetUsers_Sexos");
 
                 entity.HasMany(d => d.Roles)
                     .WithMany(p => p.Users)
@@ -171,35 +182,6 @@ namespace MiHadaMadrinaShop.Models
                     .HasConstraintName("FK_Comentarios_Productos_Pedido");
             });
 
-            modelBuilder.Entity<DatosUsuario>(entity =>
-            {
-                entity.HasKey(e => e.IdDatosUsuario);
-
-                entity.ToTable("DatosUsuario");
-
-                entity.Property(e => e.IdDatosUsuario).ValueGeneratedNever();
-
-                entity.Property(e => e.Apellidos).HasMaxLength(100);
-
-                entity.Property(e => e.FechaNacimiento).HasColumnType("date");
-
-                entity.Property(e => e.IdUserAuth).HasMaxLength(450);
-
-                entity.Property(e => e.Nombre).HasMaxLength(50);
-
-                entity.HasOne(d => d.IdSexoNavigation)
-                    .WithMany(p => p.DatosUsuarios)
-                    .HasForeignKey(d => d.IdSexo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DatosUsuario_Sexos");
-
-                entity.HasOne(d => d.IdUserAuthNavigation)
-                    .WithMany(p => p.DatosUsuarios)
-                    .HasForeignKey(d => d.IdUserAuth)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DatosUsuario_AspNetUsers");
-            });
-
             modelBuilder.Entity<Direccione>(entity =>
             {
                 entity.HasKey(e => e.IdDireccion);
@@ -210,17 +192,19 @@ namespace MiHadaMadrinaShop.Models
 
                 entity.Property(e => e.Direccion).HasMaxLength(250);
 
+                entity.Property(e => e.IdAspNetUsers).HasMaxLength(450);
+
                 entity.Property(e => e.Localidad).HasMaxLength(40);
 
                 entity.Property(e => e.Pais).HasMaxLength(40);
 
                 entity.Property(e => e.Provincia).HasMaxLength(50);
 
-                entity.HasOne(d => d.IdDatosUsuarioNavigation)
+                entity.HasOne(d => d.IdAspNetUsersNavigation)
                     .WithMany(p => p.Direcciones)
-                    .HasForeignKey(d => d.IdDatosUsuario)
+                    .HasForeignKey(d => d.IdAspNetUsers)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Direcciones_DatosUsuario");
+                    .HasConstraintName("FK_Direcciones_AspNetUsers");
             });
 
             modelBuilder.Entity<Estado>(entity =>
@@ -280,51 +264,6 @@ namespace MiHadaMadrinaShop.Models
                 entity.Property(e => e.FormaDePago).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Menu>(entity =>
-            {
-                entity.HasKey(e => e.IdMenu);
-
-                entity.Property(e => e.Controlador).HasMaxLength(50);
-
-                entity.Property(e => e.FechaRegistro)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.Icono).HasMaxLength(50);
-
-                entity.Property(e => e.NombreMenu).HasMaxLength(50);
-
-                entity.Property(e => e.PaginaAccion).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Modulo>(entity =>
-            {
-                entity.HasKey(e => e.IdModulo);
-
-                entity.Property(e => e.IdModulo).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Modulo1)
-                    .HasMaxLength(50)
-                    .HasColumnName("Modulo");
-            });
-
-            modelBuilder.Entity<Operacione>(entity =>
-            {
-                entity.HasKey(e => e.IdOperacion);
-
-                entity.HasIndex(e => e.IdModulo, "IX_Operaciones_IdModulo");
-
-                entity.Property(e => e.IdOperacion).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Operacion).HasMaxLength(50);
-
-                entity.HasOne(d => d.IdModuloNavigation)
-                    .WithMany(p => p.Operaciones)
-                    .HasForeignKey(d => d.IdModulo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Operaciones_Modulos");
-            });
-
             modelBuilder.Entity<Pedido>(entity =>
             {
                 entity.HasKey(e => e.IdPedido);
@@ -339,17 +278,19 @@ namespace MiHadaMadrinaShop.Models
 
                 entity.HasIndex(e => e.IdFormaDePago, "IX_Pedidos_IdFormaDePago");
 
+                entity.Property(e => e.IdAspNetUsers).HasMaxLength(450);
+
                 entity.Property(e => e.Iva).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Total).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.TotalSinIva).HasColumnType("decimal(10, 2)");
 
-                entity.HasOne(d => d.IdDatosUsuarioNavigation)
+                entity.HasOne(d => d.IdAspNetUsersNavigation)
                     .WithMany(p => p.Pedidos)
-                    .HasForeignKey(d => d.IdDatosUsuario)
+                    .HasForeignKey(d => d.IdAspNetUsers)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Pedidos_DatosUsuario");
+                    .HasConstraintName("FK_Pedidos_AspNetUsers");
 
                 entity.HasOne(d => d.IdDireccionNavigation)
                     .WithMany(p => p.Pedidos)
@@ -486,11 +427,6 @@ namespace MiHadaMadrinaShop.Models
                     .WithMany(p => p.TCesta)
                     .HasForeignKey(d => d.IdAppNetUsers)
                     .HasConstraintName("FK_T_Cesta_AspNetUsers");
-
-                entity.HasOne(d => d.IdDatosUsuarioNavigation)
-                    .WithMany(p => p.TCesta)
-                    .HasForeignKey(d => d.IdDatosUsuario)
-                    .HasConstraintName("FK_T_Cesta_DatosUsuario");
 
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.TCesta)

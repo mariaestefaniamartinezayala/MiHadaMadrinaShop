@@ -12,7 +12,7 @@ using MiHadaMadrinaShop.Models;
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, editor")]
     public class CategoriasController : Controller
     {
         private readonly MiHadaMadrinaHandMadeDBContext _context;

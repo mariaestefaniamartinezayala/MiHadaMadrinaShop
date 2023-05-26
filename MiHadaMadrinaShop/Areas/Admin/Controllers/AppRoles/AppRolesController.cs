@@ -13,7 +13,7 @@ using MiHadaMadrinaShop.Models;
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.AppRoles
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

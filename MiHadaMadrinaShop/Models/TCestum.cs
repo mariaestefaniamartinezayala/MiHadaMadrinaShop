@@ -16,7 +16,6 @@ namespace MiHadaMadrinaShop.Models
         public string? IdAppNetUsers { get; set; }
 
         public virtual AspNetUser? IdAppNetUsersNavigation { get; set; }
-        public virtual DatosUsuario? IdDatosUsuarioNavigation { get; set; }
         public virtual Producto? IdProductoNavigation { get; set; }
     }
 }
