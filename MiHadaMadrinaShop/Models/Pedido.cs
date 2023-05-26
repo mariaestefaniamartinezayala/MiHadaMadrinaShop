@@ -21,9 +21,9 @@ namespace MiHadaMadrinaShop.Models
         public byte? PorcentajeDescuento { get; set; }
         public decimal Total { get; set; }
         public decimal TotalSinIva { get; set; }
-        public long IdDatosUsuario { get; set; }
+        public string IdAspNetUsers { get; set; } = null!;
 
-        public virtual DatosUsuario IdDatosUsuarioNavigation { get; set; } = null!;
+        public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
         public virtual Direccione IdDireccionNavigation { get; set; } = null!;
         public virtual Estado IdEstadoNavigation { get; set; } = null!;
         public virtual FormasDeEntrega IdFormaDeEntregaNavigation { get; set; } = null!;
