@@ -41,6 +41,8 @@ namespace MiHadaMadrinaShop.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost; Database=MiHadaMadrinaHandMadeDB; Integrated Security=True; Encrypt=False");
             }
         }
 
@@ -79,10 +81,6 @@ namespace MiHadaMadrinaShop.Models
                 entity.Property(e => e.Apellidos).HasMaxLength(100);
 
                 entity.Property(e => e.Email).HasMaxLength(256);
-
-                entity.Property(e => e.EmailConfirmed)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.FechaNacimiento).HasColumnType("date");
 
