@@ -33,7 +33,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly MiHadaMadrinaHandMadeDBContext _context;
+        private readonly MiHadaMadrinaHandMadeDBContext _context;//Añadimos el contexto para poder añadir los nuevos campos al usuario
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -89,7 +89,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
 
             [Display(Name = "Teléfono")]
 
-            [RegularExpression("[0-9]{9}")]
+            [RegularExpression("(\\+34|0034|34)?[ -]*(6|7|8|9)[ -]*([0-9][ -]*){8}")]
             public string? Telefono { get; set; }
 
             public string? Sexo { get; set; }
@@ -137,18 +137,14 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            //Inicializamos la varible para podel obtener la lista de sexos.
             Input = new InputModel()
             {
+                //Inicializamos la varible para podel obtener la lista de sexos.
                 SexoList = _context.Sexos.Select(r => r.Sexo1).Select(i => new SelectListItem { Text = i, Value = i.ToString() }),
+
+                //Inicializamos la varible para podel obtener la lista de roles.
                 RoleList = _roleManager.Roles.Select(r => r.Name).Select(i => new SelectListItem { Text = i, Value = i.ToString() })
             };
-
-            ////Inicializamos la varible para podel obtener la lista de roles.
-            //Input = new InputModel()
-            //{
-            //    RoleList = _roleManager.Roles.Select(r => r.Name).Select(i => new SelectListItem { Text = i, Value = i.ToString() })
-            //};
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -174,6 +170,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
 
                     var usuario =  _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 
+                    //Creamos los campos adicionales en el usuario
                     usuario.Nombre = Input.Nombre;
                     usuario.Apellidos = Input.Apellidos;
                     usuario.PhoneNumber = Input.Telefono;
@@ -181,34 +178,34 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
                     {
                         usuario.IdSexo = _context.Sexos.Where(q => q.Sexo1.Equals(Input.Sexo)).FirstOrDefault().IdSexo;
                     }
-                   
+
+                    //Actuallizamos y guardamos en la base de datos
                     _context.AspNetUsers.UpdateRange(usuario);
                     await _context.SaveChangesAsync();
 
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
 
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    //    protocol: Request.Scheme);
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    //}
-                    //else
-                    //{
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
                         await _signInManager.SignInAsync(user, isPersistent: false);
 
 
 
                         return LocalRedirect(returnUrl);
-                    //}
+                    }
                 }
                 foreach (var error in result.Errors)
                 {
