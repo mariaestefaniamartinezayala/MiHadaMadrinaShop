@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -39,9 +40,7 @@ namespace MiHadaMadrinaShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-            }
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -79,10 +78,6 @@ namespace MiHadaMadrinaShop.Models
                 entity.Property(e => e.Apellidos).HasMaxLength(100);
 
                 entity.Property(e => e.Email).HasMaxLength(256);
-
-                entity.Property(e => e.EmailConfirmed)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.FechaNacimiento).HasColumnType("date");
 

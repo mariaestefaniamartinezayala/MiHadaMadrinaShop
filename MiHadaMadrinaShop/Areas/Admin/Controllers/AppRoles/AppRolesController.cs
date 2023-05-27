@@ -13,7 +13,7 @@ using MiHadaMadrinaShop.Models;
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.AppRoles
 {
     [Area("Admin")]
-   // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -37,6 +37,25 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.AppRoles
 
         [HttpPost]
         public async Task<IActionResult> Create(IdentityRole modeloRol)
+        {
+            //Si no existe el roll, lo creamos
+            if (!_roleManager.RoleExistsAsync(modeloRol.Name).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(modeloRol.Name)).GetAwaiter().GetResult();
+            }
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(IdentityRole modeloRol)
         {
             //Si no existe el roll, lo creamos
             if (!_roleManager.RoleExistsAsync(modeloRol.Name).GetAwaiter().GetResult())

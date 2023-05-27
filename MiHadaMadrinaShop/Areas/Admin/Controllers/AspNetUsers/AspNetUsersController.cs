@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MiHadaMadrinaShop.Models;
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.AspNetUsers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AspNetUsersController : Controller
     {
         private readonly MiHadaMadrinaHandMadeDBContext _context;
