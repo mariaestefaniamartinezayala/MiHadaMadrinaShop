@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrarse";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -12,6 +12,27 @@
             <h2>Create a new account.</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="Input.Nombre" class="form-control" autocomplete="Nombre" aria-required="true" />
+                <label asp-for="Input.Nombre"></label>
+                <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Apellidos" class="form-control" autocomplete="Apellidos" aria-required="true" />
+                <label asp-for="Input.Apellidos"></label>
+                <span asp-validation-for="Input.Apellidos" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Telefono" class="form-control" autocomplete="Telefono" aria-required="true" />
+                <label asp-for="Input.Telefono"></label>
+                <span asp-validation-for="Input.Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <select asp-for="Input.Sexo" asp-items="@Model.Input.SexoList" class="form-select" aria-required="true">
+                    <option disabled selected>Seleccionar Sexo</option>
+                </select>
+                <span asp-validation-for="Input.Sexo" class="text-danger"></span>
+            </div>
             <div class="form-floating">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.Email"></label>
@@ -27,10 +48,16 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <div class="form-floating">
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" aria-required="true">
+                    <option disabled selected>Seleccionar Rol</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrarse</button>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    @*<div class="col-md-6 col-md-offset-2">
         <section>
             <h3>Use another service to register.</h3>
             <hr />
@@ -59,7 +86,7 @@
                 }
             }
         </section>
-    </div>
+    </div>*@
 </div>
 
 @section Scripts {

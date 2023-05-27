@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace MiHadaMadrinaShop.Models
@@ -43,7 +44,6 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<Direccione> Direcciones { get; set; }
         public virtual ICollection<Pedido> Pedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
-
         public virtual ICollection<AspNetRole> Roles { get; set; }
     }
 }
