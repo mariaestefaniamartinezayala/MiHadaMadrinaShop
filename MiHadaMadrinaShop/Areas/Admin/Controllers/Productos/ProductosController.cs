@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiHadaMadrinaShop.Models;
 
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Drawing;
+
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 {
     [Area("Admin")]
@@ -15,10 +19,12 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
     public class ProductosController : Controller
     {
         private readonly MiHadaMadrinaHandMadeDBContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductosController(MiHadaMadrinaHandMadeDBContext context)
+        public ProductosController(MiHadaMadrinaHandMadeDBContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Admin/Productos
@@ -58,10 +64,41 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto,DescripcionCorta,DescripcionLarga,FechaDeEntrada,Imagen,Nombre,PorcentajeDeDescuento,Precio,PrecioConDescuento,Stock,UrlProductoDigital")] Producto producto)
+        //public async Task<IActionResult> Create([Bind("IdProducto,DescripcionCorta,DescripcionLarga,FechaDeEntrada,Imagen,Nombre,PorcentajeDeDescuento,Precio,PrecioConDescuento,Stock,UrlProductoDigital")] Producto producto)
+        public async Task<IActionResult> Create(Producto producto)//Quito el bind por que da fallo. al añadir otra propiedad al modelo
         {
             if (ModelState.IsValid)
             {
+                //// Asignamos la fecha de entrada como el momento actual
+                //producto.FechaDeEntrada = DateTime.Now;
+
+                //// Calculamos el precio con descuento si hay un porcentaje de descuento válido
+                //if (producto.PorcentajeDeDescuento.HasValue)
+                //{
+                //    decimal descuento = producto.Precio * (decimal)(producto.PorcentajeDeDescuento.Value / 100.0);
+                //    producto.PrecioConDescuento = producto.Precio - descuento;
+                //}
+                //else
+                //{   // De lo contrario asignamos 0
+                //    producto.PorcentajeDeDescuento = 0;
+                //}
+
+                // Obtenemos el nombre la imagen
+                string nombresImagenes = CargarImagenes(producto.ImagenFiles);
+
+                // Asignar la imagen principal
+                //producto.ImagenPrincipalUrl = producto.ImagenFiles.FirstOrDefault()?.FileName;
+
+                // Si no se ha seleccionado una imagen principal, se establece la primera imagen de la lista
+                if (string.IsNullOrEmpty(producto.ImagenPrincipalUrl) && producto.ImagenFiles.Count > 0)
+                {
+                    producto.ImagenPrincipalUrl = producto.ImagenFiles[0].FileName;
+                }
+
+                // Asignamos la url de las imágenes
+                producto.ImagenUrl = nombresImagenes;
+
+                // Guardamos el producto en la base de datos
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -82,6 +119,14 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
             {
                 return NotFound();
             }
+
+            // Formatear el precio y el precio con descuento
+            producto.Precio = decimal.Parse(producto.Precio.ToString("0.00"));
+            if (producto.PrecioConDescuento.HasValue)
+            {
+                producto.PrecioConDescuento = decimal.Parse(producto.PrecioConDescuento.Value.ToString("0.00"));
+            }
+
             return View(producto);
         }
 
@@ -90,7 +135,8 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdProducto,DescripcionCorta,DescripcionLarga,FechaDeEntrada,Imagen,Nombre,PorcentajeDeDescuento,Precio,PrecioConDescuento,Stock,UrlProductoDigital")] Producto producto)
+        //public async Task<IActionResult> Edit(long id, [Bind("IdProducto,DescripcionCorta,DescripcionLarga,FechaDeEntrada,Imagen,Nombre,PorcentajeDeDescuento,Precio,PrecioConDescuento,Stock,UrlProductoDigital")] Producto producto)
+        public async Task<IActionResult> Edit(long id, Producto producto) //Elimino el bind, porque da fallos
         {
             if (id != producto.IdProducto)
             {
@@ -161,5 +207,76 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
+
+        private string CargarImagenes(List<IFormFile> imagenes)
+        {
+            string nombresImagenes = string.Empty;
+
+            if (imagenes != null && imagenes.Count > 0)
+            {
+                // Ruta de la carpeta donde se guardarán las imágenes
+                string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+
+                // Lista para almacenar los nombres de las imágenes
+                var nombres = new List<string>();
+
+                foreach (var imagen in imagenes)
+                {
+                    // Generar un nombre único para la imagen
+                    string nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
+
+                    // Ruta completa del archivo donde se guardará la imagen
+                    string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+                    // Crea la carpeta "img" si no existe
+                    Directory.CreateDirectory(carpetaImagenes);
+
+                    // Crear un FileStream para escribir el archivo en la ubicación especificada
+                    using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
+                    {
+                        // Copiar el contenido del archivo al FileStream
+                        imagen.CopyTo(fileStream);
+                    }
+
+                    // Agregar el nombre de la imagen a la lista de nombres
+                    nombres.Add(nombreImagen);
+                }
+
+                // Concatenar los nombres de las imágenes separados por comas
+                nombresImagenes = string.Join(",", nombres);
+            }
+
+            return nombresImagenes;
+        }
     }
 }
+//[HttpPost]
+//private string CargarImagen(Producto producto)
+//{
+//    string nombreImagen = string.Empty;
+
+//    if (producto != null)
+//    {
+//        // Ruta de la carpeta donde se guardarán las imágenes
+//        string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+
+//        // Generar un nombre único para la imagen
+//        nombreImagen = $"{Guid.NewGuid()}_{producto.ImagenFile.FileName}";
+
+//        // Ruta completa del archivo donde se guardará la imagen
+//        string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+//        // Crea la carpeta "img" si no existe
+//        Directory.CreateDirectory(carpetaImagenes);
+
+//        // Crear un FileStream para escribir el archivo en la ubicación especificada
+//        using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
+//        {
+//            // Copiar el contenido del archivo ImagenFile del producto al FileStream
+//            producto.ImagenFile.CopyTo(fileStream);
+//        }
+//    }
+
+//    // Devolver el nombre de la imagen
+//    return nombreImagen;
+//}

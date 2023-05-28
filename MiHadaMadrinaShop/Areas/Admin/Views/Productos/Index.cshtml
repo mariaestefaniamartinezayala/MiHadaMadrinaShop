@@ -5,86 +5,108 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div>
+    <h1>Listado de productos</h1>
+    <button class="btn btn-mg btn-new">
+        <a class="new-button" asp-action="Create"><i class="fas fa-plus"></i>&nbsp;Nuevo</a>
+    </button>
+</div>
+<div class="mt-2">
+    <table class="table table-inverse table-hover">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DescripcionCorta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescripcionLarga)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeEntrada)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagen)
-            </th>
-            <th>
+            <th class="text-center align-middle"scope="col">
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.DescripcionCorta)
             </th>
-            <th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.DescripcionLarga)
+            </th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.FechaDeEntrada)
+            </th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.ImagenUrl)
+            </th>
+            <th class="text-center align-middle"scope="col">
                 @Html.DisplayNameFor(model => model.Precio)
             </th>
-            <th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
+            </th>
+            <th class="text-center align-middle"scope="col">
                 @Html.DisplayNameFor(model => model.PrecioConDescuento)
             </th>
-            <th>
+            <th class="text-center align-middle"scope="col">
                 @Html.DisplayNameFor(model => model.Stock)
             </th>
-            <th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.EsDigital)
+            </th>
+            <th class="text-center align-middle"scope="col">
                 @Html.DisplayNameFor(model => model.UrlProductoDigital)
             </th>
-            <th></th>
+            <th class="text-center align-middle"scope="col">
+                @Html.DisplayNameFor(model => model.EsActivo)
+            </th>
+            <th class="text-center align-middle"scope="col"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionCorta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionLarga)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeEntrada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
+            <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.DescripcionCorta)
             </td>
-            <td>
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.DescripcionLarga)
+            </td>
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.FechaDeEntrada)
+            </td>
+            <td class="text-center align-middle">
+                @*Mostramos la imagen*@
+                <img src="~/img/@item.ImagenPrincipalUrl" style="width:75px;height:75px;" />
+            </td>
+            <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
-            <td>
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
+            </td>
+            <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.PrecioConDescuento)
             </td>
-            <td>
+            <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
-            <td>
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.EsDigital)
+            </td>
+            <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.UrlProductoDigital)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
+            <td class="text-center align-middle">
+                @Html.DisplayFor(modelItem => item.EsActivo)
+            </td>
+            <td class="text-center align-middle">
+                <button class="btn btn-mg edit-button">
+                    <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@item.IdProducto"><i class="fas fa-edit"></i> Editar</a>
+                </button>
+                <button class="btn btn-mg details-button">
+                     <a class="custom-button-ede d-flex align-items-center" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info-circle"></i> Detalle</a>
+                </button>
+                <button class="btn btn-mg delete-button">
+                    <a class="custom-button-ede d-flex align-items-center" asp-action="Delete" asp-route-id="@item.IdProducto"><i class="fas fa-trash"></i> Eliminar</a>
+                </button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>

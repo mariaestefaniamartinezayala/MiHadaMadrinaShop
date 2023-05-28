@@ -1,18 +1,24 @@
 ﻿@model MiHadaMadrinaShop.Models.Producto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
 <h4>Producto</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="DescripcionCorta" class="control-label"></label>
                 <input asp-for="DescripcionCorta" class="form-control" />
@@ -25,32 +31,38 @@
             </div>
             <div class="form-group">
                 <label asp-for="FechaDeEntrada" class="control-label"></label>
-                <input asp-for="FechaDeEntrada" class="form-control" />
+                <input asp-for="FechaDeEntrada" class="form-control" disabled />
                 <span asp-validation-for="FechaDeEntrada" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
-                <input asp-for="Imagen" class="form-control" />
-                <span asp-validation-for="Imagen" class="text-danger"></span>
+                <label asp-for="ImagenFiles" class="control-label"></label>
+                <input asp-for="ImagenFiles" type="file" class="form-control" multiple />
+                <span asp-validation-for="ImagenFiles" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PorcentajeDeDescuento" class="control-label"></label>
-                <input asp-for="PorcentajeDeDescuento" class="form-control" />
-                <span asp-validation-for="PorcentajeDeDescuento" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                <label asp-for="ImagenPrincipalUrl" class="control-label">Imagen Principal</label>
+                <select asp-for="ImagenPrincipalUrl" class="form-control">
+                    <option value="">Seleccionar imagen principal</option>
+                    @foreach (var imagen in Model.ImagenFiles)
+                    {
+                        <option value="@imagen.FileName">@imagen.FileName</option>
+                    }
+                </select>
+                <span asp-validation-for="ImagenPrincipalUrl" class="text-danger"></span>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" class="form-control" />
+                <input asp-for="Precio" type="text" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PorcentajeDeDescuento" class="control-label"></label>
+                <input asp-for="PorcentajeDeDescuento" type="text" class="form-control" />
+                <span asp-validation-for="PorcentajeDeDescuento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PrecioConDescuento" class="control-label"></label>
-                <input asp-for="PrecioConDescuento" class="form-control" />
+                <input asp-for="PrecioConDescuento" type="text" class="form-control" disabled/>
                 <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,22 +70,41 @@
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
             </div>
+            <div class="form-group form-check check">
+                <label asp-for="EsDigital" class="form-check-label">
+                    <input class="form-check-input" asp-for="EsDigital" type="checkbox"/> @Html.DisplayNameFor(model => model.EsDigital)
+                </label>
+            </div>
             <div class="form-group">
                 <label asp-for="UrlProductoDigital" class="control-label"></label>
-                <input asp-for="UrlProductoDigital" class="form-control" />
+                <input asp-for="UrlProductoDigital" class="form-control" disabled/>
                 <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group form-check check">
+                <label asp-for="EsActivo" class="form-check-label">
+                    <input class="form-check-input" asp-for="EsActivo" checked/> @Html.DisplayNameFor(model => model.EsActivo)
+                </label>
             </div>
-        </form>
-    </div>
-</div>
+            @*<div class="form-group">
+                <button type="submit" class="btn btn-mg save-button btn-ancho">
+                    <span><i class="fas fa-save"></i></span>&nbsp;Guardar
+                </button>
+            </div>*@
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+        </form>
+        
+        @*<div class="form-group mt-2">
+            <a class="text-white btn btn-secondary btn-ancho" role="button" asp-action="Index"><span><i class="fas fa-backward"></i></span>&nbsp;Volver</a>
+        </div>*@
+    </div>
+   
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ProductosScriptsPartial"); 
+    }
 }
