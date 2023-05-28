@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MiHadaMadrinaShop.Models
@@ -32,10 +31,11 @@ namespace MiHadaMadrinaShop.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-        public string? Nombre { get; set; }
-        public string? Apellidos { get; set; }
         public DateTime? FechaNacimiento { get; set; }
         public byte? IdSexo { get; set; }
+        public string? Nombre { get; set; }
+        public string? Apellidos { get; set; }
+        public string? ImagenUrl { get; set; }
 
         public virtual Sexo? IdSexoNavigation { get; set; }
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -44,6 +44,7 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<Direccione> Direcciones { get; set; }
         public virtual ICollection<Pedido> Pedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
+
         public virtual ICollection<AspNetRole> Roles { get; set; }
     }
 }

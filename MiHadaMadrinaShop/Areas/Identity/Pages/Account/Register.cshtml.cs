@@ -80,19 +80,25 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "Nombre")]
             public string Nombre { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "Apellidos")]
             public string Apellidos { get; set; }
 
+            [Required]
+            [Display(Name = "Fecha de nacimiento")]
+            [DataType(DataType.Date)]
+            public DateTime FechaNacimiento { get; set; }
+
             [Display(Name = "Teléfono")]
-
             [RegularExpression("(\\+34|0034|34)?[ -]*(6|7|8|9)[ -]*([0-9][ -]*){8}")]
-            public string? Telefono { get; set; }
+            public string Telefono { get; set; }
 
-            public string? Sexo { get; set; }
+            public string Sexo { get; set; }
 
             [ValidateNever]
             public IEnumerable<SelectListItem> SexoList { get; set; }
@@ -102,7 +108,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
 
             /// <summary>
@@ -125,7 +131,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string? Role { get; set; }
+            public string Role { get; set; }
 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -173,7 +179,9 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
                     //Creamos los campos adicionales en el usuario
                     usuario.Nombre = Input.Nombre;
                     usuario.Apellidos = Input.Apellidos;
+                    usuario.FechaNacimiento = Input.FechaNacimiento;
                     usuario.PhoneNumber = Input.Telefono;
+
                     if(Input.Sexo != null)
                     {
                         usuario.IdSexo = _context.Sexos.Where(q => q.Sexo1.Equals(Input.Sexo)).FirstOrDefault().IdSexo;
