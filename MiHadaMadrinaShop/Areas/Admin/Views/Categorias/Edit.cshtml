@@ -1,11 +1,11 @@
 ﻿@model MiHadaMadrinaShop.Models.Categoria
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Editar</h1>
 
 <h4>Categoria</h4>
 <hr />
@@ -24,15 +24,17 @@
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
+            <div class="form-group form-check check">
+                <label asp-for="EsActivo" class="form-check-label">
+                    <input class="form-check-input" asp-for="EsActivo" /> @Html.DisplayNameFor(model => model.EsActivo)
+                </label>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

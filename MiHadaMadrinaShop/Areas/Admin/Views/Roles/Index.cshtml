@@ -1,0 +1,46 @@
+﻿@*@using Microsoft.AspNet.Identity;*@
+@*@model IEnumerable<MiHadaMadrinaShop.Models.AspNetRole>*@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h1>Listado de productos</h1>
+    <button class="btn btn-mg btn-new">
+        <a class="new-button" asp-action="Create"><i class="fas fa-plus"></i>&nbsp;Nuevo</a>
+    </button>
+</div>
+<div class="mt-2">
+    <table class="table table-inverse table-hover">
+        <thead>
+            <tr>
+                 <th class="text-center align-middle" scope="col">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                 <th class="text-center align-middle" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary">
+                            <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Editar</a>
+                        </button>
+                       <button class="btn btn_danger">
+                            <a class="custom-button-ede d-flex align-items-center" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i> Eliminar</a>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

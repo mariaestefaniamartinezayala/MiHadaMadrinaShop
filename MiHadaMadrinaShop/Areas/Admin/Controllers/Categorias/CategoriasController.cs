@@ -59,7 +59,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategoria,Categoria1,Descripcion")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("IdCategoria,Categoria1,Descripcion,EsActivo")] Categoria categoria)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCategoria,Categoria1,Descripcion")] Categoria categoria)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCategoria,Categoria1,Descripcion,EsActivo")] Categoria categoria)
         {
             if (id != categoria.IdCategoria)
             {

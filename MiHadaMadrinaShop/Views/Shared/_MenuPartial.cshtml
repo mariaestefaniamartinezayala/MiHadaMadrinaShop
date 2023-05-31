@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (User.Identity.IsAuthenticated)
+{
+    var user = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(user);
+
+    if (roles.Contains("Admin"))
+    {
+        <partial name="_MenuAdminPartial" />
+    }
+
+    if (roles.Contains("Editor"))
+    {
+        <partial name="_MenuEditorPartial" />
+    }
+
+    if (roles.Contains("Public"))
+    {
+        <partial name="_MenuPublicPartial" />
+    }
+}
+
+
+@*
+@{
+    //string rolAdmin = "Admin";
+
+    //string rolEditor = "Editor";
+
+    //string rolPublic = "Public";
+}
+
+@if(rolAdmin.Equals("Admin"))
+{
+    <partial name="_MenuAdminPartial" />
+}
+
+@if (rolEditor.Equals("Editor"))
+{
+    <partial name="_MenuEditorPartial" />
+}
+
+@if (rolPublic.Equals("Public"))
+{
+    <partial name="_MenuPublicPartial" />
+}
+*@

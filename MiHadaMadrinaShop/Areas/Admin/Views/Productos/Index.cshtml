@@ -15,47 +15,47 @@
     <table class="table table-inverse table-hover">
     <thead>
         <tr>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.DescripcionCorta)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.DescripcionLarga)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.FechaDeEntrada)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.ImagenUrl)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.Precio)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.PrecioConDescuento)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.Stock)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.EsDigital)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.UrlProductoDigital)
             </th>
-            <th class="text-center align-middle"scope="col">
+            <th class="text-center align-middle" scope="col">
                 @Html.DisplayNameFor(model => model.EsActivo)
             </th>
-            <th class="text-center align-middle"scope="col"></th>
+            <th class="text-center align-middle" scope="col"></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td class="text-center align-middle">
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -106,7 +106,7 @@
                 </button>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
 </div>

@@ -69,19 +69,19 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         {
             if (ModelState.IsValid)
             {
-                //// Asignamos la fecha de entrada como el momento actual
-                //producto.FechaDeEntrada = DateTime.Now;
+                // Asignamos la fecha de entrada como el momento actual
+                producto.FechaDeEntrada = DateTime.Now;
 
-                //// Calculamos el precio con descuento si hay un porcentaje de descuento válido
-                //if (producto.PorcentajeDeDescuento.HasValue)
-                //{
-                //    decimal descuento = producto.Precio * (decimal)(producto.PorcentajeDeDescuento.Value / 100.0);
-                //    producto.PrecioConDescuento = producto.Precio - descuento;
-                //}
-                //else
-                //{   // De lo contrario asignamos 0
-                //    producto.PorcentajeDeDescuento = 0;
-                //}
+                // Calculamos el precio con descuento si hay un porcentaje de descuento válido
+                if (producto.PorcentajeDeDescuento.HasValue)
+                {
+                    decimal descuento = producto.Precio * (decimal)(producto.PorcentajeDeDescuento.Value / 100.0);
+                    producto.PrecioConDescuento = producto.Precio - descuento;
+                }
+                else
+                {   // De lo contrario asignamos 0
+                    producto.PorcentajeDeDescuento = 0;
+                }
 
                 // Obtenemos el nombre la imagen
                 string nombresImagenes = CargarImagenes(producto.ImagenFiles);

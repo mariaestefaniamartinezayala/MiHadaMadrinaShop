@@ -1,0 +1,66 @@
+﻿@*Queremos que el campo UrlProductoDigital dependa de lo seleccionado en el checkbox EsDigital*@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Obtenemos referencias de los elementos del formulario
+        var esDigitalCheckbox = document.getElementById("EsDigital");
+        var urlProductoDigitalInput = document.getElementById("UrlProductoDigital");
+
+        // Establecemos el estado inicial del campo UrlProductoDigital
+        if (esDigitalCheckbox.checked) {
+            urlProductoDigitalInput.disabled = false;
+        } else {
+            urlProductoDigitalInput.disabled = true;
+        }
+
+        // Manejamos el evento de cambio del checkbox EsDigital
+        esDigitalCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                urlProductoDigitalInput.disabled = false;
+            } else {
+                urlProductoDigitalInput.disabled = true;
+            }
+        });
+    });
+</script>
+
+@*Incluimos la librería Moment.js*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+@*Script para establecer la fecha actual en el campo "FechaDeEntrada"*@
+<script>
+    function setFechaActual() {
+        var fechaActual = moment().format("YYYY-MM-DD HH:mm:ss");
+        document.getElementById("FechaDeEntrada").value = fechaActual;
+    }
+
+    // Llamamos a la función setFechaActual() al cargar la vista parcial
+    setFechaActual();
+</script>
+
+<script>
+    // Función para calcular y actualizar el campo "Precio con Descuento"
+    function calcularPrecioConDescuento() {
+        var precioInput = document.getElementById('Precio');
+        var porcentajeInput = document.getElementById('PorcentajeDeDescuento');
+        var precioConDescuentoInput = document.getElementById('PrecioConDescuento');
+
+        var precio = parseFloat(precioInput.value);
+        var porcentajeDescuento = parseFloat(porcentajeInput.value);
+
+        if (!isNaN(precio) && !isNaN(porcentajeDescuento)) {
+            var descuento = (precio * porcentajeDescuento) / 100;
+            var precioConDescuento = precio - descuento;
+            precioConDescuentoInput.value = precioConDescuento.toFixed(2);
+        } else {
+            precioConDescuentoInput.value = '0';
+        }
+    }
+
+    // Escucha de eventos para los cambios en los campos de entrada
+    var precioInput = document.getElementById('Precio');
+    var porcentajeInput = document.getElementById('PorcentajeDeDescuento');
+
+    precioInput.addEventListener('input', calcularPrecioConDescuento);
+    porcentajeInput.addEventListener('input', calcularPrecioConDescuento);
+</script>
