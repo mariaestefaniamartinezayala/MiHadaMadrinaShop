@@ -16,18 +16,45 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
     public class TCestumsController : Controller
     {
         private readonly MiHadaMadrinaHandMadeDBContext _context;
-        
+
         public TCestumsController(MiHadaMadrinaHandMadeDBContext context)
         {
-            
+
             _context = context;
         }
 
         // GET: Public/TCestums
         public async Task<IActionResult> Index()
         {
-            var miHadaMadrinaHandMadeDBContext = _context.TCesta.Include(t => t.IdAppNetUsersNavigation).Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()));
-            return View(await miHadaMadrinaHandMadeDBContext.ToListAsync());
+            var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId())).ToList();
+            var contextProductos = _context.Productos;
+
+            List<TCestum> listaCestas = new List<TCestum>();
+
+            decimal totalCesta = 0;
+
+            foreach (TCestum? cesta in contextListaCestas)
+            {
+                Producto producto = contextProductos.Where(q => q.IdProducto.Equals(cesta.IdProducto)).FirstOrDefault();
+                cesta.NombreProducto = producto.Nombre;
+                cesta.PrecioProducto = producto.PrecioConDescuento;
+                cesta.DescuentoProducto = producto.PorcentajeDeDescuento;
+                cesta.ImagenUrl = producto.ImagenUrl;
+                cesta.StockProducto = producto.Stock;
+                totalCesta = Math.Round((decimal)(totalCesta + cesta.PrecioProducto * cesta.Cantidad * (decimal)1.21),2);
+
+
+                listaCestas.Add(cesta);
+
+            }
+
+            foreach (TCestum? cesta in contextListaCestas)
+            {
+                cesta.TotalCesta = totalCesta;
+            }
+
+
+            return View(listaCestas);
         }
 
         // GET: Public/TCestums/Details/5
@@ -168,17 +195,17 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         {
             return (_context.TCesta?.Any(e => e.IdCesta == id)).GetValueOrDefault();
         }
-        
-       
+
+
         public async Task<IActionResult> AddProductToCart(long id)
         {
-            
+
             var idUser = User.Identity.GetUserId();
 
-            
+
 
             TCestum tCestum = new TCestum();
-            
+
             Producto producto = _context.Productos.Where(q => q.IdProducto.Equals(id)).FirstOrDefault();
 
             //SI HAY ALGUNA CESTA(LINEA EN LA BBDD) DE ESE USUARIO Y PRODUCTO SOLO ACTUALIZAR CANTIDAD
@@ -191,7 +218,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
 
                 _context.TCesta.Update(tCestum);
             }
-            //SI NO HAY NINGUNA CESTA(LINEA EN LA BBDD) SE CREA UNA NUEVA DE ESE USUARIO Y PRODUCTO CON IDCESTA 1
+            //SI NO HAY NINGUNA CESTA(LINEA EN LA BBDD) SE CREA UNA NUEVA DE ESE USUARIO 
             else if (!_context.TCesta.Any())
             {
                 _context.Add(tCestum);
@@ -208,7 +235,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
                 _context.TCesta.Add(tCestum);
 
             }
-            //SI HAY ALGUNA CESTA PERO NO DE ESE USUARIO Y PRODUCTO SE CREA UNA NUEVA CON ID MAX + 1
+            //SI HAY ALGUNA CESTA PERO NO DE ESE USUARIO Y PRODUCTO SE CREA UNA NUEVA
             else
             {
                 _context.Add(tCestum);
@@ -225,10 +252,66 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
                 _context.TCesta.Add(tCestum);
             }
 
-          
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ActualizarCesta([FromBody] TCestum data)
+        {
+            var cestaContextUsuario = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()));
+
+            
+
+            foreach (TCestum? cestaUsuario in cestaContextUsuario)
+            {
+                Producto producto = _context.Productos.Where(q => q.IdProducto.Equals(cestaUsuario.IdProducto)).FirstOrDefault();
+                cestaUsuario.NombreProducto = producto.Nombre;
+                cestaUsuario.DescuentoProducto = producto.PorcentajeDeDescuento;
+                cestaUsuario.StockProducto = producto.Stock;
+                cestaUsuario.ImagenUrl = producto.ImagenUrl;
+
+
+                int? cantidad = 0;
+
+                if (cestaUsuario.IdCesta.Equals(data.IdCesta))
+                {
+                    cantidad = data.Cantidad;
+                }
+                else
+                {
+                    cantidad = cestaUsuario.Cantidad;
+                }
+
+                cestaUsuario.Cantidad = cantidad;
+                cestaUsuario.TotalSinIva = cantidad * producto.PrecioConDescuento;
+                cestaUsuario.Total = cestaUsuario.TotalSinIva * (decimal)1.21;
+                cestaUsuario.TotalCesta = cestaUsuario.Total;
+                _context.TCesta.Update(cestaUsuario);
+            }
+
+            decimal? totalCesta = 0;
+
+            foreach (TCestum? cestaUsuario in cestaContextUsuario)
+            {
+                totalCesta = totalCesta + cestaUsuario.Total;
+               
+            }
+
+            foreach (TCestum? cestaUsuario in cestaContextUsuario)
+            {
+                cestaUsuario.TotalCesta = totalCesta;
+
+                _context.TCesta.Update(cestaUsuario);
+
+            }
+
+            await _context.SaveChangesAsync();
+            return View();
+            
+        }
+
+      
     }
 }

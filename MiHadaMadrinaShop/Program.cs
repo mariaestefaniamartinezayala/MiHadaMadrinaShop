@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MiHadaMadrinaShop.Data;
 using MiHadaMadrinaShop.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 public class Program
 {
@@ -57,6 +58,10 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.MapControllerRoute(
+            name: "Model",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{model?}");
 
         app.MapRazorPages();
 

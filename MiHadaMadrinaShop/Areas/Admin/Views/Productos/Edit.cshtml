@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var imagenUrls = Model.ImagenUrl.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    var imagenUrl = Model.ImagenUrl;
 }
 
 <h1>Editar</h1>
@@ -31,8 +31,8 @@
                 <span asp-validation-for="DescripcionLarga" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaDeEntrada" class="control-label"></label>
-                <input asp-for="FechaDeEntrada" class="form-control" disabled />
+                @*<label asp-for="FechaDeEntrada" class="control-label"></label>*@
+                <input asp-for="FechaDeEntrada" class="form-control" hidden="hidden" />
                 <span asp-validation-for="FechaDeEntrada" class="text-danger"></span>
             </div>
           @*<div class="form-group">
@@ -41,21 +41,15 @@
                 <span asp-validation-for="ImagenUrl" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="ImagenUrl" class="control-label"></label>
+                <label asp-for="ImagenUrl" class="control-label"></label><br>
+                <input asp-for="ImagenUrl" class="form-control" hidden="hidden"/>
                 @*Mostramos la imagen*@
-                if(imagenUrls != null)
-                {
-                    @foreach (var imagenUrl in imagenUrls)
-                    {
-                        <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
-                    }
-                }
-              @*  <img src="~/img/@Model.ImagenUrl" style="width:75px;height:75px;" />*@
+                <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
                 <span asp-validation-for="ImagenUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImagenFile" class="control-label"></label>
-                <input asp-for="ImagenFile" type="file" class="form-control" multiple/>
+                <input asp-for="ImagenFile" type="file" class="form-control"  />
                 <span asp-validation-for="ImagenFile" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,7 +64,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PrecioConDescuento" class="control-label"></label>
-                <input asp-for="PrecioConDescuento" type="text" class="form-control" disabled />
+                <input asp-for="PrecioConDescuento" type="text" class="form-control"/>
                 <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -85,7 +79,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="UrlProductoDigital" class="control-label"></label>
-                <input asp-for="UrlProductoDigital" class="form-control" disabled />
+                <input asp-for="UrlProductoDigital" class="form-control" disabled="disabled" />
                 <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
             </div>
             <div class="form-group form-check check">
@@ -103,7 +97,7 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        await Html.RenderPartialAsync("_ProductosScriptsPartial");
+        //await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ProductosScriptsPartialEdit");
     }
 }

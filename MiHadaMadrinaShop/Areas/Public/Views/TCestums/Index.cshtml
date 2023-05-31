@@ -6,67 +6,125 @@
 }
 
 <h1>Cesta</h1>
+<form class="form-control" method="post" asp-action="ActualizarCesta">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Imagen
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cantidad)
+                </th>
+                <th>
+                    Producto
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Total sin iva
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Iva)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProducto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Iva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalSinIva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdAppNetUsers)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Iva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalSinIva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdAppNetUsers)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCesta">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCesta">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCesta">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                decimal? totalCesta = 0;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @{
+                            totalCesta = item.TotalCesta;
+                            var imagenUrl = item.ImagenUrl;
+                            var stock = item.StockProducto;
+                        }
+                        <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
+                    </td>
+                    <td>
+                        <input asp-for="@item.Cantidad" type="number" value="@item.Cantidad" min="1" max="@stock" onchange="actualizarCesta(@item.IdCesta, this.value)">
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreProducto)
+                    </td>
+                    @{
+                        if (item.DescuentoProducto != 0)
+                        {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
+                                </td>
+                        }
+                        else
+                        {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioProducto)€
+                                </td>
+                        }
+                    }
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalSinIva)€
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Iva)%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)€
+                    </td>
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col text-start">
+
+           
+
+        </div>
+
+        <div class="col text-end">
+
+            Total cesta: @totalCesta€ <br><br>
+
+            <button type="button" class="btn btn-primary"> Pagar </button>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    function actualizarCesta(idCesta, cantidad) {
+        var data = {
+            idCesta: idCesta,
+            cantidad: cantidad
+        };
+
+        $.ajax({
+            url: "/Public/TCestums/ActualizarCesta",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function (qXHR, textStatus, errorThrown) {
+                window.location.reload();
+            }
+        });
+    }
+</script>
