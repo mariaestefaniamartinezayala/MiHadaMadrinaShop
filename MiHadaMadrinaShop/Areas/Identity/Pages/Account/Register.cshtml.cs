@@ -79,17 +79,17 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
+           // [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Nombre")]
             public string Nombre { get; set; }
 
-            [Required]
+           // [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Apellidos")]
             public string Apellidos { get; set; }
 
-            [Required]
+           // [Required]
             [Display(Name = "Fecha de nacimiento")]
             [DataType(DataType.Date)]
             public DateTime FechaNacimiento { get; set; }
@@ -116,7 +116,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
@@ -125,12 +125,13 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "La contraseña no coincide.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            //[Required]
             public string Role { get; set; }
 
             [ValidateNever]
@@ -157,6 +158,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -170,7 +172,9 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                     await _userManager.AddToRoleAsync(user, Input.Role);
+                    //await _userManager.AddToRoleAsync(user, Input.Role);
+                    await _userManager.AddToRoleAsync(user, "Public");
+
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
