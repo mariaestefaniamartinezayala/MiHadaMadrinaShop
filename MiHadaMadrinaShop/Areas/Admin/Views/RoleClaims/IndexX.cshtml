@@ -1,7 +1,4 @@
-﻿@*@using Microsoft.AspNet.Identity;*@
-@*@model IEnumerable<MiHadaMadrinaShop.Models.AspNetRole>*@
-@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
-
+﻿@model IEnumerable<MiHadaMadrinaShop.Models.AspNetRoleClaim>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,19 +8,19 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Crear nuevo Rol</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.ClaimType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NormalizedName)
+                @Html.DisplayNameFor(model => model.ClaimValue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ConcurrencyStamp)
+                @Html.DisplayNameFor(model => model.Role)
             </th>
             <th></th>
         </tr>
@@ -32,13 +29,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.ClaimType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NormalizedName)
+                @Html.DisplayFor(modelItem => item.ClaimValue)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ConcurrencyStamp)
+                @Html.DisplayFor(modelItem => item.Role.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
