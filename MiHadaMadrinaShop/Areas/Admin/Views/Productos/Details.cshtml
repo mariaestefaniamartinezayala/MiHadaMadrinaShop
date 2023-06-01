@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Detalles";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var imagenUrl = Model.ImagenUrl;
 }
 
 <h1>Detalles</h1>
@@ -36,10 +37,12 @@
             @Html.DisplayFor(model => model.FechaDeEntrada)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagenUrl)
+            Imagen
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagenUrl)
+        <dd class="col-sm-10">
+        @{
+          <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
+        }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)

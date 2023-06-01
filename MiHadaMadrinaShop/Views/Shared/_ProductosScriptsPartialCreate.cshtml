@@ -30,7 +30,7 @@
 @*Script para establecer la fecha actual en el campo "FechaDeEntrada"*@
 <script>
     function setFechaActual() {
-        var fechaActual = moment().format("YYYY-MM-DD HH:mm:ss");
+        var fechaActual = moment().format("YYYY-MM-DD HH:mm");
         document.getElementById("FechaDeEntrada").value = fechaActual;
     }
 
@@ -45,18 +45,17 @@
         var porcentajeInput = document.getElementById('PorcentajeDeDescuento');
         var precioConDescuentoInput = document.getElementById('PrecioConDescuento');
 
-        var precio = parseFloat(precioInput.value);
-        var porcentajeDescuento = parseFloat(porcentajeInput.value);
+        var precio = precioInput.value.replace(",", ".");
+        var porcentajeDescuento = porcentajeInput.value;
 
-        if (!isNaN(precio) && !isNaN(porcentajeDescuento)) {
+        if (!isNaN(porcentajeDescuento)) {
             var descuento = (precio * porcentajeDescuento) / 100;
             var precioConDescuento = precio - descuento;
-            precioConDescuentoInput.value = precioConDescuento.toFixed(2);
+            precioConDescuentoInput.value = precioConDescuento.toFixed(2).replace(".", ",");
         } else {
             precioConDescuentoInput.value = '0';
         }
     }
-
     // Escucha de eventos para los cambios en los campos de entrada
     var precioInput = document.getElementById('Precio');
     var porcentajeInput = document.getElementById('PorcentajeDeDescuento');

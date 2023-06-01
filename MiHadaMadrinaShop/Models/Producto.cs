@@ -10,7 +10,7 @@ namespace MiHadaMadrinaShop.Models
     {
         public Producto()
         {
-            ImagenFiles = new List<IFormFile>();
+            //ImagenFiles = new List<IFormFile>();
             ProductosPedidos = new HashSet<ProductosPedido>();
             TCesta = new HashSet<TCestum>();
             IdCategoria = new HashSet<Categoria>();
@@ -26,7 +26,7 @@ namespace MiHadaMadrinaShop.Models
         public string? DescripcionLarga { get; set; }
 
         [Display(Name = "Fecha de entrada")]
-        public DateTime FechaDeEntrada { get; set; }
+        public DateTime? FechaDeEntrada { get; set; }
 
         [Display(Name = "Imagen")]
         public string? ImagenUrl { get; set; }
@@ -35,10 +35,7 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Seleccionar imagenes")]
         public IFormFile? ImagenFile { get; set; }
 
-        [NotMapped]
-        [Required(ErrorMessage = "Debes seleccionar al menos una imagen")]
-        public List<IFormFile> ImagenFiles { get; set; }
-
+    
         [Display(Name = "Imagen principal")]
         public string? ImagenPrincipalUrl { get; set; }
 

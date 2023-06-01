@@ -31,13 +31,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="FechaDeEntrada" class="control-label"></label>
-                <input asp-for="FechaDeEntrada" class="form-control" disabled />
+                <input asp-for="FechaDeEntrada" class="form-control" />
                 <span asp-validation-for="FechaDeEntrada" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImagenFiles" class="control-label"></label>
-                <input asp-for="ImagenFiles" type="file" class="form-control" multiple />
-                <span asp-validation-for="ImagenFiles" class="text-danger"></span>
+                <label asp-for="ImagenFile" class="control-label"></label>
+                <input asp-for="ImagenFile" type="file" class="form-control" />
+                <span asp-validation-for="ImagenFile" class="text-danger"></span>
             </div>
             @*<div class="form-group">
                 <label asp-for="ImagenPrincipalUrl" class="control-label">Imagen Principal</label>
@@ -62,7 +62,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PrecioConDescuento" class="control-label"></label>
-                <input asp-for="PrecioConDescuento" type="text" class="form-control" disabled/>
+                <input asp-for="PrecioConDescuento" type="text" class="form-control"/>
                 <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="UrlProductoDigital" class="control-label"></label>
-                <input asp-for="UrlProductoDigital" class="form-control" disabled/>
+                <input asp-for="UrlProductoDigital" class="form-control" disabled="disabled" />
                 <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
             </div>
             <div class="form-group form-check check">
@@ -104,7 +104,7 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        await Html.RenderPartialAsync("_ProductosScriptsPartial"); 
+        //await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ProductosScriptsPartialCreate"); 
     }
 }

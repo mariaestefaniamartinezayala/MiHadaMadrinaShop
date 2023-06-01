@@ -11,6 +11,7 @@ using MiHadaMadrinaShop.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 {
@@ -84,23 +85,32 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 }
 
                 // Obtenemos el nombre la imagen
-                string nombresImagenes = CargarImagenes(producto.ImagenFiles);
+                string nombresImagen = CargarImagenes(producto.ImagenFile);
 
                 // Asignar la imagen principal
                 //producto.ImagenPrincipalUrl = producto.ImagenFiles.FirstOrDefault()?.FileName;
 
-                // Si no se ha seleccionado una imagen principal, se establece la primera imagen de la lista
-                if (string.IsNullOrEmpty(producto.ImagenPrincipalUrl) && producto.ImagenFiles.Count > 0)
-                {
-                    producto.ImagenPrincipalUrl = producto.ImagenFiles[0].FileName;
-                }
-
-                // Asignamos la url de las imágenes
-                producto.ImagenUrl = nombresImagenes;
+                //Asignamos la url de las imágenes
+                producto.ImagenUrl = nombresImagen;
 
                 // Guardamos el producto en la base de datos
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
+
+
+                // Si no se ha seleccionado una imagen principal, se establece la primera imagen de la lista
+
+                Producto p = _context.Productos.Where(q => q.IdProducto.Equals(producto.IdProducto)).FirstOrDefault();
+
+                if (string.IsNullOrEmpty(p.ImagenPrincipalUrl) && p.ImagenUrl != null)
+                {
+                    p.ImagenPrincipalUrl = p.ImagenUrl.Split(',')[0];
+                }
+
+                // Guardamos el producto en la base de datos
+                _context.Productos.Update(p);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(producto);
@@ -120,12 +130,6 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 return NotFound();
             }
 
-            // Formatear el precio y el precio con descuento
-            producto.Precio = decimal.Parse(producto.Precio.ToString("0.00"));
-            if (producto.PrecioConDescuento.HasValue)
-            {
-                producto.PrecioConDescuento = decimal.Parse(producto.PrecioConDescuento.Value.ToString("0.00"));
-            }
 
             return View(producto);
         }
@@ -138,30 +142,19 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         //public async Task<IActionResult> Edit(long id, [Bind("IdProducto,DescripcionCorta,DescripcionLarga,FechaDeEntrada,Imagen,Nombre,PorcentajeDeDescuento,Precio,PrecioConDescuento,Stock,UrlProductoDigital")] Producto producto)
         public async Task<IActionResult> Edit(long id, Producto producto) //Elimino el bind, porque da fallos
         {
-            if (id != producto.IdProducto)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                if(producto.ImagenFile != null)
                 {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
+                    string nombresImagen = CargarImagenes(producto.ImagenFile);
+                    producto.ImagenUrl = nombresImagen;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+
+                  _context.Update(producto);
+                  await _context.SaveChangesAsync();
+                
+               
             }
             return View(producto);
         }
@@ -207,47 +200,75 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
-
-        private string CargarImagenes(List<IFormFile> imagenes)
+        private string CargarImagenes(IFormFile imagen)
         {
-            string nombresImagenes = string.Empty;
+            string nombreImagen = string.Empty;
 
-            if (imagenes != null && imagenes.Count > 0)
+            if (imagen != null)
             {
                 // Ruta de la carpeta donde se guardarán las imágenes
                 string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-
-                // Lista para almacenar los nombres de las imágenes
-                var nombres = new List<string>();
-
-                foreach (var imagen in imagenes)
+                
+                // Generar un nombre único para la imagen
+                 nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
+                
+                // Ruta completa del archivo donde se guardará la imagen
+                string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
+                
+                // Crea la carpeta "img" si no existe
+                Directory.CreateDirectory(carpetaImagenes);
+                
+                // Crear un FileStream para escribir el archivo en la ubicación especificada
+                using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
                 {
-                    // Generar un nombre único para la imagen
-                    string nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
-
-                    // Ruta completa del archivo donde se guardará la imagen
-                    string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
-
-                    // Crea la carpeta "img" si no existe
-                    Directory.CreateDirectory(carpetaImagenes);
-
-                    // Crear un FileStream para escribir el archivo en la ubicación especificada
-                    using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
-                    {
-                        // Copiar el contenido del archivo al FileStream
-                        imagen.CopyTo(fileStream);
-                    }
-
-                    // Agregar el nombre de la imagen a la lista de nombres
-                    nombres.Add(nombreImagen);
+                    // Copiar el contenido del archivo al FileStream
+                    imagen.CopyTo(fileStream);
                 }
 
-                // Concatenar los nombres de las imágenes separados por comas
-                nombresImagenes = string.Join(",", nombres);
             }
 
-            return nombresImagenes;
+            return nombreImagen;
         }
+        //private string CargarImagenes(List<IFormFile> imagenes)
+        //{
+        //    string nombresImagenes = string.Empty;
+
+        //    if (imagenes != null && imagenes.Count > 0)
+        //    {
+        //        // Ruta de la carpeta donde se guardarán las imágenes
+        //        string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+
+        //        // Lista para almacenar los nombres de las imágenes
+        //        var nombres = new List<string>();
+
+        //        foreach (var imagen in imagenes)
+        //        {
+        //            // Generar un nombre único para la imagen
+        //            string nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
+
+        //            // Ruta completa del archivo donde se guardará la imagen
+        //            string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+        //            // Crea la carpeta "img" si no existe
+        //            Directory.CreateDirectory(carpetaImagenes);
+
+        //            // Crear un FileStream para escribir el archivo en la ubicación especificada
+        //            using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
+        //            {
+        //                // Copiar el contenido del archivo al FileStream
+        //                imagen.CopyTo(fileStream);
+        //            }
+
+        //            // Agregar el nombre de la imagen a la lista de nombres
+        //            nombres.Add(nombreImagen);
+        //        }
+
+        //        // Concatenar los nombres de las imágenes separados por comas
+        //        nombresImagenes = string.Join(",", nombres);
+        //    }
+
+        //    return nombresImagenes;
+        //}
     }
 }
 //[HttpPost]
