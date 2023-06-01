@@ -39,18 +39,17 @@ namespace MiHadaMadrinaShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost; Database=MiHadaMadrinaHandMadeDB; Integrated Security=True; Encrypt=False");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("Latin1_General_CI_AS");
-
             modelBuilder.Entity<AspNetRole>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedName] IS NOT NULL)");
-
                 entity.Property(e => e.Name).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedName).HasMaxLength(256);
@@ -58,7 +57,7 @@ namespace MiHadaMadrinaShop.Models
 
             modelBuilder.Entity<AspNetRoleClaim>(entity =>
             {
-                entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
+                entity.Property(e => e.RoleId).HasMaxLength(450);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetRoleClaims)
@@ -67,17 +66,13 @@ namespace MiHadaMadrinaShop.Models
 
             modelBuilder.Entity<AspNetUser>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
                 entity.Property(e => e.Apellidos).HasMaxLength(100);
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
                 entity.Property(e => e.FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.IdSexo).HasDefaultValueSql("((3))");
 
                 entity.Property(e => e.Nombre).HasMaxLength(50);
 
@@ -103,14 +98,12 @@ namespace MiHadaMadrinaShop.Models
                             j.HasKey("UserId", "RoleId");
 
                             j.ToTable("AspNetUserRoles");
-
-                            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
                         });
             });
 
             modelBuilder.Entity<AspNetUserClaim>(entity =>
             {
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
+                entity.Property(e => e.UserId).HasMaxLength(450);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserClaims)
@@ -121,11 +114,11 @@ namespace MiHadaMadrinaShop.Models
             {
                 entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
-
                 entity.Property(e => e.LoginProvider).HasMaxLength(128);
 
                 entity.Property(e => e.ProviderKey).HasMaxLength(128);
+
+                entity.Property(e => e.UserId).HasMaxLength(450);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserLogins)
@@ -159,8 +152,6 @@ namespace MiHadaMadrinaShop.Models
             modelBuilder.Entity<Comentario>(entity =>
             {
                 entity.HasKey(e => e.IdComentario);
-
-                entity.HasIndex(e => e.IdProductoPedido, "IX_Comentarios_IdProductoPedido");
 
                 entity.Property(e => e.Comentario1)
                     .HasColumnType("ntext")
@@ -211,8 +202,6 @@ namespace MiHadaMadrinaShop.Models
             {
                 entity.HasKey(e => e.IdFactura);
 
-                entity.HasIndex(e => e.IdPedido, "IX_Facturas_IdPedido");
-
                 entity.HasOne(d => d.IdPedidoNavigation)
                     .WithMany(p => p.Facturas)
                     .HasForeignKey(d => d.IdPedido)
@@ -259,15 +248,9 @@ namespace MiHadaMadrinaShop.Models
             {
                 entity.HasKey(e => e.IdPedido);
 
-                entity.HasIndex(e => e.IdDireccion, "IX_Pedidos_IdDireccion");
+                entity.Property(e => e.FechaEnvio).HasColumnType("datetime");
 
-                entity.HasIndex(e => e.IdEstado, "IX_Pedidos_IdEstado");
-
-                entity.HasIndex(e => e.IdFormaDeEntrega, "IX_Pedidos_IdFormaDeEntrega");
-
-                entity.HasIndex(e => e.IdFormaDeEnvio, "IX_Pedidos_IdFormaDeEnvio");
-
-                entity.HasIndex(e => e.IdFormaDePago, "IX_Pedidos_IdFormaDePago");
+                entity.Property(e => e.FechaPedido).HasColumnType("datetime");
 
                 entity.Property(e => e.IdAspNetUsers).HasMaxLength(450);
 
@@ -322,8 +305,6 @@ namespace MiHadaMadrinaShop.Models
 
                 entity.Property(e => e.DescripcionLarga).HasColumnType("ntext");
 
-                entity.Property(e => e.FechaDeEntrada).HasColumnType("datetime");
-
                 entity.Property(e => e.Nombre).HasMaxLength(100);
 
                 entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
@@ -341,8 +322,6 @@ namespace MiHadaMadrinaShop.Models
                             j.HasKey("IdProducto", "IdCategoria");
 
                             j.ToTable("Productos_Categorias");
-
-                            j.HasIndex(new[] { "IdCategoria" }, "IX_Productos_Categorias_IdCategoria");
                         });
             });
 
@@ -352,10 +331,6 @@ namespace MiHadaMadrinaShop.Models
                     .HasName("PK_Producto_Pedido");
 
                 entity.ToTable("Productos_Pedido");
-
-                entity.HasIndex(e => e.IdPedido, "IX_Productos_Pedido_IdPedido");
-
-                entity.HasIndex(e => e.IdProducto, "IX_Productos_Pedido_IdProducto");
 
                 entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
 
@@ -384,8 +359,6 @@ namespace MiHadaMadrinaShop.Models
             modelBuilder.Entity<Subcategoria>(entity =>
             {
                 entity.HasKey(e => e.IdSubcategoria);
-
-                entity.HasIndex(e => e.IdCategoria, "IX_Subcategorias_IdCategoria");
 
                 entity.Property(e => e.Descripcion).HasMaxLength(300);
 
@@ -419,9 +392,16 @@ namespace MiHadaMadrinaShop.Models
                     .HasForeignKey(d => d.IdAppNetUsers)
                     .HasConstraintName("FK_T_Cesta_AspNetUsers");
 
+                entity.HasOne(d => d.IdPedidoNavigation)
+                    .WithMany(p => p.TCesta)
+                    .HasForeignKey(d => d.IdPedido)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_T_Cesta_Pedidos");
+
                 entity.HasOne(d => d.IdProductoNavigation)
                     .WithMany(p => p.TCesta)
                     .HasForeignKey(d => d.IdProducto)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_T_Cesta_Productos");
             });
 

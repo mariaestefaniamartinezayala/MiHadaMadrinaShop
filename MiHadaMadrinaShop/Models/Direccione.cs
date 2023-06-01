@@ -17,6 +17,8 @@ namespace MiHadaMadrinaShop.Models
         public string? Pais { get; set; }
         public string? Provincia { get; set; }
         public string IdAspNetUsers { get; set; } = null!;
+        public bool EsFacturacion { get; set; }
+        public bool EsDomicilio { get; set; }
 
         public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
         public virtual ICollection<Pedido> Pedidos { get; set; }

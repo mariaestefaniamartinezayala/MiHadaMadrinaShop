@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Drawing;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using PagedList;
 
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 {
@@ -29,11 +30,33 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         }
 
         // GET: Admin/Productos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? page)
         {
-            return _context.Productos != null ?
-                        View(await _context.Productos.ToListAsync()) :
-                        Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Productos'  is null.");
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            List<Producto> productos = _context.Productos.ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                productos = productos.Where(s => s.Nombre.Contains(searchString)
+                                       || s.DescripcionCorta.Contains(searchString)).ToList();
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+
+
+            return  View(productos.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/Productos/Details/5
@@ -156,7 +179,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 
                
             }
-            return View(producto);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Productos/Delete/5

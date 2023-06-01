@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<MiHadaMadrinaShop.Models.Producto>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -11,8 +13,9 @@
 <div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
-            
-            @foreach (var item in Model) {
+
+            @foreach (var item in Model)
+            {
 
                 <div class="row p-2 bg-white border rounded">
                     <div class="col-md-3 mt-1"> <img src="~/img/@item.ImagenUrl" style="width:75px;height:75px;" /></div>
@@ -29,22 +32,38 @@
                         <h6 class="text-success">Free shipping</h6>
                         <div class="d-flex flex-column mt-4">
                             <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.IdProducto">Detalles</a>
-                            @{if (User.Identity.GetUserId() == null){
+                            @{
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.GetUserAsync(User);
+                                    var roles = await UserManager.GetRolesAsync(user);
+
+                                    if (roles.Contains("Public"))
+                                    {
+                                        <a class="btn btn-outline-primary btn-sm mt-2" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                    }
+                                }
+                                else
+                                {
                                     <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
-                            }else{
-                                    <a class="btn btn-outline-primary btn-sm mt-2" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                }
+
+
                             }
-                            }
-                            
+
                         </div>
                     </div>
                 </div>
                 <br>
-            
+
             }
 
         </div>
-     </div>
+    </div>
 </div>
 
 

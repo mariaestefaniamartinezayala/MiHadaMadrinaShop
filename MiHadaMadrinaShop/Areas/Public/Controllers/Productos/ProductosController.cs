@@ -23,7 +23,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
         public async Task<IActionResult> Index()
         {
             return _context.Productos != null ?
-                        View(await _context.Productos.ToListAsync()) :
+                        View(await _context.Productos.Where(q => q.EsActivo).ToListAsync()) :
                         Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Productos'  is null.");
         }
 

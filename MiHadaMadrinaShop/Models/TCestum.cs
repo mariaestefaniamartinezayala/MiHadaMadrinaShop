@@ -15,6 +15,8 @@ namespace MiHadaMadrinaShop.Models
         public decimal? TotalSinIva { get; set; }
         public long? IdDatosUsuario { get; set; }
         public string? IdAppNetUsers { get; set; }
+        public long? IdPedido { get; set; }
+
 
         [NotMapped]
         public decimal? TotalCesta { get; set; }
@@ -29,8 +31,8 @@ namespace MiHadaMadrinaShop.Models
         [NotMapped]
         public int? StockProducto { get; set; }
 
-
         public virtual AspNetUser? IdAppNetUsersNavigation { get; set; }
+        public virtual Pedido? IdPedidoNavigation { get; set; }
         public virtual Producto? IdProductoNavigation { get; set; }
     }
 }

@@ -31,10 +31,10 @@ namespace MiHadaMadrinaShop.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-        public DateTime? FechaNacimiento { get; set; }
-        public byte? IdSexo { get; set; }
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
+        public byte? IdSexo { get; set; }
         public string? ImagenUrl { get; set; }
 
         public virtual Sexo? IdSexoNavigation { get; set; }

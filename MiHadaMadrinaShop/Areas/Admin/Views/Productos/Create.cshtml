@@ -1,8 +1,11 @@
 ﻿@model MiHadaMadrinaShop.Models.Producto
+@inject MiHadaMadrinaHandMadeDBContext _context
 
 @{
     ViewData["Title"] = "Crear";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<SelectListItem> nombresCategorias = (IEnumerable<SelectListItem>)_context.Categorias.Select(q => q.Categoria1).ToList();
 }
 
 <h1>Crear</h1>
@@ -40,15 +43,15 @@
                 <span asp-validation-for="ImagenFile" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="ImagenPrincipalUrl" class="control-label">Imagen Principal</label>
-                <select asp-for="ImagenPrincipalUrl" class="form-control">
-                    <option value="">Seleccionar imagen principal</option>
-                    @foreach (var imagen in Model.ImagenFiles)
-                    {
-                        <option value="@imagen.FileName">@imagen.FileName</option>
-                    }
-                </select>
-                <span asp-validation-for="ImagenPrincipalUrl" class="text-danger"></span>
+            <label asp-for="ImagenPrincipalUrl" class="control-label">Imagen Principal</label>
+            <select asp-for="ImagenPrincipalUrl" class="form-control">
+            <option value="">Seleccionar imagen principal</option>
+            @foreach (var imagen in Model.ImagenFiles)
+            {
+            <option value="@imagen.FileName">@imagen.FileName</option>
+            }
+            </select>
+            <span asp-validation-for="ImagenPrincipalUrl" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <label asp-for="Precio" class="control-label"></label>
@@ -62,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PrecioConDescuento" class="control-label"></label>
-                <input asp-for="PrecioConDescuento" type="text" class="form-control"/>
+                <input asp-for="PrecioConDescuento" type="text" class="form-control" />
                 <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,7 +75,7 @@
             </div>
             <div class="form-group form-check check">
                 <label asp-for="EsDigital" class="form-check-label">
-                    <input class="form-check-input" asp-for="EsDigital" type="checkbox"/> @Html.DisplayNameFor(model => model.EsDigital)
+                    <input class="form-check-input" asp-for="EsDigital" type="checkbox" /> @Html.DisplayNameFor(model => model.EsDigital)
                 </label>
             </div>
             <div class="form-group">
@@ -82,29 +85,35 @@
             </div>
             <div class="form-group form-check check">
                 <label asp-for="EsActivo" class="form-check-label">
-                    <input class="form-check-input" asp-for="EsActivo" checked/> @Html.DisplayNameFor(model => model.EsActivo)
+                    <input class="form-check-input" asp-for="EsActivo" checked /> @Html.DisplayNameFor(model => model.EsActivo)
                 </label>
             </div>
+            <div class="form-floating">
+                <select asp-for="IdCategoria" asp-items="@nombresCategorias" class="form-select" aria-required="true">
+                    <option selected>Seleccionar Categoria</option>
+                </select>
+                <span asp-validation-for="IdCategoria" class="text-danger"></span>
+            </div>
             @*<div class="form-group">
-                <button type="submit" class="btn btn-mg save-button btn-ancho">
-                    <span><i class="fas fa-save"></i></span>&nbsp;Guardar
-                </button>
+            <button type="submit" class="btn btn-mg save-button btn-ancho">
+            <span><i class="fas fa-save"></i></span>&nbsp;Guardar
+            </button>
             </div>*@
 
             <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
         </form>
-        
+
         @*<div class="form-group mt-2">
-            <a class="text-white btn btn-secondary btn-ancho" role="button" asp-action="Index"><span><i class="fas fa-backward"></i></span>&nbsp;Volver</a>
+        <a class="text-white btn btn-secondary btn-ancho" role="button" asp-action="Index"><span><i class="fas fa-backward"></i></span>&nbsp;Volver</a>
         </div>*@
     </div>
-   
+
 </div>
 
 @section Scripts {
     @{
         //await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        await Html.RenderPartialAsync("_ProductosScriptsPartialCreate"); 
+        await Html.RenderPartialAsync("_ProductosScriptsPartialCreate");
     }
-}
+    }
