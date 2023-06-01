@@ -131,7 +131,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "La contraseña no coincide.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            //[Required]
             public string Role { get; set; }
 
             [ValidateNever]
@@ -176,7 +176,9 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                     await _userManager.AddToRoleAsync(user, Input.Role);
+                    
+                    await _userManager.AddToRoleAsync(user, "Public");
+                    //await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
