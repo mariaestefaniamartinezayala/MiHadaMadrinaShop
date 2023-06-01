@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MiHadaMadrinaShop.Models;
-using MiHadaMadrinaShop.Areas.Admin.Models;
 
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
 {
@@ -13,12 +15,14 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
     [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
+        private readonly MiHadaMadrinaHandMadeDBContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
-        
 
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+
+        public RolesController(MiHadaMadrinaHandMadeDBContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
+            _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -50,111 +54,141 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
+
+        //// GET: Admin/AspNetRoles
+        //public async Task<IActionResult> Index()
+        //{
+        //    return _context.AspNetRoles != null ?
+        //                View(await _context.AspNetRoles.ToListAsync()) :
+        //                Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetRoles'  is null.");
+        //}
+
+        // GET: Admin/AspNetRoles/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null || _context.AspNetRoles == null)
+            {
+                return NotFound();
+            }
+
+            var aspNetRole = await _context.AspNetRoles
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (aspNetRole == null)
+            {
+                return NotFound();
+            }
+
+            return View(aspNetRole);
+        }
+
+
+        //// POST: Admin/AspNetRoles/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(AspNetRole aspNetRole)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(aspNetRole);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(aspNetRole);
+        //}
+
+        // GET: Admin/AspNetRoles/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null)
+            if (id == null || _context.AspNetRoles == null)
             {
                 return NotFound();
             }
 
-            var model = new AspNetRole
+            var aspNetRole = await _context.AspNetRoles.FindAsync(id);
+            if (aspNetRole == null)
             {
-                Id = role.Id,
-                Name = role.Name
-            };
-
-            return View(model);
+                return NotFound();
+            }
+            return View(aspNetRole);
         }
 
+        // POST: Admin/AspNetRoles/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Edit(IdentityRole modeloRol)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, AspNetRole aspNetRole)
         {
-            var role = await _roleManager.FindByIdAsync(modeloRol.Id);
-            if (role == null)
+            if (id != aspNetRole.Id)
             {
                 return NotFound();
             }
 
-            role.Name = modeloRol.Name;
-            var result = await _roleManager.UpdateAsync(role);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
+                try
+                {
+                    _context.Update(aspNetRole);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AspNetRoleExists(aspNetRole.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("Error al editar el rol", error.Description);
-                }
-                return View(modeloRol);
-            }
+            return View(aspNetRole);
         }
 
-        [HttpGet]
+        // GET: Admin/AspNetRoles/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null)
+            if (id == null || _context.AspNetRoles == null)
             {
                 return NotFound();
             }
 
-            var model = new AspNetRole
+            var aspNetRole = await _context.AspNetRoles
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (aspNetRole == null)
             {
-                Role = role
-            };
+                return NotFound();
+            }
 
-            return View(model);
+            return View(aspNetRole);
         }
 
-        [HttpPost]
+        // POST: Admin/AspNetRoles/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null)
+            if (_context.AspNetRoles == null)
             {
-                return NotFound();
+                return Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetRoles'  is null.");
+            }
+            var aspNetRole = await _context.AspNetRoles.FindAsync(id);
+            if (aspNetRole != null)
+            {
+                _context.AspNetRoles.Remove(aspNetRole);
             }
 
-            var result = await _roleManager.DeleteAsync(role);
-            if (result.Succeeded)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                // Manejar el error de eliminación según sea necesario
-                // Puedes agregar mensajes de error al ModelState y mostrarlos en la vista
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return RedirectToAction(nameof(Details), new { id = role.Id });
-            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(string id)
+        private bool AspNetRoleExists(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role == null)
-            {
-                return NotFound();
-            }
-
-            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
-
-            var model = new RoleDetailsViewModel
-            {
-                Role = role,
-                Users = usersInRole.ToList()
-            };
-
-            return View(model);
+            return (_context.AspNetRoles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

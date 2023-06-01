@@ -16,9 +16,6 @@
     @*Fontawesome icons*@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
-
-
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/estilos.css" />
 
     <!-- Fonts -->
@@ -75,15 +72,15 @@
     </div>
 
     <partial name="_CookieConsentPartial" />
-    <footer class="border-top footer text-muted">
-        <p class="text-wrap">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="">DevFAndy</a></p>
-        <p class="text-wrap">
-            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Home" asp-action="Privacy" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
-            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
-            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
-            <a class="flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
+    <footer class="footer-general">
+        <p class="text-wrap text-white">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="text-white">DevFAndy</a></p>
+        <p class="text-wrap text-white">
+            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
+            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
+            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
+            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
         </p>
-        <div class="container">
+        <div class="text-white text-wrap">
             <p class="flex-fill d-inline-block px-3">Desarrollado por</p>
             <p class="flex-fill d-inline-block px-3">Andrea Lamus Prada </p>
             <p class="flex-fill d-inline-block px-3">Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala</p>
@@ -95,13 +92,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 
-    <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  @*  <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="~/js/menu.js"></script>
    
     <!-- Main JS -->
-    <script src="~/js/main.js"></script>
+    <script src="~/js/main.js"></script>*@
 
     @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_ValidationScriptsPartial" />
+
 </body>
 </html>

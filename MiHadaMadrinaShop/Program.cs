@@ -65,11 +65,33 @@ public class Program
 
         app.MapRazorPages();
 
+
+        // Configuración de la librería Rotativa. Es la encargada de generar los PDFs
+        IWebHostEnvironment env = app.Environment;
+        Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
+
+
         //LLamamos a la clase InitDB para crear los roles y el usuario admin en la base de datos.
         using (var scope = app.Services.CreateScope())
         {
             var serviceProvider = scope.ServiceProvider;
             await InitDB.InitializeAsync(serviceProvider);
+
+            // Obtenemos una instancia del contexto de base de datos
+            var dbContext = serviceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
+
+            // Llamamos al método CreateInitialStates para crear los estados iniciales
+            InitDB.CreateInitialStates(dbContext);
+
+            // Llamamos al método CreateInitialPaymentMethods para crear las formas de pago iniciales.
+            InitDB.CreateInitialPaymentMethods(dbContext);
+
+            // Llamamos al método CreateInitialShippingMethods para crear las formas de entrega iniciales.
+            InitDB.CreateInitialShippingMethods(dbContext);
+
+            // Llamamos al método CreateInitialDeliveryMethods para crear las formas de envío iniciales.
+            InitDB.CreateInitialDeliveryMethods(dbContext);
+
         }
 
         app.Run();
