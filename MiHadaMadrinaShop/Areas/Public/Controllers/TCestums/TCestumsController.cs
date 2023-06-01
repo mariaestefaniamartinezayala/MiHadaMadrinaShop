@@ -173,8 +173,8 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         }
 
         // POST: Public/TCestums/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             if (_context.TCesta == null)

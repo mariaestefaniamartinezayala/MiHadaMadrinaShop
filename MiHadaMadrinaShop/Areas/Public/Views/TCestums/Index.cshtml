@@ -31,7 +31,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Total)
                 </th>
+                <th>
 
+                </th>
 
             </tr>
         </thead>
@@ -82,7 +84,11 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Total)€
                     </td>
-
+                    <td>
+                        <button class="btn btn-danger">
+                            <a class="custom-button-ede d-flex align-items-center text-white" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></a>
+                        </button>
+                    </td>
 
 
                 </tr>
