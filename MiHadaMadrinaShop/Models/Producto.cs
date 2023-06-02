@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MiHadaMadrinaShop.Models
 {
@@ -10,7 +10,6 @@ namespace MiHadaMadrinaShop.Models
     {
         public Producto()
         {
-            //ImagenFiles = new List<IFormFile>();
             ProductosPedidos = new HashSet<ProductosPedido>();
             TCesta = new HashSet<TCestum>();
             IdCategoria = new HashSet<Categoria>();
@@ -35,7 +34,7 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Seleccionar imagenes")]
         public IFormFile? ImagenFile { get; set; }
 
-    
+
         [Display(Name = "Imagen principal")]
         public string? ImagenPrincipalUrl { get; set; }
 
@@ -61,8 +60,14 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Activo")]
         public bool EsActivo { get; set; }
 
+        //[Display(Name = "Seleccionar categoría")]
+        //[NotMapped]
+        //public IEnumerable<SelectListItem> CategoriaList { get; set; }
+
+
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
+
         public virtual ICollection<Categoria> IdCategoria { get; set; }
     }
 }

@@ -15,7 +15,6 @@ namespace MiHadaMadrinaShop.Models
         }
 
         public string Id { get; set; } = null!;
-
         [Display(Name = "Nombre")]
         public string? Name { get; set; }
         public string? NormalizedName { get; set; }

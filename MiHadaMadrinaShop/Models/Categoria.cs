@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MiHadaMadrinaShop.Models
 {
@@ -11,7 +12,6 @@ namespace MiHadaMadrinaShop.Models
             Subcategoria = new HashSet<Subcategoria>();
             IdProductos = new HashSet<Producto>();
         }
-
         public int IdCategoria { get; set; }
 
         [Display(Name = "Categoría")]
@@ -22,7 +22,7 @@ namespace MiHadaMadrinaShop.Models
 
         [Display(Name = "Activo")]
         public bool EsActivo { get; set; }
-
+    
         public virtual ICollection<Subcategoria> Subcategoria { get; set; }
 
         public virtual ICollection<Producto> IdProductos { get; set; }

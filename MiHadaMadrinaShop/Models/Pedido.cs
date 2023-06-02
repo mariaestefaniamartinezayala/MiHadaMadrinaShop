@@ -9,6 +9,7 @@ namespace MiHadaMadrinaShop.Models
         {
             Facturas = new HashSet<Factura>();
             ProductosPedidos = new HashSet<ProductosPedido>();
+            TCesta = new HashSet<TCestum>();
         }
 
         public long IdPedido { get; set; }
@@ -22,6 +23,8 @@ namespace MiHadaMadrinaShop.Models
         public decimal Total { get; set; }
         public decimal TotalSinIva { get; set; }
         public string IdAspNetUsers { get; set; } = null!;
+        public DateTime FechaPedido { get; set; }
+        public DateTime FechaEnvio { get; set; }
 
         public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
         public virtual Direccione IdDireccionNavigation { get; set; } = null!;
@@ -31,5 +34,6 @@ namespace MiHadaMadrinaShop.Models
         public virtual FormasDePago IdFormaDePagoNavigation { get; set; } = null!;
         public virtual ICollection<Factura> Facturas { get; set; }
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
+        public virtual ICollection<TCestum> TCesta { get; set; }
     }
 }

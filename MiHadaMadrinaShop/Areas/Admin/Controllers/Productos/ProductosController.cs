@@ -29,11 +29,29 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         }
 
         // GET: Admin/Productos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
-            return _context.Productos != null ?
-                        View(await _context.Productos.ToListAsync()) :
-                        Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Productos'  is null.");
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            int pageSize = 2;
+
+            if (searchString != null)
+            {
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
+            }
+            else
+            {
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos, pageNumber ?? 1, pageSize));
+            }
         }
 
         // GET: Admin/Productos/Details/5
@@ -107,6 +125,22 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                     p.ImagenPrincipalUrl = p.ImagenUrl.Split(',')[0];
                 }
 
+                //Guardar la categoria del producto
+                if(producto.IdCategoria != null)
+                {
+                    foreach (var categoria in producto.IdCategoria)
+                    {
+                        ProductosCategoria productosCategoria = new ProductosCategoria();
+                        productosCategoria.IdCategoria = categoria.IdCategoria;
+                        productosCategoria.IdProducto = producto.IdProducto;
+
+                        //TODO: La tabla productosCategorias no se ha creado en el contexto
+                    }
+                  
+                }
+
+
+
                 // Guardamos el producto en la base de datos
                 _context.Productos.Update(p);
                 await _context.SaveChangesAsync();
@@ -150,13 +184,26 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                     producto.ImagenUrl = nombresImagen;
                 }
 
+                //Guardar la categoria del producto
+                if (producto.IdCategoria != null)
+                {
+                    foreach (var categoria in producto.IdCategoria)
+                    {
+                        ProductosCategoria productosCategoria = new ProductosCategoria();
+                        productosCategoria.IdCategoria = categoria.IdCategoria;
+                        productosCategoria.IdProducto = producto.IdProducto;
 
-                  _context.Update(producto);
+                        //TODO: La tabla productosCategorias no se ha creado en el contexto
+                    }
+
+                }
+
+                _context.Update(producto);
                   await _context.SaveChangesAsync();
                 
                
             }
-            return View(producto);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Productos/Delete/5
