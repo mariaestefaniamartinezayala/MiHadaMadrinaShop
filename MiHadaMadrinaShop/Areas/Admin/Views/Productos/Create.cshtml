@@ -5,7 +5,7 @@
     ViewData["Title"] = "Crear";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    IEnumerable<SelectListItem> nombresCategorias = (IEnumerable<SelectListItem>)_context.Categorias.Select(q => q.Categoria1).ToList();
+    IEnumerable<SelectListItem> nombresCategorias = _context.Categorias.Select(q => new SelectListItem { Text = q.Categoria1 }).ToList();
 }
 
 <h1>Crear</h1>
@@ -89,8 +89,9 @@
                 </label>
             </div>
             <div class="form-floating">
+                Seleccionar Categoria
                 <select asp-for="IdCategoria" asp-items="@nombresCategorias" class="form-select" aria-required="true">
-                    <option selected>Seleccionar Categoria</option>
+                    
                 </select>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
             </div>

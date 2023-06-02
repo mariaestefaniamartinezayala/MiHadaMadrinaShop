@@ -20,11 +20,31 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
         }
 
         // GET: Public/Productos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
-            return _context.Productos != null ?
-                        View(await _context.Productos.Where(q => q.EsActivo).ToListAsync()) :
-                        Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Productos'  is null.");
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            int pageSize = 2;
+
+            if (searchString != null)
+            {
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
+            }
+            else
+            {
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos, pageNumber ?? 1, pageSize));
+            }
+
+
         }
 
         // GET: Public/Productos/Details/5

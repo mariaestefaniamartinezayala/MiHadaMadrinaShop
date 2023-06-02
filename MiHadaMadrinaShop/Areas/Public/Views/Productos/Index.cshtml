@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<MiHadaMadrinaShop.Models.Producto>
+@model PaginatedList<MiHadaMadrinaShop.Models.Producto>
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -9,6 +9,14 @@
 }
 
 <h1>Productos</h1>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Buscar por producto: @Html.TextBox("searchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 
 <div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
@@ -64,6 +72,25 @@
 
         </div>
     </div>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>
 
 

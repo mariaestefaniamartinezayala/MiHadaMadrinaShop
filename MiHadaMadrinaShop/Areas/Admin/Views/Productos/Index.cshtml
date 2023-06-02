@@ -1,5 +1,5 @@
-﻿@model IEnumerable<MiHadaMadrinaShop.Models.Producto>
-@using PagedList.Mvc;
+﻿@model PaginatedList<MiHadaMadrinaShop.Models.Producto>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -24,40 +24,40 @@
     <thead>
         <tr>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.Nombre)
+                Nombre
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.DescripcionCorta)
+                Descripción corta
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.DescripcionLarga)
+                Descripción larga
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.FechaDeEntrada)
+                Fecha de entrada
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.ImagenUrl)
+                Imagen
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.Precio)
+                Precio
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
+                Porcentaje de descuento
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.PrecioConDescuento)
+                Precio con descuento
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.Stock)
+                Stock
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.EsDigital)
+                Es digital
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.UrlProductoDigital)
+                Url producto digital
             </th>
             <th class="text-center align-middle" scope="col">
-                @Html.DisplayNameFor(model => model.EsActivo)
+                Es activo
             </th>
             <th class="text-center align-middle" scope="col"></th>
         </tr>
@@ -117,4 +117,25 @@
     }
     </tbody>
 </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+
 </div>
