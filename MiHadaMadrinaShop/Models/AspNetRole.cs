@@ -15,7 +15,8 @@ namespace MiHadaMadrinaShop.Models
         }
 
         public string Id { get; set; } = null!;
-        [Display(Name = "Nombre")]
+
+        [Display(Name = "Rol")]
         public string? Name { get; set; }
         public string? NormalizedName { get; set; }
         public string? ConcurrencyStamp { get; set; }

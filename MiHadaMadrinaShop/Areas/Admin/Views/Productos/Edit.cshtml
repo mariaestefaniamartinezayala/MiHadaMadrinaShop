@@ -13,94 +13,99 @@
 <h4>Producto</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdProducto" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label><br />
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+    <div class="col-md-6">
+        <div class="card rounded">
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdProducto" />
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DescripcionCorta" class="control-label"></label>
+                        <input asp-for="DescripcionCorta" class="form-control" />
+                        <span asp-validation-for="DescripcionCorta" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DescripcionLarga" class="control-label"></label>
+                        <input asp-for="DescripcionLarga" class="form-control" />
+                        <span asp-validation-for="DescripcionLarga" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @*<label asp-for="FechaDeEntrada" class="control-label"></label>*@
+                        <input asp-for="FechaDeEntrada" class="form-control" hidden="hidden" />
+                        <span asp-validation-for="FechaDeEntrada" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+                    <label asp-for="ImagenUrl" class="control-label"></label>
+                    <input asp-for="ImagenUrl" class="form-control" />
+                    <span asp-validation-for="ImagenUrl" class="text-danger"></span>
+                    </div>*@
+                    <div class="form-group">
+                        <label asp-for="ImagenUrl" class="control-label"></label><br>
+                        <input asp-for="ImagenUrl" class="form-control" hidden="hidden" />
+                        @*Mostramos la imagen*@
+                        <img src="~/img/productos/@imagenUrl" style="width:75px;height:75px;" />
+                        <span asp-validation-for="ImagenUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImagenFile" class="control-label"></label>
+                        <input asp-for="ImagenFile" type="file" class="form-control" />
+                        <span asp-validation-for="ImagenFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Precio" class="control-label"></label>
+                        <input asp-for="Precio" type="text" class="form-control" />
+                        <span asp-validation-for="Precio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PorcentajeDeDescuento" class="control-label"></label>
+                        <input asp-for="PorcentajeDeDescuento" type="text" class="form-control" />
+                        <span asp-validation-for="PorcentajeDeDescuento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrecioConDescuento" class="control-label"></label>
+                        <input asp-for="PrecioConDescuento" type="text" class="form-control" />
+                        <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check check">
+                        <label asp-for="EsDigital" class="form-check-label">
+                            <input class="form-check-input" asp-for="EsDigital" type="checkbox" /> @Html.DisplayNameFor(model => model.EsDigital)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UrlProductoDigital" class="control-label"></label>
+                        <input asp-for="UrlProductoDigital" class="form-control" disabled="disabled" />
+                        <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdCategoria" class="control-label">
+                            Seleccionar Categoria
+                        </label>
+                        <select asp-for="IdCategoria" asp-items="@nombresCategorias" class="form-select" aria-required="true">
+                        </select>
+                        <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check check">
+                        <label asp-for="EsActivo" class="form-check-label">
+                            <input class="form-check-input" asp-for="EsActivo" /> @Html.DisplayNameFor(model => model.EsActivo)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="DescripcionCorta" class="control-label"></label>
-                <input asp-for="DescripcionCorta" class="form-control" />
-                <span asp-validation-for="DescripcionCorta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DescripcionLarga" class="control-label"></label>
-                <input asp-for="DescripcionLarga" class="form-control" />
-                <span asp-validation-for="DescripcionLarga" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @*<label asp-for="FechaDeEntrada" class="control-label"></label>*@
-                <input asp-for="FechaDeEntrada" class="form-control" hidden="hidden" />
-                <span asp-validation-for="FechaDeEntrada" class="text-danger"></span>
-            </div>
-          @*<div class="form-group">
-                <label asp-for="ImagenUrl" class="control-label"></label>
-                <input asp-for="ImagenUrl" class="form-control" />
-                <span asp-validation-for="ImagenUrl" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="ImagenUrl" class="control-label"></label><br>
-                <input asp-for="ImagenUrl" class="form-control" hidden="hidden"/>
-                @*Mostramos la imagen*@
-                <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
-                <span asp-validation-for="ImagenUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImagenFile" class="control-label"></label>
-                <input asp-for="ImagenFile" type="file" class="form-control"  />
-                <span asp-validation-for="ImagenFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" type="text" class="form-control" />
-                <span asp-validation-for="Precio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PorcentajeDeDescuento" class="control-label"></label>
-                <input asp-for="PorcentajeDeDescuento" type="text" class="form-control" />
-                <span asp-validation-for="PorcentajeDeDescuento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecioConDescuento" class="control-label"></label>
-                <input asp-for="PrecioConDescuento" type="text" class="form-control"/>
-                <span asp-validation-for="PrecioConDescuento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
-                <input asp-for="Stock" class="form-control" />
-                <span asp-validation-for="Stock" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check check">
-                <label asp-for="EsDigital" class="form-check-label">
-                    <input class="form-check-input" asp-for="EsDigital" type="checkbox" /> @Html.DisplayNameFor(model => model.EsDigital)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="UrlProductoDigital" class="control-label"></label>
-                <input asp-for="UrlProductoDigital" class="form-control" disabled="disabled" />
-                <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                Seleccionar Categoria
-                <select asp-for="IdCategoria" asp-items="@nombresCategorias" class="form-select" aria-required="true">
-
-                </select>
-                <span asp-validation-for="IdCategoria" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check check">
-                <label asp-for="EsActivo" class="form-check-label">
-                    <input class="form-check-input" asp-for="EsActivo" /> @Html.DisplayNameFor(model => model.EsActivo)
-                </label>
-            </div>
-            <div class="form-group">
-                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

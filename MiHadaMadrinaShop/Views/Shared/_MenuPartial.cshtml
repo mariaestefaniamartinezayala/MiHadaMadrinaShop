@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using MiHadaMadrinaShop.Models;
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -22,29 +23,3 @@
         <partial name="_MenuPublicPartial" />
     }
 }
-
-
-@*
-@{
-    //string rolAdmin = "Admin";
-
-    //string rolEditor = "Editor";
-
-    //string rolPublic = "Public";
-}
-
-@if(rolAdmin.Equals("Admin"))
-{
-    <partial name="_MenuAdminPartial" />
-}
-
-@if (rolEditor.Equals("Editor"))
-{
-    <partial name="_MenuEditorPartial" />
-}
-
-@if (rolPublic.Equals("Public"))
-{
-    <partial name="_MenuPublicPartial" />
-}
-*@

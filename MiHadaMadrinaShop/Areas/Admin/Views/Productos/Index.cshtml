@@ -1,8 +1,7 @@
 ﻿@model PaginatedList<MiHadaMadrinaShop.Models.Producto>
 
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista de productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,102 +20,105 @@
         </p>
     }
     <table class="table table-inverse table-hover">
-    <thead>
-        <tr>
-            <th class="text-center align-middle" scope="col">
-                Nombre
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Descripción corta
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Descripción larga
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Fecha de entrada
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Imagen
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Precio
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Porcentaje de descuento
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Precio con descuento
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Stock
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Es digital
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Url producto digital
-            </th>
-            <th class="text-center align-middle" scope="col">
-                Es activo
-            </th>
-            <th class="text-center align-middle" scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.DescripcionCorta)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.DescripcionLarga)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.FechaDeEntrada)
-            </td>
-            <td class="text-center align-middle">
-                @*Mostramos la imagen*@
-                <img src="~/img/@item.ImagenUrl" style="width:75px;height:75px;" />
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.PrecioConDescuento)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.EsDigital)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.UrlProductoDigital)
-            </td>
-            <td class="text-center align-middle">
-                @Html.DisplayFor(modelItem => item.EsActivo)
-            </td>
-            <td class="text-center align-middle">
-                <button class="btn btn-mg edit-button">
-                    <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@item.IdProducto"><i class="fas fa-edit"></i> Editar</a>
-                </button>
-                @*<button class="btn btn-mg details-button">
-                     <a class="custom-button-ede d-flex align-items-center" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info-circle"></i> Detalle</a>
-                </button>*@
-                <button class="btn btn-mg delete-button">
-                    <a class="custom-button-ede d-flex align-items-center" asp-action="Delete" asp-route-id="@item.IdProducto"><i class="fas fa-trash"></i> Eliminar</a>
-                </button>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+        <thead>
+            <tr>
+                <th class="text-center align-middle" scope="col">
+                    Nombre
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Descripción corta
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Descripción larga
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Fecha de entrada
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Imagen
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Precio
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Porcentaje de descuento
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Precio con descuento
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Stock
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Es digital
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Url producto digital
+                </th>
+                <th class="text-center align-middle" scope="col">
+                    Es activo
+                </th>
+                <th class="text-center align-middle" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.DescripcionCorta)
+                    </td>
+                    <td class="text-center align-middle">
+                        <p class="module line-clamp">
+                            @Html.DisplayFor(modelItem => item.DescripcionLarga)
+                        </p>
+                     </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.FechaDeEntrada)
+                    </td>
+                    <td class="text-center align-middle">
+                        @*Mostramos la imagen*@
+                        <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.PrecioConDescuento)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.EsDigital)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.UrlProductoDigital)
+                    </td>
+                    <td class="text-center align-middle">
+                        @Html.DisplayFor(modelItem => item.EsActivo)
+                    </td>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-mg edit-button">
+                            <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@item.IdProducto"><i class="fas fa-edit"></i> Editar</a>
+                        </button>
+                        @*<button class="btn btn-mg details-button">
+                    <a class="custom-button-ede d-flex align-items-center" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info-circle"></i> Detalle</a>
+                    </button>*@
+                        <button class="btn btn-mg delete-button">
+                            <a class="custom-button-ede d-flex align-items-center" asp-action="Delete" asp-route-id="@item.IdProducto"><i class="fas fa-trash"></i> Eliminar</a>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";

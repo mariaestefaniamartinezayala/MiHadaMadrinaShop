@@ -50,7 +50,7 @@
                             var imagenUrl = item.ImagenUrl;
                             var stock = item.StockProducto;
                         }
-                        <img src="~/img/@imagenUrl" style="width:75px;height:75px;" />
+                        <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
                     </td>
                     <td>
                         <input asp-for="@item.Cantidad" type="number" value="@item.Cantidad" min="1" max="@stock" onchange="actualizarCesta(@item.IdCesta, this.value)">

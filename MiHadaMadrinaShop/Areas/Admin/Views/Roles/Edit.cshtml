@@ -1,32 +1,59 @@
-﻿@model MiHadaMadrinaShop.Models.AspNetRole
+﻿@model MiHadaMadrinaShop.Models.ViewModels.EditarRolViewModel
 
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar rol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4 align-items-center offset-4">
+            <h1 class="font-weight-bold font-italic">Editar rol</h1>
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group pb-2">
+                    <label asp-for="RolNombre" class="control-label">Nombre del rol</label>
+                    <input asp-for="RolNombre" class="form-control" />
+                    <span asp-validation-for="RolNombre" class="text-danger"></span>
+                </div>
+                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
+                    <a asp-action="Index" class="btn btn-secondary flex-fill mr-2"><i class="fas fa-arrow-left"></i> Volver</a>
+                    <button type="submit" class="btn btn-primary flex-fill ml-2"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<h4>Rol</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="row">
+        <div class="col-4 align-items-center offset-4">
+            <h3 class="font-weight-bold font-italic">Usuarios en este rol</h3>
+            <div class="">
+                @if (Model.Usuarios.Any())
+                {
+                    foreach (var user in Model.Usuarios)
+                    {
+                        <h5 class="card-title">
+                            @user
+                        </h5>
+                    }
+                }
+                else
+                {
+                    <h5 class="card-title">
+                        El rol tiene asignado ningún usuario
+                    </h5>
+                }
             </div>
-            <div class="form-group">
-                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+            <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
+                <a asp-controller="Roles" asp-action="EditarUsuarioRol" asp-route-rolId="@Model.Id" class="btn btn-primary">Crear o borrar usuario</a>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

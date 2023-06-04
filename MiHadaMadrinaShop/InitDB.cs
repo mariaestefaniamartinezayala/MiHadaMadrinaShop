@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MiHadaMadrinaShop.Models;
+using MiHadaMadrinaShop.Models.ViewModels;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +12,7 @@ namespace MiHadaMadrinaShop
     {
         public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
+            // Roles
             using (var scope = serviceProvider.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -25,6 +28,7 @@ namespace MiHadaMadrinaShop
                 }
             }
 
+            // Usuario admin
             using (var scope = serviceProvider.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
@@ -47,96 +51,111 @@ namespace MiHadaMadrinaShop
                 }
             }
 
-        }
+            // Sexos
+            //using (var scope = serviceProvider.CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-        public static void CreateInitialStates(MiHadaMadrinaHandMadeDBContext dbContext)
-        {
-            if (!dbContext.Estados.Any())
+            //    var sexos = new[] { "Mujer", "Hombre", "Otros" };
+
+            //    foreach (var sexo in sexos)
+            //    {
+            //        if (!await dbContext.Sexos.AnyAsync(s => s.Sexo1 == sexo))
+            //        {
+            //            await dbContext.Sexos.AddAsync(new Sexo
+            //            {
+            //                Sexo1 = sexo
+            //            });
+            //        }
+            //    }
+
+            //    await dbContext.SaveChangesAsync();
+            //}
+
+            // Estados
+            using (var scope = serviceProvider.CreateScope())
             {
-                List<string> listEstados = new()
-                {
-                    "Recibido",
-                    "Pendiente de pago",
-                    "Procesando",
-                    "Preparando envío",
-                    "Enviado",
-                    "Entregado",
-                    "Facturado"
-                };
+                var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                foreach (var e in listEstados)
+                var estados = new[] { "Recibido", "Pendiente de pago", "Procesando", "Preparando envío", "Enviado", "Entregado", "Facturado" };
+
+                foreach (var estado in estados)
                 {
-                    var estado = new Estado { Estado1 = e };
-                    dbContext.Estados.Add(estado);
+                    if (!await dbContext.Estados.AnyAsync(e => e.Estado1 == estado))
+                    {
+                        await dbContext.Estados.AddAsync(new Estado
+                        {
+                            Estado1 = estado
+                        });
+                    }
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
-        }
 
-        public static void CreateInitialPaymentMethods(MiHadaMadrinaHandMadeDBContext dbContext)
-        {
-            if (!dbContext.FormasDePagos.Any())
+            // Formas de pago
+            using (var scope = serviceProvider.CreateScope())
             {
-                List<string> listFormasPago = new()
-                {
-                    "Transferencia",
-                    "Tarjeta",
-                    "Paypal"
-                };
+                var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                foreach (var fp in listFormasPago)
+                var formaDePago = new[] { "Transferencia", "Tarjeta", "Paypal" };
+
+                foreach (var fp in formaDePago)
                 {
-                    var formaPago = new FormasDePago { FormaDePago = fp };
-                    dbContext.FormasDePagos.Add(formaPago);
+                    if (!await dbContext.FormasDePagos.AnyAsync(x => x.FormaDePago == fp))
+                    {
+                        await dbContext.FormasDePagos.AddAsync(new FormasDePago
+                        {
+                            FormaDePago = fp
+                        });
+                    }
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
 
-        }
-
-        public static void CreateInitialShippingMethods(MiHadaMadrinaHandMadeDBContext dbContext)
-        {
-            if (!dbContext.FormasDeEntregas.Any())
+            // Formas de entrega
+            using (var scope = serviceProvider.CreateScope())
             {
-                List<string> listFormasEntrega = new()
-                {
-                    "Envío a domicilio",
-                    "Envío a un punto de entrega"
-                };
+                var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                foreach (var fe in listFormasEntrega)
+                var formasDeEntrega = new[] { "Envío a domicilio", "Envío a un punto de entrega" };
+
+                foreach (var fe in formasDeEntrega)
                 {
-                    var formaEntrega = new FormasDeEntrega { FormaDeEntrega = fe };
-                    dbContext.FormasDeEntregas.Add(formaEntrega);
+                    if (!await dbContext.FormasDeEntregas.AnyAsync(x => x.FormaDeEntrega == fe))
+                    {
+                        await dbContext.FormasDeEntregas.AddAsync(new FormasDeEntrega
+                        {
+                            FormaDeEntrega = fe
+                        });
+                    }
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
 
-        }
-
-        public static void CreateInitialDeliveryMethods(MiHadaMadrinaHandMadeDBContext dbContext)
-        {
-            if (!dbContext.FormasDeEnvios.Any())
+            // Firmas de envío
+            using (var scope = serviceProvider.CreateScope())
             {
-                List<string> listFormasEnvio = new()
-                {
-                    "Envío urgente",
-                    "Envío estándar"
-                };
+                var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                foreach (var fe in listFormasEnvio)
+                var formasDeEnvios = new[] { "Envío estándar", "Envío urgente" };
+
+                foreach (var fe in formasDeEnvios)
                 {
-                    var formaEnvio = new FormasDeEnvio { FormaDeEnvio = fe };
-                    dbContext.FormasDeEnvios.Add(formaEnvio);
+                    if (!await dbContext.FormasDeEnvios.AnyAsync(x => x.FormaDeEnvio == fe))
+                    {
+                        await dbContext.FormasDeEnvios.AddAsync(new FormasDeEnvio
+                        {
+                            FormaDeEnvio = fe
+                        });
+                    }
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
 
         }
-
     }
 }

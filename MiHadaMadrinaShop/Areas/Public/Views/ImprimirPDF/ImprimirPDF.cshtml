@@ -1,0 +1,123 @@
+﻿@model MiHadaMadrinaShop.Models.Pedido
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ImprimirPedido</title>
+    <link rel="stylesheet" href="~/css/estilosPDF.css" />
+</head>
+<body>
+
+    <div class="contenedor">
+
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <img src="~/img/logo.png" style="width: 75px;" />
+                </td>
+                <td style="text-align:right">
+                    <table style="margin-right:0;margin-left:auto">
+                        <tr><td><p class="title2">NÚMERO PEDIDO</p></td></tr>
+                        <tr><td>@Model.</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <p class="title">MI HADA MADRINA</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p class="text">Dirección: Rua Do Progreso 315</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="text">Correo: contacto@mihadamadrina.com</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="text-align:right">
+                    <table style="margin-right:0;margin-left:auto">
+                        <tr>
+                            <td><p class="title">CLIENTE</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text">@*@Model.IdAspNetUsers*@Andrea Lamus</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text">78451245P</p></td><!--Poner el documento del cliente-->
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+        <table class="tbproductos" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="tbth">Producto</th>
+                    <th class="tbth" style="width:130px">Cantidad</th>
+                    <th class="tbth" style="width:130px">Precio</th>
+                    <th class="tbth" style="width:130px">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model.TCesta)
+                    {
+                        <tr>
+                            <td class="td-item"><p class="item">@item.NombreProducto</p></td>
+                            <td class="td-item"><p class="item">@item.Cantidad</p></td>
+                            <td class="td-item"><p class="item">@item.PrecioProducto</p></td>
+                            <td style="background-color:#EDF6F9"><p class="item">@item.TotalSinIva</p></td>
+                        </tr>
+
+                    }
+                }
+                <tr>
+                    <td colspan="2" rowspan="3">
+                    </td>
+                    <td class="td-item">
+                        <p class="item-2">Total sin IVA</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.TotalSinIva</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-item">
+                        <p class="item-2">IVA</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.Iva</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="item-3">
+                        <p>Total</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.Total</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

@@ -1,48 +1,46 @@
 ﻿@*@using Microsoft.AspNet.Identity;*@
 @*@model IEnumerable<MiHadaMadrinaShop.Models.AspNetRole>*@
-@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
-
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista de roles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div>
-    <h1>Listado de roless</h1>
-    <button class="btn btn-mg btn-new">
-        <a class="new-button" asp-action="Create"><i class="fas fa-plus"></i>&nbsp;Nuevo</a>
-    </button>
-</div>
-<div class="col-12 text-cente">
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="thead-color">
-                <tr class="align-self-center">
-                    <th class="py-3 text-center" scope="col">
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th class="py-3 text-center" scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="pt-3 text-center">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td class="pt-3 text-center">
-                          @*  <button class="btn btn-primary">*@
-                                <a class="btn btn-outline-secondary py-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit icon-medium d-block d-lg-none"></i><span class="d-none d-lg-block">Editar</span></a>
-                         @*   </button>
-                            <button class="btn btn_danger">*@
-                            <a class=btn btn-outline-secondary py-2"" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash  icon-medium d-block d-lg-none"></i><span class="d-none d-lg-block">Eliminar</span></a>
-                          @*  </button>*@
-                        </td>
+<div class="container">
+    <div class="row">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="font-weight-bold font-italic">Listado de roles</h1>
+            <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus"></i><span>&nbsp;Nuevo</span></a>
+        </div>
+        
+    </div>
+    <div class="col-12 text-cente">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-color">
+                    <tr class="align-self-center">
+                        <th class="py-3 text-center" scope="col">
+                           Rol
+                        </th>
+                        <th class="py-3 text-center" scope="col"></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var rol in Model)
+                    {
+                        <tr>
+                            <td class="pt-3 text-center">
+                                @Html.DisplayFor(modelItem => rol.Name)
+                            </td>
+                            <td class="pt-3 text-center">
+                                <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@rol.Id"><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-outline-danger py-2" asp-action="Delete" asp-route-id="@rol.Id"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

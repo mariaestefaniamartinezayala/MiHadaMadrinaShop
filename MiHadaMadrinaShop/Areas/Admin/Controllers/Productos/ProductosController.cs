@@ -247,6 +247,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         {
             return (_context.Productos?.Any(e => e.IdProducto == id)).GetValueOrDefault();
         }
+
         private string CargarImagenes(IFormFile imagen)
         {
             string nombreImagen = string.Empty;
@@ -254,7 +255,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
             if (imagen != null)
             {
                 // Ruta de la carpeta donde se guardarán las imágenes
-                string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+                string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "~/img/productos");
                 
                 // Generar un nombre único para la imagen
                  nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
@@ -276,6 +277,8 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 
             return nombreImagen;
         }
+
+
         //private string CargarImagenes(List<IFormFile> imagenes)
         //{
         //    string nombresImagenes = string.Empty;

@@ -5,6 +5,7 @@ using MiHadaMadrinaShop.Data;
 using MiHadaMadrinaShop.Models;
 using System.Diagnostics;
 using System.Globalization;
+using MiHadaMadrinaShop.Models.ViewModels;
 
 public class Program
 {
@@ -81,16 +82,16 @@ public class Program
             var dbContext = serviceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
             // Llamamos al método CreateInitialStates para crear los estados iniciales
-            InitDB.CreateInitialStates(dbContext);
+            //InitDB.CreateInitialStates(dbContext);
 
-            // Llamamos al método CreateInitialPaymentMethods para crear las formas de pago iniciales.
-            InitDB.CreateInitialPaymentMethods(dbContext);
+            //// Llamamos al método CreateInitialPaymentMethods para crear las formas de pago iniciales.
+            //InitDB.CreateInitialPaymentMethods(dbContext);
 
-            // Llamamos al método CreateInitialShippingMethods para crear las formas de entrega iniciales.
-            InitDB.CreateInitialShippingMethods(dbContext);
+            //// Llamamos al método CreateInitialShippingMethods para crear las formas de entrega iniciales.
+            //InitDB.CreateInitialShippingMethods(dbContext);
 
-            // Llamamos al método CreateInitialDeliveryMethods para crear las formas de envío iniciales.
-            InitDB.CreateInitialDeliveryMethods(dbContext);
+            //// Llamamos al método CreateInitialDeliveryMethods para crear las formas de envío iniciales.
+            //InitDB.CreateInitialDeliveryMethods(dbContext);
 
         }
 
