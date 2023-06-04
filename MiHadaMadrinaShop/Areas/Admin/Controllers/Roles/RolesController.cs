@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiHadaMadrinaShop.Models;
+using MiHadaMadrinaShop.Models.ViewModels;
 
 namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
 {
@@ -40,6 +41,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IdentityRole modeloRol)
         {
             if (!string.IsNullOrEmpty(modeloRol.Name))
@@ -54,16 +56,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             return RedirectToAction(nameof(Index));
         }
 
-
-        //// GET: Admin/AspNetRoles
-        //public async Task<IActionResult> Index()
-        //{
-        //    return _context.AspNetRoles != null ?
-        //                View(await _context.AspNetRoles.ToListAsync()) :
-        //                Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetRoles'  is null.");
-        //}
-
-        // GET: Admin/AspNetRoles/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.AspNetRoles == null)
@@ -81,75 +74,163 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             return View(aspNetRole);
         }
 
-
-        //// POST: Admin/AspNetRoles/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(AspNetRole aspNetRole)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(aspNetRole);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(aspNetRole);
-        //}
-
-        // GET: Admin/AspNetRoles/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.AspNetRoles == null)
+            //Buscamos el rol por ID
+            var rol = await _roleManager.FindByIdAsync(id);
+
+            if (rol == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"El rol con el ID: {id}, no existe en la base de datos";
+                return View("Error");
             }
 
-            var aspNetRole = await _context.AspNetRoles.FindAsync(id);
-            if (aspNetRole == null)
+            var model = new EditarRolViewModel
             {
-                return NotFound();
+                Id = rol.Id,
+                RolNombre = rol.Name,
+                Usuarios = new List<string>() 
+            };
+
+            //Obtenemos todos los usuarios
+            foreach(var usuario in _userManager.Users)
+            {
+                if (await _userManager.IsInRoleAsync(usuario, rol.Name))
+                {
+                    model.Usuarios.Add(usuario.UserName);
+                }
             }
-            return View(aspNetRole);
+
+            return View(model);
         }
 
-        // POST: Admin/AspNetRoles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, AspNetRole aspNetRole)
+        public async Task<IActionResult> Edit(EditarRolViewModel model)
         {
-            if (id != aspNetRole.Id)
+            //Buscamos el rol por ID
+            var rol = await _roleManager.FindByIdAsync(model.Id);
+
+            if (rol == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"El rol con el ID: {model.Id}, no existe en la base de datos";
+                return View("Error");
+            }
+            else
+            {
+                rol.Name = model.RolNombre;
+
+                var resultado = await _roleManager.UpdateAsync(rol);
+
+                if(resultado.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                foreach(var error in resultado.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
 
-            if (ModelState.IsValid)
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditarUsuarioRol(string rolId)
+        {
+            ViewBag.roleId = rolId;
+
+            //Buscamos el rol por ID
+            var rol = await _roleManager.FindByIdAsync(rolId);
+
+            if (rol == null)
             {
-                try
+                ViewBag.ErrorMessage = $"El rol con el ID: {rolId}, no existe en la base de datos";
+                return View("Error");
+            }
+
+            var model = new List<UsuarioRolModelo>();
+
+            foreach (var user in _userManager.Users)
+            {
+                var usuarioRolModelo = new UsuarioRolModelo
                 {
-                    _context.Update(aspNetRole);
-                    await _context.SaveChangesAsync();
+                    UsuarioId = user.Id,
+                    NombreUsuario = user.UserName
+                };
+
+                if (await _userManager.IsInRoleAsync(user, rol.Name))
+                {
+                    usuarioRolModelo.EstaSeleccionado = true;
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!AspNetRoleExists(aspNetRole.Id))
+                    usuarioRolModelo.EstaSeleccionado = false;
+                }
+
+                model.Add(usuarioRolModelo);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarUsuarioRol(List<UsuarioRolModelo> model, string rolId)
+        {
+            //Buscamos el rol por ID
+            var rol = await _roleManager.FindByIdAsync(rolId);
+
+            if (rol == null)
+            {
+                ViewBag.ErrorMessage = $"El rol con el ID: {rolId}, no existe en la base de datos";
+                return View("Error");
+            }
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                var user = await _userManager.FindByIdAsync(model[i].UsuarioId);
+
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"El usuario con el ID: {model[i].UsuarioId} no existe en la base de datos";
+                    return RedirectToAction("Error");
+                }
+
+                IdentityResult result = null;
+
+                if (model[i].EstaSeleccionado && !(await _userManager.IsInRoleAsync(user, rol.Name)))
+                {
+                    result = await _userManager.AddToRoleAsync(user, rol.Name); 
+                }
+                else if (!model[i].EstaSeleccionado && await _userManager.IsInRoleAsync(user, rol.Name))
+                {
+                    result = await _userManager.RemoveFromRoleAsync(user, rol.Name);    
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
                     {
-                        return NotFound();
+                        continue;
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction("Edit", new {Id = rolId});
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(aspNetRole);
+
+            return RedirectToAction("Edit", new { Id = rolId });
         }
 
-        // GET: Admin/AspNetRoles/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.AspNetRoles == null)
@@ -167,7 +248,6 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             return View(aspNetRole);
         }
 
-        // POST: Admin/AspNetRoles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using MiHadaMadrinaShop.Models.ViewModels;
+@using Microsoft.AspNetCore.Identity
 @model PaginatedList<MiHadaMadrinaShop.Models.Producto>
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -8,8 +9,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Productos</h1>
+<h1>Tienda</h1>
 
+@*Buscador*@
 @using (Html.BeginForm())
 {
     <p>
@@ -18,7 +20,68 @@
     </p>
 }
 
-<div class="container mt-5 mb-5">
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="row p-2 bg-white border rounded">
+                    <img src="~/img/productos/@item.ImagenUrl" class="card-img-top imagen-tienda" alt="imagen del producto" />
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Nombre)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.DescripcionCorta)</p>
+                        <h4 class="card-text"> @Html.DisplayFor(modelItem => item.PrecioConDescuento)</h4>&nbsp;<span class="strike-text">@Html.DisplayFor(modelItem => item.Precio)</span>
+                    </div>
+
+                    <div class="card-footer">
+                        <a class="btn btn-secondary btn-sm mt-2" asp-action="Detalles" asp-route-id="@item.IdProducto">Detalles</a>
+                        @{
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                var user = await UserManager.GetUserAsync(User);
+                                var roles = await UserManager.GetRolesAsync(user);
+
+                                if (roles.Contains("Public"))
+                                {
+                                    <a class="btn btn-outline-primary btn-sm mt-2" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                }
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                            }
+
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
 
@@ -91,6 +154,6 @@
        class="btn btn-default @nextDisabled">
         Next
     </a>
-</div>
+</div>*@
 
 

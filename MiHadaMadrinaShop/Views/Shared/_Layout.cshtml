@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity;
+﻿@using Microsoft.AspNet.Identity
+
 <!DOCTYPE html>
 <html lang="es-es">
 <head>
@@ -16,41 +17,31 @@
     @*Fontawesome icons*@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
+    @*Estilos generales*@
     <link rel="stylesheet" href="~/css/estilos.css" />
+    @*Estilos páginas de registro y login*@
+    <link rel="stylesheet" href="~/css/auth.css" />
+    @*Estilos que sobre escribe los colores de bootstrap*@
+    <link rel="stylesheet" href="~/css/core.css" />
+    <link rel="stylesheet" href="~/css/theme-default.css" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet" />
-
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="~/fonts/boxicons.css" />
-
-  <!-- Core CSS -->
-    @* <link rel="stylesheet" href="~/css/core.css" class="template-customizer-core-css" />
-      <link rel="stylesheet" href="~/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="~/csss/demo.css" />
-
-    <!-- Libs CSS -->
-    <link rel="stylesheet" href="~/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="~/css/pages/page-auth.css" asp-append-version="true"  />
-    <link rel="stylesheet" href="~/MiHadaMadrinaShop.styles.css" asp-append-version="true" />
-
-    <!-- Helpers -->
-    <script src="~/js/helpers.js"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="~/js/config.js"></script>*@
 </head>
 <body>
     <header>
+        <!--Off canvas start-->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabel">Mi Hada Madrina</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+            </div>
+        </div>
+        <!--Off canvas end-->
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiHadaMadrinaShop</a>
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -60,34 +51,37 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Contact" asp-action="Index">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
                         <partial name="_MenuPartial" />
-                        
                     </ul>
-                    
                     <partial name="_LoginPartial" />
-
-
                 </div>
             </div>
         </nav>
     </header>
     <div class="container-fluid">
-        <main role="main" class="pb-3">
-          @*  <partial name="_LayoutSideNav" />*@
+        <main role="main" class="">
+            @*  <partial name="_LayoutSideNav" />*@
             @RenderBody()
         </main>
     </div>
 
     <partial name="_CookieConsentPartial" />
-    <footer class="footer-general">
+    <footer class="footer-general sticky-footer">
         <p class="text-wrap text-white">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="text-white">DevFAndy</a></p>
         <p class="text-wrap text-white">
-            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
-            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
-            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
-            <a class="text-white flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
         </p>
-        <div class="text-white text-wrap">
+        <div class="text-dark text-decoration-none fw-bold text-wrap">
             <p class="flex-fill d-inline-block px-3">Desarrollado por</p>
             <p class="flex-fill d-inline-block px-3">Andrea Lamus Prada </p>
             <p class="flex-fill d-inline-block px-3">Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala</p>
@@ -99,10 +93,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 
-  @*  <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    @*  <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="~/js/menu.js"></script>
-   
+
     <!-- Main JS -->
     <script src="~/js/main.js"></script>*@
 

@@ -1,63 +1,59 @@
-﻿@page
+﻿@page "/Login"
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Inicio de sesión";
 }
 
 <div class="row">
     <div class="col">
-
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
                 <!-- Loguearse -->
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
-                        <div class="app-brand justify-content-center">
+                        <div class="app-brand justify-content-center mb-1">
                             <a href="index.html" class="app-brand-link gap-2">
-                                <span class="app-brand-logo demo">
-                                    <img src="~/img/logo.png" style="width:100px; height:100px;" />
+                                <span class="app-brand-logo">
+                                    <img src="~/img/login_rosa.png" style="width:8rem; height:8rem;" />
                                 </span>
                             </a>
                         </div>
                         <!-- /Logo -->
                         <h4 class="mb-2 text-center">Bienvenido a</h4>
-                        <h5 class="app-brand-text demo text-body fw-bolder text-center">Mi Hada Madrina Hand Made</h5>
+                        <h5 class="app-brand-text text-body fw-bolder text-center">Mi Hada Madrina</h5>
                         <h3 class="mb-4 text-center fw-bold">Iniciar sesión</h3>
 
                         <form id="account" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-floating">
+                            <div class="form-group mb-3">
+                                <label asp-for="Input.Email"></label>
                                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                                <label asp-for="Input.Email" class="form-label"></label>
                                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
-                            <div class="form-floating">
+                            <div class="form-group mb-3 form-password-toggle">
+                                <label asp-for="Input.Password"></label>
                                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                                <label asp-for="Input.Password" class="form-label"></label>
                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
                             <div>
-                                <div class="checkbox">
-                                    <label asp-for="Input.RememberMe" class="form-label">
+                                <div class="checkbox mb-3">
+                                    <label asp-for="Input.RememberMe">
                                         <input class="form-check-input" asp-for="Input.RememberMe" />
                                         @Html.DisplayNameFor(m => m.Input.RememberMe)
                                     </label>
                                 </div>
                             </div>
-                            <div>
-                                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                            <div class="mb-3">
+                                <button id="loginSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Iniciar sesión</button>
                             </div>
                             <div>
                                 <p>
-                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                                    <a id="forgot-password" asp-page="./ForgotPassword">Recuperar contraseña</a>
                                 </p>
                                 <p>
-                                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                                </p>
-                                <p>
-                                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar email de confirmación</a>
                                 </p>
                             </div>
                         </form>

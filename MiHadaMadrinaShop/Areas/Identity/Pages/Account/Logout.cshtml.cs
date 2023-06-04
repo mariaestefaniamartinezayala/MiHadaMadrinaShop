@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using MiHadaMadrinaShop.Models.ViewModels;
 
 namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
 {

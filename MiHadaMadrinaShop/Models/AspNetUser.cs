@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MiHadaMadrinaShop.Models
 {
@@ -25,6 +27,8 @@ namespace MiHadaMadrinaShop.Models
         public string? PasswordHash { get; set; }
         public string? SecurityStamp { get; set; }
         public string? ConcurrencyStamp { get; set; }
+
+        [Display(Name = "Teléfono")]
         public string? PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
         public bool TwoFactorEnabled { get; set; }
@@ -33,6 +37,9 @@ namespace MiHadaMadrinaShop.Models
         public int AccessFailedCount { get; set; }
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }
+
+        [Display(Name = "Fecha de Nacimiento")]
+        [DataType(DataType.Date)]
         public DateTime? FechaNacimiento { get; set; }
         public byte? IdSexo { get; set; }
         public string? ImagenUrl { get; set; }
@@ -44,7 +51,6 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<Direccione> Direcciones { get; set; }
         public virtual ICollection<Pedido> Pedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
-
         public virtual ICollection<AspNetRole> Roles { get; set; }
     }
 }

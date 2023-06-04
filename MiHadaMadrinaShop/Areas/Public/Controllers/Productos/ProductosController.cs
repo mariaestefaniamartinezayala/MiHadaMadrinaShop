@@ -47,7 +47,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
 
         }
 
-        // GET: Public/Productos/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null || _context.Productos == null)
