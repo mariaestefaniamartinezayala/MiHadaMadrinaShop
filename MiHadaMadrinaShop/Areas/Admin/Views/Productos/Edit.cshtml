@@ -1,11 +1,13 @@
 ﻿@model MiHadaMadrinaShop.Models.Producto
 @inject MiHadaMadrinaHandMadeDBContext _context
+@using Microsoft.EntityFrameworkCore;
 
 @{
+    
     ViewData["Title"] = "Editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var imagenUrl = Model.ImagenUrl;
-    IEnumerable<SelectListItem> nombresCategorias = _context.Categorias.Select(q => new SelectListItem { Text = q.Categoria1 }).ToList();
+    var listaCategorias = _context.Categorias.Select(q => q).ToList();
 }
 
 <h1>Editar</h1>
@@ -16,7 +18,7 @@
     <div class="col-md-6">
         <div class="card rounded">
             <div class="card-body">
-                <form asp-action="Edit">
+                <form asp-action="Edit" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="IdProducto" />
                     <div class="form-group">
@@ -86,14 +88,37 @@
                         <input asp-for="UrlProductoDigital" class="form-control" disabled="disabled" />
                         <span asp-validation-for="UrlProductoDigital" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="IdCategoria" class="control-label">
-                            Seleccionar Categoria
-                        </label>
-                        <select asp-for="IdCategoria" asp-items="@nombresCategorias" class="form-select" aria-required="true">
-                        </select>
-                        <span asp-validation-for="IdCategoria" class="text-danger"></span>
-                    </div>
+
+                    <label class="control-label">Seleccionar categorías</label>
+
+                    @{
+                        bool estaCategoria = false;
+                        var contextProductos = _context.Productos.Include(q => q.IdCategoria);
+                        var listaCategoriasProducto = contextProductos.Where(q => q.IdProducto.Equals(Model.IdProducto)).FirstOrDefault().IdCategoria.ToList();
+
+                        foreach (var categoria in listaCategorias)
+                        {
+
+                            if (listaCategoriasProducto.Any(q => q.IdCategoria.Equals(categoria.IdCategoria)))
+                            {
+                                estaCategoria = true;
+                            }
+                            else
+                            {
+                                estaCategoria = false;
+                            }
+
+                            <div class="form-group form-check">
+
+                                <input asp-for="@estaCategoria" class="form-check-input" />
+                                <label class="form-check-label" asp-for="IdCategoria"> @categoria.Categoria1 </label>
+
+                            </div>
+                        }
+                    }
+
+                    <br />
+
                     <div class="form-group form-check check">
                         <label asp-for="EsActivo" class="form-check-label">
                             <input class="form-check-input" asp-for="EsActivo" /> @Html.DisplayNameFor(model => model.EsActivo)
@@ -114,4 +139,4 @@
         //await Html.RenderPartialAsync("_ValidationScriptsPartial");
         await Html.RenderPartialAsync("_ProductosScriptsPartialEdit");
     }
-}
+    }

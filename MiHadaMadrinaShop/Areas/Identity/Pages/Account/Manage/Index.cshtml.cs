@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MiHadaMadrinaShop.Models;
 
 namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
 {
@@ -16,13 +17,16 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly MiHadaMadrinaHandMadeDBContext _context;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            MiHadaMadrinaHandMadeDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         /// <summary>
@@ -55,9 +59,33 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+
+
+            //-------------- CAMPOS NUEVOS -----------------
+
+            [Display(Name = "Nombre")]
+            public string Nombre { get; set; }
+
+            [Display(Name = "Apellidos")]
+            public string Apellidos { get; set; }
+
+            [Display(Name = "Fecha de nacimiento")]
+            public DateTime FechaNacimiento { get; set; }
+
+            [Display(Name = "Sexo")]
+            public string Sexo { get; set; }
+
+            [Display(Name = "Imagen")]
+            public string Imagen { get; set; }
+
+            //-------------------------------------------
+
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
+
+
         }
 
         private async Task LoadAsync(IdentityUser user)

@@ -6,6 +6,7 @@ using MiHadaMadrinaShop.Models;
 using System.Diagnostics;
 using System.Globalization;
 using MiHadaMadrinaShop.Models.ViewModels;
+using Microsoft.AspNetCore.Localization;
 
 public class Program
 {
@@ -94,6 +95,16 @@ public class Program
             //InitDB.CreateInitialDeliveryMethods(dbContext);
 
         }
+
+
+        var defaultCulture = new CultureInfo("es-UY");
+        var localizationOptions = new RequestLocalizationOptions
+        {
+            DefaultRequestCulture = new RequestCulture(defaultCulture),
+            SupportedCultures = new List<CultureInfo> { defaultCulture },
+            SupportedUICultures = new List<CultureInfo> { defaultCulture }
+        };
+        app.UseRequestLocalization(localizationOptions);
 
         app.Run();
     }

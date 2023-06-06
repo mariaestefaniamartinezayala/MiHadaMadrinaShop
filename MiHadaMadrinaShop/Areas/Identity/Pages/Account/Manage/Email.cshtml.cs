@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+//using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +84,8 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
                 NewEmail = email,
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            //IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            IsEmailConfirmed = true;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -117,22 +119,45 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmailChange",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
-                    protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
-                return RedirectToPage();
+                //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+
+
+                List<string> listaEmailsUsuarios = _userManager.Users.Select(q => q.Email).ToList();
+
+
+                if (listaEmailsUsuarios.Any(q => q.Equals(Input.NewEmail)))
+                {
+                    StatusMessage = "Ese email ya existe";
+                    return RedirectToPage();
+                }
+
+                var changeEmailResult = await _userManager.ChangeEmailAsync(user, Input.NewEmail, code);
+                if (changeEmailResult.Succeeded)
+                {
+                    await _userManager.SetUserNameAsync(user, Input.NewEmail);
+                    StatusMessage = "El email ha sido cambiado";
+                    await _signInManager.RefreshSignInAsync(user);
+                    return RedirectToPage();
+                }
+
+                //var callbackUrl = Url.Page(
+                //    "/Account/ConfirmEmailChange",
+                //    pageHandler: null,
+                //    values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
+                //    protocol: Request.Scheme);
+                //await _emailSender.SendEmailAsync(
+                //    Input.NewEmail,
+                //    "Confirm your email",
+                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                //StatusMessage = "Confirmation link to change email sent. Please check your email.";
+
+                
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "El email no es válido";
             return RedirectToPage();
         }
 
