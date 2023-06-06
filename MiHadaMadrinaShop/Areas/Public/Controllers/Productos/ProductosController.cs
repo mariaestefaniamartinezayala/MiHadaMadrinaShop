@@ -33,7 +33,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
 
             ViewBag.CurrentFilter = searchString;
 
-            int pageSize = 2;
+            int pageSize = 10;
 
             if (searchString != null)
             {

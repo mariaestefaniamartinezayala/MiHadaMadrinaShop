@@ -6,7 +6,7 @@
 }
 
 <h1>Cesta</h1>
-<form class="form-control" method="post" asp-action="ActualizarCesta">
+<form class="form-control">
     <table class="table">
         <thead>
             <tr>
@@ -85,9 +85,7 @@
                         @Html.DisplayFor(modelItem => item.Total)€
                     </td>
                     <td>
-                        <button class="btn btn-danger">
-                            <a class="custom-button-ede d-flex align-items-center text-white" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></a>
-                        </button>
+                        <button class="btn btn-danger" asp-area="Public" asp-controller="TCestums" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></button>
                     </td>
 
 

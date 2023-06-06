@@ -119,7 +119,11 @@
             }
         </tbody>
     </table>
+</div>
+<br />
 
+
+<div class="text-center">
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -130,14 +134,13 @@
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
        class="btn btn-default @prevDisabled">
-        Previous
+        Anterior
     </a>
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
        class="btn btn-default @nextDisabled">
-        Next
+        Siguiente
     </a>
-
 </div>
