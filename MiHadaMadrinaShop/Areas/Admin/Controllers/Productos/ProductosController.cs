@@ -42,7 +42,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 
             ViewBag.CurrentFilter = searchString;
 
-            int pageSize = 2;
+            int pageSize = 10;
 
             if (searchString != null)
             {
@@ -111,10 +111,10 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 //Asignamos la url de las imágenes
                 producto.ImagenUrl = nombresImagen;
 
+
                 // Guardamos el producto en la base de datos
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
-
 
                 // Si no se ha seleccionado una imagen principal, se establece la primera imagen de la lista
 
@@ -125,21 +125,22 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                     p.ImagenPrincipalUrl = p.ImagenUrl.Split(',')[0];
                 }
 
-                //Guardar la categoria del producto
-                if(producto.IdCategoria != null)
+
+                
+
+                var categoriasSeleccionadas = Request.Form["IdCategoria"];
+
+                if (categoriasSeleccionadas.Count > 0)
                 {
-                    foreach (var categoria in producto.IdCategoria)
+                    foreach (var categoriaString in categoriasSeleccionadas)
                     {
-                        ProductosCategoria productosCategoria = new ProductosCategoria();
-                        productosCategoria.IdCategoria = categoria.IdCategoria;
-                        productosCategoria.IdProducto = producto.IdProducto;
+                        var categoria = _context.Categorias.Where(q => q.Categoria1.Equals(categoriaString)).FirstOrDefault();
 
-                        //TODO: La tabla productosCategorias no se ha creado en el contexto
+                        producto.IdCategoria.Add(categoria);
+
                     }
-                  
+
                 }
-
-
 
                 // Guardamos el producto en la base de datos
                 _context.Productos.Update(p);
@@ -182,24 +183,38 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 {
                     string nombresImagen = CargarImagenes(producto.ImagenFile);
                     producto.ImagenUrl = nombresImagen;
+                    producto.ImagenPrincipalUrl = nombresImagen;
                 }
 
-                //Guardar la categoria del producto
-                if (producto.IdCategoria != null)
+
+
+
+                producto.IdCategoria.Clear();
+                _context.Update(producto);
+                await _context.SaveChangesAsync();
+
+
+
+                var categoriasSeleccionadas = Request.Form["IdCategoria"];
+
+                var categoriasProducto = _context.Productos.Include(a => a.IdCategoria).Where(q => q.IdProducto.Equals(id)).Select(q => q.IdCategoria).ToList();
+
+                if (categoriasSeleccionadas.Count > 0)
                 {
-                    foreach (var categoria in producto.IdCategoria)
+                    foreach (var categoriaString in categoriasSeleccionadas)
                     {
-                        ProductosCategoria productosCategoria = new ProductosCategoria();
-                        productosCategoria.IdCategoria = categoria.IdCategoria;
-                        productosCategoria.IdProducto = producto.IdProducto;
+                        var categoria = _context.Categorias.Where(q => q.Categoria1.Equals(categoriaString)).FirstOrDefault();
 
-                        //TODO: La tabla productosCategorias no se ha creado en el contexto
+                        if (!categoriasProducto[0].Any(q=>q.IdCategoria.Equals(categoria.IdCategoria)))
+                        {
+                            producto.IdCategoria.Add(categoria);
+                        }
                     }
-
                 }
+
 
                 _context.Update(producto);
-                  await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 
                
             }
@@ -255,7 +270,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
             if (imagen != null)
             {
                 // Ruta de la carpeta donde se guardarán las imágenes
-                string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "~/img/productos");
+                string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img/productos");
                 
                 // Generar un nombre único para la imagen
                  nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";

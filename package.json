@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "globalize": "^1.7.0",
+    "jquery-validation-globalize": "^0.1.1"
+  }
+}

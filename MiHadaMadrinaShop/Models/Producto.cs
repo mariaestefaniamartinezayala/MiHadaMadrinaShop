@@ -68,6 +68,6 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
 
-        public virtual ICollection<Categoria> IdCategoria { get; set; }
+        public virtual ICollection<Categoria>? IdCategoria { get; set; }
     }
 }
