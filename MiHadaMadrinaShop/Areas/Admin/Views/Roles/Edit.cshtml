@@ -5,55 +5,74 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="container" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Edit" class="text-dark text-decoration-none active">Editar Usuario</a></li>
+    </ol>
+</div>
+<hr class="d-block d-md-none" />
+
 <div class="container">
     <div class="row">
-        <div class="col-4 align-items-center offset-4">
-            <h1 class="font-weight-bold font-italic">Editar rol</h1>
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                <div class="form-group pb-2">
-                    <label asp-for="RolNombre" class="control-label">Nombre del rol</label>
-                    <input asp-for="RolNombre" class="form-control" />
-                    <span asp-validation-for="RolNombre" class="text-danger"></span>
+        <div class="col-4 col-sm-12 align-items-center d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Editar rol</h1>
                 </div>
-                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
-                    <a asp-action="Index" class="btn btn-secondary flex-fill mr-2"><i class="fas fa-arrow-left"></i> Volver</a>
-                    <button type="submit" class="btn btn-primary flex-fill ml-2"><i class="fas fa-save"></i> Guardar</button>
-                </div>
-            </form>
+                <form asp-action="Edit" method="post">
+                    <div class="card-body py-0">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group pb-2">
+                            <label asp-for="RolNombre" class="control-label">Nombre del rol</label>
+                            <input asp-for="RolNombre" class="form-control" />
+                            <span asp-validation-for="RolNombre" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
+                            <a asp-action="Index" class="btn btn-secondary w-50"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                            <button type="submit" class="btn btn-primary w-50"><i class="fas fa-save"></i> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 align-items-center offset-4">
-            <h3 class="font-weight-bold font-italic">Usuarios en este rol</h3>
-            <div class="">
-                @if (Model.Usuarios.Any())
-                {
-                    foreach (var user in Model.Usuarios)
+        <div class="col-4 col-sm-12 align-items-center d-flex">
+            <img src="~/img/illustrations/download.svg" alt="imagen de edición" class="imagen-width img-fluid flex-fill rounded mx-auto" />
+        </div>
+        <div class="col-4 col-sm-12 align-items-center d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Usuarios en este rol</h1>
+                </div>
+                <div class="card-body">
+                    @if (Model.Usuarios.Any())
+                    {
+                        foreach (var user in Model.Usuarios)
+                        {
+                            <h5 class="card-title">
+                                @user
+                            </h5>
+                        }
+                    }
+                    else
                     {
                         <h5 class="card-title">
-                            @user
+                            El rol tiene asignado ningún usuario
                         </h5>
                     }
-                }
-                else
-                {
-                    <h5 class="card-title">
-                        El rol tiene asignado ningún usuario
-                    </h5>
-                }
-            </div>
-            <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
-                <a asp-controller="Roles" asp-action="EditarUsuarioRol" asp-route-rolId="@Model.Id" class="btn btn-primary">Crear o borrar usuario</a>
+                </div>
+                <div class="card-footer d-flex">
+                    <a asp-controller="Roles" asp-action="EditarUsuarioRol" asp-route-rolId="@Model.Id" class="btn btn-primary justify-content-center flex-fill"><i class="fas fa-user"></i> Crear o borrar usuario</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+    }
