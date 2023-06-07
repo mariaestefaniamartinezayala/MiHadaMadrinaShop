@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MiHadaMadrinaShop.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Iva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorcentajeDescuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSinIva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAspNetUsersNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDireccionNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEstadoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFormaDeEntregaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFormaDeEnvioNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFormaDePagoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Iva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PorcentajeDescuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSinIva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaPedido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAspNetUsersNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDireccionNavigation.IdDireccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEstadoNavigation.IdEstado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFormaDeEntregaNavigation.IdFormaDeEntrega)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFormaDeEnvioNavigation.IdFormaDeEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFormaDePagoNavigation.IdFormaDePago)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPedido">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdPedido">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdPedido">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

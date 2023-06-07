@@ -350,6 +350,9 @@ namespace MiHadaMadrinaShop.Models
             {
                 entity.HasKey(e => e.IdSexo);
 
+                //Añadida esta linea
+                entity.Property(e => e.IdSexo).ValueGeneratedOnAdd();
+
                 entity.Property(e => e.Sexo1)
                     .HasMaxLength(15)
                     .HasColumnName("Sexo");
