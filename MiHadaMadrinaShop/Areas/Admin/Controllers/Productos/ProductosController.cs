@@ -126,21 +126,20 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 }
 
 
-                
 
-                var categoriasSeleccionadas = Request.Form["IdCategoria"];
 
-                if (categoriasSeleccionadas.Count > 0)
+                var listaCategorias = _context.Categorias.ToList();
+
+                foreach (var categoria in listaCategorias)
                 {
-                    foreach (var categoriaString in categoriasSeleccionadas)
+                    if (Request.Form.Any(q => q.Key.Equals("CategoriaName " + categoria.IdCategoria)))
                     {
-                        var categoria = _context.Categorias.Where(q => q.Categoria1.Equals(categoriaString)).FirstOrDefault();
-
-                        producto.IdCategoria.Add(categoria);
-
+                        p.IdCategoria.Add(categoria);
                     }
 
                 }
+
+
 
                 // Guardamos el producto en la base de datos
                 _context.Productos.Update(p);
@@ -186,37 +185,27 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                     producto.ImagenPrincipalUrl = nombresImagen;
                 }
 
-
-
-
-                producto.IdCategoria.Clear();
                 _context.Update(producto);
-                await _context.SaveChangesAsync();
 
 
+                var productoUpdate = _context.Productos.Include(a => a.IdCategoria).Where(q => q.IdProducto.Equals(id)).FirstOrDefault();
+                productoUpdate.IdCategoria.Clear();
 
-                var categoriasSeleccionadas = Request.Form["IdCategoria"];
+                var listaCategorias = _context.Categorias.ToList();
 
-                var categoriasProducto = _context.Productos.Include(a => a.IdCategoria).Where(q => q.IdProducto.Equals(id)).Select(q => q.IdCategoria).ToList();
-
-                if (categoriasSeleccionadas.Count > 0)
+                foreach (var categoria in listaCategorias)
                 {
-                    foreach (var categoriaString in categoriasSeleccionadas)
+                    if(Request.Form.Any(q=>q.Key.Equals("CategoriaName " + categoria.IdCategoria)))
                     {
-                        var categoria = _context.Categorias.Where(q => q.Categoria1.Equals(categoriaString)).FirstOrDefault();
-
-                        if (!categoriasProducto[0].Any(q=>q.IdCategoria.Equals(categoria.IdCategoria)))
-                        {
-                            producto.IdCategoria.Add(categoria);
-                        }
+                        productoUpdate.IdCategoria.Add(categoria);
                     }
+
                 }
 
 
-                _context.Update(producto);
+                _context.Update(productoUpdate);
                 await _context.SaveChangesAsync();
-                
-               
+
             }
             return RedirectToAction(nameof(Index));
         }
