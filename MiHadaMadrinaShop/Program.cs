@@ -81,21 +81,7 @@ public class Program
 
             // Obtenemos una instancia del contexto de base de datos
             var dbContext = serviceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
-
-            // Llamamos al método CreateInitialStates para crear los estados iniciales
-            //InitDB.CreateInitialStates(dbContext);
-
-            //// Llamamos al método CreateInitialPaymentMethods para crear las formas de pago iniciales.
-            //InitDB.CreateInitialPaymentMethods(dbContext);
-
-            //// Llamamos al método CreateInitialShippingMethods para crear las formas de entrega iniciales.
-            //InitDB.CreateInitialShippingMethods(dbContext);
-
-            //// Llamamos al método CreateInitialDeliveryMethods para crear las formas de envío iniciales.
-            //InitDB.CreateInitialDeliveryMethods(dbContext);
-
         }
-
 
         var defaultCulture = new CultureInfo("es-UY");
         var localizationOptions = new RequestLocalizationOptions

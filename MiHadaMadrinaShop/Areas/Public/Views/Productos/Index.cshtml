@@ -9,91 +9,121 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Tienda</h1>
+@* Section Start *@
+<section class="py-5">
+    <div class="container px-2 px-lg-2 mt-2">
 
-@*Buscador*@
-@using (Html.BeginForm())
-{
-    <p>
-        Buscar por producto: @Html.TextBox("searchString")
-        <input type="submit" value="Search" />
-    </p>
-}
-
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-3">
-            <div class="card" style="width: 18rem;">
-                <div class="row p-2 bg-white border rounded">
-                    <img src="~/img/productos/@item.ImagenUrl" class="card-img-top imagen-tienda" alt="imagen del producto" />
-
-
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Nombre)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.DescripcionCorta)</p>
-                        <h4 class="card-text"> @Html.DisplayFor(modelItem => item.PrecioConDescuento)</h4>&nbsp;<span class="strike-text">@Html.DisplayFor(modelItem => item.Precio)</span>
-                    </div>
-
-                    <div class="card-footer">
-                        <a class="btn btn-secondary btn-sm mt-2" asp-action="Detalles" asp-route-id="@item.IdProducto">Detalles</a>
-                        @{
-                            if (User.Identity.IsAuthenticated)
-                            {
-                                var user = await UserManager.GetUserAsync(User);
-                                var roles = await UserManager.GetRolesAsync(user);
-
-                                if (roles.Contains("Public"))
-                                {
-                                    <a class="btn btn-outline-primary btn-sm mt-2" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
-                                }
-                            }
-                            else
-                            {
-                                <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
-                            }
-
-
-                        }
-
+        @* Buscador Start *@
+        @using (Html.BeginForm())
+        {
+            <div class="container mb-3">
+                <div class="row">
+                    <div class="col-lg-6 pt-4 col-md-12 mx-auto">
+                        <div class="input-group">
+                            <label for="searchString" class="input-group-text">Buscar por producto:</label>
+                            @Html.TextBox("searchString", null, new { @class = "form-control search-input" })
+                            <button class="btn btn-outline-dark search-button" type="submit">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        }
+        @* Buscardor End *@
+
+        @* Productos Start *@
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <div class="card-img-top">
+                            <img src="~/img/productos/@item.ImagenUrl" class="card-img-top imagen-tienda" alt="imagen del producto" />
+                            <div class="card-body p-4">
+                                <div class="text-center altoCajaBpdy">
+                                    <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.Nombre)</h5>
+                                    @*<p class="card-text">@Html.DisplayFor(modelItem => item.DescripcionCorta)</p>*@
+
+                                    @if (@item.PorcentajeDeDescuento > 0)
+                                    {
+                                        <h4 class="card-text"> @Html.DisplayFor(modelItem => item.PrecioConDescuento)</h4>
+
+                                        <span class="text-muted text-decoration-line-through">@Html.DisplayFor(modelItem => item.Precio)</span>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="card-text">@Html.DisplayFor(modelItem => item.Precio)</h4>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
+                                    <a class="btn btn-secondary w-50" asp-action="Detalles" asp-route-id="@item.IdProducto"><i class="fas fa-info"></i> Detalles</a>
+                                    @{
+                                        if (User.Identity.IsAuthenticated)
+                                        {
+                                            var user = await UserManager.GetUserAsync(User);
+                                            var roles = await UserManager.GetRolesAsync(user);
+
+                                            if (roles.Contains("Public"))
+                                            {
+                                                <a class="btn btn-primary w-50" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-primary w-50">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-primary w-50">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
-    }
+        @* Productos End *@
 
-</div>
-<br />
-<div class="text-center">
-
-
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
-
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @prevDisabled">
-        Anterior
-    </a>
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @nextDisabled">
-        Siguiente
-    </a>
-
-</div>
+        @* Paginación Start *@
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="text-center">
 
 
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @prevDisabled">
+                    Anterior
+                </a>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @nextDisabled">
+                    Siguiente
+                </a>
+
+            </div>
+        </div>
+        @* Paginación End *@
+       
+    </div>
+</section>
+@* Section End *@
 
 
 

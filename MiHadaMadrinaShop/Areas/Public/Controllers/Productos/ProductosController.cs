@@ -20,7 +20,48 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
         }
 
         // GET: Public/Productos
-        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
+        public async Task<IActionResult> Index(int? idCategoria, string searchString, string currentFilter, int? pageNumber)
+        {
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            int pageSize = 10;
+
+            if(idCategoria != null)
+            {
+                if (searchString != null)
+                {
+                    return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Include(q => q.IdCategoria).Where(p => p.IdCategoria.Any(q => q.IdCategoria.Equals(idCategoria))).Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
+                }
+                else
+                {
+                    return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Include(q => q.IdCategoria).Where(p => p.IdCategoria.Any(q => q.IdCategoria.Equals(idCategoria))), pageNumber ?? 1, pageSize));
+                }
+            }
+            else
+            {
+                if (searchString != null)
+                {
+                    return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
+                }
+                else
+                {
+                    return View(await PaginatedList<Producto>.CreateAsync(_context.Productos, pageNumber ?? 1, pageSize));
+                }
+            }
+
+
+        }
+
+        public async Task<IActionResult> IndexPorCategoria(string searchString, string currentFilter, int? pageNumber, int idCategoria)
         {
             if (searchString != null)
             {
@@ -37,13 +78,12 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Productos
 
             if (searchString != null)
             {
-                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Include(q => q.IdCategoria).Where(p => p.IdCategoria.Any(q => q.IdCategoria.Equals(idCategoria))).Where(s => s.Nombre.Contains(searchString) || s.DescripcionCorta.Contains(searchString)), pageNumber ?? 1, pageSize));
             }
             else
             {
-                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos, pageNumber ?? 1, pageSize));
+                return View(await PaginatedList<Producto>.CreateAsync(_context.Productos.Include(q => q.IdCategoria).Where(p => p.IdCategoria.Any(q => q.IdCategoria.Equals(idCategoria))), pageNumber ?? 1, pageSize));
             }
-
 
         }
 
