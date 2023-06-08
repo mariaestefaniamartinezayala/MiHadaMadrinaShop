@@ -1,0 +1,76 @@
+﻿@page
+@model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones.IndexModel
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Direcciones;
+}
+
+<h1>Direcciones</h1>
+
+<p>
+    <a asp-page="CreateDirecciones">Añadir nueva dirección</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccione[0].CodPostal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccione[0].Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccione[0].Localidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccione[0].Pais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccione[0].Provincia)
+            </th>
+            <th>
+                Dirección de facturación
+            </th>
+            <th>
+                Dirección de domicilio
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Direccione) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Localidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provincia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsFacturacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EsDomicilio)
+            </td>
+            
+            <td>
+                <a asp-page="./EditDirecciones" asp-route-id="@item.IdDireccion">Editar</a> |
+                <a asp-page="./DeleteDirecciones" asp-route-id="@item.IdDireccion">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

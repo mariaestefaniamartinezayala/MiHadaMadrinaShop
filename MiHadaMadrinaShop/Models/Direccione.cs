@@ -5,11 +5,6 @@ namespace MiHadaMadrinaShop.Models
 {
     public partial class Direccione
     {
-        public Direccione()
-        {
-            Pedidos = new HashSet<Pedido>();
-        }
-
         public long IdDireccion { get; set; }
         public string? CodPostal { get; set; }
         public string? Direccion { get; set; }
@@ -21,6 +16,5 @@ namespace MiHadaMadrinaShop.Models
         public bool EsDomicilio { get; set; }
 
         public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
-        public virtual ICollection<Pedido> Pedidos { get; set; }
     }
 }

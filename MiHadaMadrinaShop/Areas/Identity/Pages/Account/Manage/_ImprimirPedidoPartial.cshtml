@@ -1,0 +1,21 @@
+﻿@using MiHadaMadrinaShop.Models
+@using MiHadaMadrinaShop.Models.ViewModels;
+@using Microsoft.AspNetCore.Identity;
+@inject MiHadaMadrinaHandMadeDBContext _dbContext
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    // Obtener el número de pedido del usuario autenticado con estado Procesando
+    var userId = UserManager.GetUserId(User);
+    var pedido = _dbContext.Pedidos.FirstOrDefault(p => p.IdAspNetUsers == userId && p.IdEstadoNavigation.Estado1 == "Procesando");
+    var numeroPedido = pedido?.IdPedido ?? 3;
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    // El usuario está autenticado, mostrar el botón de imprimir pedido
+    @*Le tenemos que pasar el idPedido*@
+    <div class="text-center">
+        <a asp-area="Public" asp-controller="ImprimirPDF" asp-action="ImprimirPDF" asp-route-idPedido="@numeroPedido" class="btn btn-info text-white">Imprimir Pedido</a>
+    </div>
+}

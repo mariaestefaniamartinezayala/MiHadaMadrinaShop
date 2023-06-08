@@ -1,0 +1,65 @@
+﻿@page
+@model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+}
+
+<h1>Direcciones</h1>
+
+<h3>¿Seguro que desea eliminar la dirección?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccione.CodPostal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.CodPostal)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccione.Direccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.Direccion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccione.Localidad)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.Localidad)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccione.Pais)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.Pais)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccione.Provincia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.Provincia)
+        </dd>
+        <dt class="col-sm-2">
+            Dirección de facturación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.EsFacturacion)
+        </dd>
+        <dt class="col-sm-2">
+            Dirección de domicilio
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccione.EsDomicilio)
+        </dd>
+        
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Direccione.IdDireccion" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-page="./IndexDirecciones">Volver</a>
+    </form>
+</div>
