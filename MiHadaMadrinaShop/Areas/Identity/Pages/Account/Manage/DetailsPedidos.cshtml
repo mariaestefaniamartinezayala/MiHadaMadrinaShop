@@ -1,0 +1,98 @@
+﻿@page
+@model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Pedido</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdDireccionDomicilio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdDireccionDomicilio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.Iva)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.Iva)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.PorcentajeDescuento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.PorcentajeDescuento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.Total)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.Total)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.TotalSinIva)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.TotalSinIva)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.FechaPedido)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.FechaPedido)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.FechaEnvio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.FechaEnvio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdDireccionFacturacion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdDireccionFacturacion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdAspNetUsersNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdAspNetUsersNavigation.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdEstadoNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdEstadoNavigation.IdEstado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdFormaDeEntregaNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdFormaDeEntregaNavigation.IdFormaDeEntrega)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdFormaDeEnvioNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdFormaDeEnvioNavigation.IdFormaDeEnvio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.IdFormaDePagoNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.IdFormaDePagoNavigation.IdFormaDePago)
+        </dd>
+    </dl>
+</div>
+<div>
+
+    <a asp-page="./IndexPedidos">Volver</a>
+</div>

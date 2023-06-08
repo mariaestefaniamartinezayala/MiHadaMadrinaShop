@@ -61,6 +61,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
         public static string Direcciones => "Direcciones";
+        public static string Pedidos => "Pedidos";
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -110,6 +111,8 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
         public static string DireccionesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Direcciones);
+        public static string PedidosNavClass(ViewContext viewContext) => PageNavClass(viewContext, Pedidos);
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

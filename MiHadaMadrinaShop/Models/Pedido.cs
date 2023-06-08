@@ -32,7 +32,7 @@ namespace MiHadaMadrinaShop.Models
         public DateTime FechaPedido { get; set; }
         [Display(Name = "Fecha de envío")]
         [DataType(DataType.Date)]
-        public DateTime FechaEnvio { get; set; }
+        public DateTime? FechaEnvio { get; set; }
         public long IdDireccionFacturacion { get; set; }
 
         public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;

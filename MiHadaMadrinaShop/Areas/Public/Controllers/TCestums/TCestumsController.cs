@@ -26,7 +26,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         // GET: Public/TCestums
         public async Task<IActionResult> Index()
         {
-            var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId())).ToList();
+            var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()) && q.IdPedido.Equals(null)).ToList();
             var contextProductos = _context.Productos;
 
             List<TCestum> listaCestas = new List<TCestum>();
