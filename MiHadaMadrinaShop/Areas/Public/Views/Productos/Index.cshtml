@@ -60,8 +60,9 @@
                             </div>
 
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
-                                    <a class="btn btn-secondary w-50" asp-action="Detalles" asp-route-id="@item.IdProducto"><i class="fas fa-info"></i> Detalles</a>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto mb-1" asp-controller="Productos" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info"></i> Detalles</a>
+                                </div>
                                     @{
                                         if (User.Identity.IsAuthenticated)
                                         {
@@ -70,19 +71,24 @@
 
                                             if (roles.Contains("Public"))
                                             {
-                                                <a class="btn btn-primary w-50" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                                <div class="text-center">
+                                                <a class="btn btn-outline-dark m-auto" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto"><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                                </div>
                                             }
                                             else
                                             {
-                                                <a class="btn btn-primary w-50">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                            <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
+                                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                                </div>
                                             }
                                         }
                                         else
                                         {
-                                            <a class="btn btn-primary w-50">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                            <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                                            <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                            </div>
                                         }
                                     }
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,7 +126,7 @@
             </div>
         </div>
         @* Paginación End *@
-       
+
     </div>
 </section>
 @* Section End *@
