@@ -1,9 +1,11 @@
 ﻿@page
 @model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos.DetailsModel
+@using MiHadaMadrinaShop.Areas.Public.Controllers.ImprimirPDF
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+    var estado = Model.Pedido.IdEstado;
 }
 
 <h1>Details</h1>
@@ -93,6 +95,11 @@
     </dl>
 </div>
 <div>
-
+    @{
+        if(estado > 2){
+            <partial name="_ImprimirPedidoPartial" />
+        }
+    }
+    
     <a asp-page="./IndexPedidos">Volver</a>
 </div>

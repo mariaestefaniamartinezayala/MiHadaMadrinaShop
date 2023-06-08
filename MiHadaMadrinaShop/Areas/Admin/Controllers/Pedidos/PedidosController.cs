@@ -22,7 +22,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
         // GET: Admin/Pedidoes
         public async Task<IActionResult> Index()
         {
-            var miHadaMadrinaHandMadeDBContext = _context.Pedidos.Include(p => p.IdAspNetUsersNavigation).Include(p => p.IdEstadoNavigation).Include(p => p.IdFormaDeEntregaNavigation).Include(p => p.IdFormaDeEnvioNavigation).Include(p => p.IdFormaDePagoNavigation);
+            var miHadaMadrinaHandMadeDBContext = _context.Pedidos;
             return View(await miHadaMadrinaHandMadeDBContext.ToListAsync());
         }
 
@@ -35,12 +35,8 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
             }
 
             var pedido = await _context.Pedidos
-                .Include(p => p.IdAspNetUsersNavigation)
-                .Include(p => p.IdEstadoNavigation)
-                .Include(p => p.IdFormaDeEntregaNavigation)
-                .Include(p => p.IdFormaDeEnvioNavigation)
-                .Include(p => p.IdFormaDePagoNavigation)
                 .FirstOrDefaultAsync(m => m.IdPedido == id);
+
             if (pedido == null)
             {
                 return NotFound();
@@ -65,7 +61,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPedido,IdDireccionDomicilio,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio,IdDireccionFacturacion")] Pedido pedido)
+        public async Task<IActionResult> Create(Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +103,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdPedido,IdDireccionDomicilio,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio,IdDireccionFacturacion")] Pedido pedido)
+        public async Task<IActionResult> Edit(long id, Pedido pedido)
         {
             if (id != pedido.IdPedido)
             {
@@ -116,30 +112,14 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
 
             if (ModelState.IsValid)
             {
-                try
-                {
+               
                     _context.Update(pedido);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PedidoExists(pedido.IdPedido))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
                 return RedirectToAction(nameof(Index));
+
             }
-            ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
-            ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
-            ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
-            ViewData["IdFormaDePago"] = new SelectList(_context.FormasDePagos, "IdFormaDePago", "IdFormaDePago", pedido.IdFormaDePago);
-            return View(pedido);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Pedidoes/Delete/5

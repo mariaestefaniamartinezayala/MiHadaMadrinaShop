@@ -196,6 +196,12 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         [HttpPost]
         public async Task<IActionResult> CrearPedido([FromBody] Pedido data)
         {
+            if(data.IdFormaDeEntrega == 0 || data.IdFormaDeEnvio == 0 || data.IdFormaDePago == 0 || data.IdDireccionDomicilio == 0 || data.IdDireccionFacturacion == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+           
+
             var user = User.Identity.GetUserId();
 
             var cestaUser = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(user));

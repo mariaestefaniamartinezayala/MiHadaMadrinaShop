@@ -209,7 +209,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             Producto producto = _context.Productos.Where(q => q.IdProducto.Equals(id)).FirstOrDefault();
 
             //SI HAY ALGUNA CESTA(LINEA EN LA BBDD) DE ESE USUARIO Y PRODUCTO SOLO ACTUALIZAR CANTIDAD
-            if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser)))
+            if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)))
             {
                 tCestum = _context.TCesta.Where(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser)).FirstOrDefault();
                 tCestum.Cantidad = tCestum.Cantidad + 1;
