@@ -15,8 +15,157 @@
 
 
 
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto mb-1" asp-controller="Productos" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info"></i> Detalles</a>
+                                </div>
+                                    @{
+                                        if (User.Identity.IsAuthenticated)
+                                        {
+                                            var user = await UserManager.GetUserAsync(User);
+                                            var roles = await UserManager.GetRolesAsync(user);
+
+                                            if (roles.Contains("Public"))
+                                            {
+                                                <div class="text-center">
+                                                <a class="btn btn-outline-dark m-auto" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto"><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                            <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
+                                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                                            <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                            </div>
+                                        }
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        @* Productos End *@
+
+        @* Paginación Start *@
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="text-center">
 
 
 
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @prevDisabled">
+                    Anterior
+                </a>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @nextDisabled">
+                    Siguiente
+                </a>
+
+            </div>
+        </div>
+        @* Paginación End *@
+
+    </div>
+</section>
+@* Section End *@
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+
+            @foreach (var item in Model)
+            {
+
+                <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"> <img src="~/img/@item.ImagenUrl" style="width:75px;height:75px;" /></div>
+                    <div class="col-md-6 mt-1">
+                        <h5>@Html.DisplayFor(modelItem => item.Nombre)</h5>
+
+                        <div class="mt-1 mb-1 spec-1">@Html.DisplayFor(modelItem => item.DescripcionCorta)</div>
+                        <p class="text-justify text-truncate para mb-0">@Html.DisplayFor(modelItem => item.DescripcionLarga)<br><br></p>
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4 class="mr-1"> @Html.DisplayFor(modelItem => item.PrecioConDescuento)</h4>&nbsp;<span class="strike-text">@Html.DisplayFor(modelItem => item.Precio)</span>
+                        </div>
+                        <h6 class="text-success">Free shipping</h6>
+                        <div class="d-flex flex-column mt-4">
+                            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.IdProducto">Detalles</a>
+                            @{
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    var user = await UserManager.GetUserAsync(User);
+                                    var roles = await UserManager.GetRolesAsync(user);
+
+                                    if (roles.Contains("Public"))
+                                    {
+                                        <a class="btn btn-outline-primary btn-sm mt-2" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="@item.IdProducto">A&ntilde;adir a la cesta</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary btn-sm mt-2">A&ntilde;adir a la cesta<br>Debes iniciar sesión</a>
+                                }
+
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+            }
+
+        </div>
+    </div>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>*@
 
 

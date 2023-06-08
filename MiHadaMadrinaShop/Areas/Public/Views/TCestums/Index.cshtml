@@ -86,7 +86,6 @@
                             </td>
                         }
                     }
-
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalSinIva)€
                     </td>
@@ -99,8 +98,6 @@
                     <td>
                         <button class="btn btn-danger" asp-area="Public" asp-controller="TCestums" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></button>
                     </td>
-
-
                 </tr>
             }
         </tbody>
@@ -234,6 +231,8 @@
 
             </div>
         </div>
+            <button type="button" class="btn btn-primary"> Pagar </button>
+            <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
 
     </div>
     <br />

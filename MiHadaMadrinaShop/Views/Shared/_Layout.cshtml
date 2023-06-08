@@ -23,14 +23,16 @@
     @*Fontawesome icons*@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
-    @*Estilos generales*@
-    <link rel="stylesheet" href="~/css/estilos.css" />
+    @*Core theme CSS (includes Bootstrap)*@
+    <link rel="stylesheet" href="~/css/styles.css" />
+  
     @*Estilos páginas de registro y login*@
     <link rel="stylesheet" href="~/css/auth.css" />
     @*Estilos que sobre escribe los colores de bootstrap*@
     <link rel="stylesheet" href="~/css/core.css" />
     <link rel="stylesheet" href="~/css/theme-default.css" />
-
+    @*Estilos generales*@
+    <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
 <body>
 
@@ -54,29 +56,18 @@
                         <a class="nav-link" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">Categorías</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
                             @foreach (var categoria in _context.Categorias)
                             {
                                 <li><a class="dropdown-item" asp-area="Public" asp-controller="Productos" asp-action="Index" asp-route-idCategoria="@categoria.IdCategoria">@categoria.Categoria1</a></li>
                             }
-
-
-
-                            @* <li><hr class="dropdown-divider" /></li>
-                            TODO: Hacer lo de las categorías
-                            *@
-                            @*  <li><a class="dropdown-item" href="#!">Tarjetas</a></li>
-                            <li><a class="dropdown-item" href="#!">Cajas</a></li>
-                            <li><a class="dropdown-item" href="#!">Álbumes</a></li>
-                            <li><a class="dropdown-item" href="#!">Libros de firmas</a></li>*@
                         </ul>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-outline-dark" type="submit" asp-area="Public" asp-controller="TCestums" asp-action="Index">
                         <i class="bi-cart-fill me-1"></i>
                         Carrito
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>@* TODO: Poner contador de artículos*@
@@ -136,6 +127,8 @@
     </div>
 
     <partial name="_CookieConsentPartial" />
+
+@*
     <footer class="footer-general sticky-footer">
         <p class="text-wrap text-white">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="text-white">DevFAndy</a></p>
         <p class="text-wrap text-white">
@@ -149,19 +142,26 @@
             <p class="flex-fill d-inline-block px-3">Andrea Lamus Prada </p>
             <p class="flex-fill d-inline-block px-3">Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala</p>
         </div>
+    </footer>*@
+
+    @* Footer Start *@
+    <footer class="py-3 mt-2 bg-dark layout-footer-fixed">
+        <div class="container"><p class="m-0 text-center text-white">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="text-white">DevFAndy</a></p></div>
     </footer>
+    @* Footer End *@
+
+    @* Bootstrap core JS *@
+   @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+*@
     @*jQuery first, then Bootstrap JS*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/popper/popper.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
 
     @*  <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <script src="~/js/menu.js"></script>
-
-    <!-- Main JS -->
-    <script src="~/js/main.js"></script>*@
+    <script src="~/js/menu.js"></script>*@
 
     @await RenderSectionAsync("Scripts", required: false)
     @*<partial name="_ValidationScriptsPartial" />*@
