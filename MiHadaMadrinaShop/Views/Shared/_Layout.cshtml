@@ -1,10 +1,13 @@
 ﻿@using Microsoft.AspNet.Identity
+@using MiHadaMadrinaShop.Models
+@inject MiHadaMadrinaHandMadeDBContext _context
+
 
 <!DOCTYPE html>
 <html lang="es-es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <meta name="keywords" content="Scrap, Scrapbooking, Papeler&iacute;a, Regalos, Bebes, &Aacute;lbum, Decoraci&oacute;n" />
     <meta name="description" content="Tienda Online venta de articulos de scrapbooking" />
     <meta name="robots" content="index,nofollow" />
@@ -14,6 +17,9 @@
     <title>@ViewData["Title"] - Mi Hada Madrina Hand Made</title>
     @*Bootstrap CSS*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*Bootstrap icons*@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
     @*Fontawesome icons*@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
@@ -27,44 +33,101 @@
 
 </head>
 <body>
-    <header>
-        <!--Off canvas start-->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasLabel">Mi Hada Madrina</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
+
+    @* Navigation Start*@
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Public" asp-controller="Contact" asp-action="Index">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">Categorías</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            @foreach (var categoria in _context.Categorias)
+                            {
+                                <li><a class="dropdown-item" asp-area="Public" asp-controller="Productos" asp-action="Index" asp-route-idCategoria="@categoria.IdCategoria">@categoria.Categoria1</a></li>
+                            }
+
+
+
+                            @* <li><hr class="dropdown-divider" /></li>
+                            TODO: Hacer lo de las categorías
+                            *@
+                            @*  <li><a class="dropdown-item" href="#!">Tarjetas</a></li>
+                            <li><a class="dropdown-item" href="#!">Cajas</a></li>
+                            <li><a class="dropdown-item" href="#!">Álbumes</a></li>
+                            <li><a class="dropdown-item" href="#!">Libros de firmas</a></li>*@
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Carrito
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>@* TODO: Poner contador de artículos*@
+                    </button>
+                </form>
+                <partial name="_LoginPartial" />
             </div>
         </div>
-        <!--Off canvas end-->
+    </nav>
+    @* Navigation End *@
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Contact" asp-action="Index">Contacto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-
-                        <partial name="_MenuPartial" />
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+    @* Header Start *@
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Bienvenido al mágico mundo del scrapbooking</h1>
+                <p class="lead fw-normal text-white-50 mb-0">donde los sueños se convierten en creaciones hechas a mano.</p>
             </div>
-        </nav>
+        </div>
     </header>
+    @* Header End*@
+
+
+
+    @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="Public" asp-controller="Contact" asp-action="Index">Contacto</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+
+    <partial name="_MenuPartial" />
+    </ul>
+    <partial name="_LoginPartial" />
+    </div>
+    </div>
+    </nav> *@
+
+
     <div class="container-fluid">
         <main role="main" class="">
             @*  <partial name="_LayoutSideNav" />*@

@@ -1,0 +1,107 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html lang="es-es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="Scrap, Scrapbooking, Papeler&iacute;a, Regalos, Bebes, &Aacute;lbum, Decoraci&oacute;n" />
+    <meta name="description" content="Tienda Online venta de articulos de scrapbooking" />
+    <meta name="robots" content="index,nofollow" />
+    <meta name="author" content="Andrea Lamus Prada" />
+    <meta name="author" content="Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala" />
+    <meta name="copyright" content="(C) DevFAndy - 2023" />
+    <title>@ViewData["Title"] - Mi Hada Madrina Hand Made</title>
+    @*Bootstrap CSS*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*Fontawesome icons*@
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
+    @*Estilos generales*@
+    <link rel="stylesheet" href="~/css/estilos.css" />
+    @*Estilos páginas de registro y login*@
+    <link rel="stylesheet" href="~/css/auth.css" />
+    @*Estilos que sobre escribe los colores de bootstrap*@
+    <link rel="stylesheet" href="~/css/core.css" />
+    <link rel="stylesheet" href="~/css/theme-default.css" />
+
+</head>
+<body>
+    <header>
+        <!--Off canvas start-->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasLabel">Mi Hada Madrina</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+            </div>
+        </div>
+        <!--Off canvas end-->
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Public" asp-controller="Contact" asp-action="Index">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <partial name="_MenuPartial" />
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="">
+            @*  <partial name="_LayoutSideNav" />*@
+            @RenderBody()
+        </main>
+    </div>
+
+    <partial name="_CookieConsentPartial" />
+    <footer class="footer-general sticky-footer">
+        <p class="text-wrap text-white">&copy; 2023 - Mi Hada Madrina Hand Made - <a class="text-white">DevFAndy</a></p>
+        <p class="text-wrap text-white">
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="privacidad" target="_blank">Privacidad y T&eacute;rminos de uso</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Privacy" asp-action="Index" asp-fragment="cookies" target="_blank">Cookies</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="guia" target="_blank">Gu&iacute;a de Uso</a>
+            <a class="text-dark text-decoration-none fw-bold flex-fill d-inline-block px-3 font-weight-bold" asp-controller="Faqs" asp-action="Index" asp-fragment="docs" target="_blank">Documentaci&oacute;n</a>
+        </p>
+        <div class="text-dark text-decoration-none fw-bold text-wrap">
+            <p class="flex-fill d-inline-block px-3">Desarrollado por</p>
+            <p class="flex-fill d-inline-block px-3">Andrea Lamus Prada </p>
+            <p class="flex-fill d-inline-block px-3">Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala</p>
+        </div>
+    </footer>
+    @*jQuery first, then Bootstrap JS*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    @*  <script src="~/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="~/js/menu.js"></script>
+
+    <!-- Main JS -->
+    <script src="~/js/main.js"></script>*@
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @*<partial name="_ValidationScriptsPartial" />*@
+
+</body>
+</html>

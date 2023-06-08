@@ -162,5 +162,19 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
         {
             return (_context.Categorias?.Any(e => e.IdCategoria == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        public IActionResult FiltrarPorCategoria(int categoriaId)
+        {
+            if (_context.Categorias == null)
+            {
+                return Problem("La categoría es nula.");
+            }
+            else
+            {
+                List<Producto> productos = _context.Productos.Include(q=>q.IdCategoria).Where(p => p.IdCategoria.Any(q=>q.IdCategoria.Equals(categoriaId))).ToList();
+                return View("Tienda", productos);
+            }
+        }
     }
 }
