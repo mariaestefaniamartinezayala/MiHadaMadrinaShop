@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,15 +19,17 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly MiHadaMadrinaHandMadeDBContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            MiHadaMadrinaHandMadeDBContext context)
+            MiHadaMadrinaHandMadeDBContext context, IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -65,25 +68,26 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             //-------------- CAMPOS NUEVOS -----------------
 
             [Display(Name = "Nombre")]
-            public string Nombre { get; set; }
+            public string? Nombre { get; set; }
 
             [Display(Name = "Apellidos")]
-            public string Apellidos { get; set; }
+            public string? Apellidos { get; set; }
 
             [Display(Name = "Fecha de nacimiento")]
-            public DateTime FechaNacimiento { get; set; }
+            public DateTime? FechaNacimiento { get; set; }
 
             [Display(Name = "Sexo")]
-            public string Sexo { get; set; }
+            public byte? IdSexo { get; set; }
+            public List<Sexo> listSexos { get; set; }
 
-            [Display(Name = "Imagen")]
-            public string Imagen { get; set; }
 
             //-------------------------------------------
 
             [Phone]
             [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
+
+            public string Dni { get; set; }
 
 
         }
@@ -93,11 +97,19 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            AspNetUser usuario = _context.AspNetUsers.Where(q => q.Id.Equals(user.Id)).FirstOrDefault();
+            
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Nombre = usuario.Nombre,
+                Apellidos = usuario.Apellidos,
+                IdSexo = usuario.IdSexo,
+                FechaNacimiento = usuario.FechaNacimiento,
+                Dni = usuario.Dni
+               
             };
         }
 
@@ -108,6 +120,8 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+            //List<Sexo> listSexos = _context.Sexos.ToList();
 
             await LoadAsync(user);
             return Page();
@@ -139,9 +153,46 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
+
+            //Añadir guardado AspNetUser
+
+            AspNetUser usuario = _context.AspNetUsers.Where(q => q.Id.Equals(user.Id)).FirstOrDefault();
+
+            if (Input.Nombre != usuario.Nombre)
+            {
+                usuario.Nombre = Input.Nombre;
+            }
+
+            if (Input.Apellidos != usuario.Apellidos)
+            {
+                usuario.Apellidos = Input.Apellidos;
+            }
+
+            if (Input.FechaNacimiento != usuario.FechaNacimiento)
+            {
+                usuario.FechaNacimiento = Input.FechaNacimiento;
+            }
+
+            if (Input.IdSexo != usuario.IdSexo)
+            {
+                usuario.IdSexo = Input.IdSexo;
+            }
+
+            if (Input.Dni != usuario.Dni)
+            {
+                usuario.Dni = Input.Dni;
+            }
+
+            //Actuallizamos y guardamos en la base de datos
+            _context.AspNetUsers.UpdateRange(usuario);
+            await _context.SaveChangesAsync();
+
+
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
+        
     }
 }
 

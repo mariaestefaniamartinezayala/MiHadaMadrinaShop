@@ -1,12 +1,24 @@
-﻿@model IEnumerable<MiHadaMadrinaShop.Models.TCestum>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<MiHadaMadrinaShop.Models.TCestum>
+@inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = User.Identity.GetUserId();
+
+
+    List<FormasDePago> listaFormasDePago = _context.FormasDePagos.ToList();
+    List<FormasDeEnvio> listaFormasDeEnvio = _context.FormasDeEnvios.ToList();
+    List<FormasDeEntrega> listaFormasDeEntrega = _context.FormasDeEntregas.ToList();
+
+    List<Direccione> listaDireccionesUsuario = _context.Direcciones.Where(q => q.IdAspNetUsers.Equals(user)).ToList();
+
 }
 
 <h1>Cesta</h1>
-<form class="form-control">
+<form class="form-control" method="post">
     <table class="table">
         <thead>
             <tr>
@@ -63,15 +75,15 @@
                     @{
                         if (item.DescuentoProducto != 0)
                         {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
-                                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
+                            </td>
                         }
                         else
                         {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PrecioProducto)€
-                                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrecioProducto)€
+                            </td>
                         }
                     }
                     <td>
@@ -92,20 +104,141 @@
     </table>
 
     <div class="row">
-        <div class="col text-start">
+        <div class="row justify-content-end">
+            Total cesta: @totalCesta€ <br><br>
+        </div>
 
-           
+        <div class="col justift-content-start">
+
+
+            <div class="form-group col">
+                <label class="control-label fw-bold">Dirección de entrega</label>
+
+                @{
+                    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+                            <label class="form-check-label">
+                                @direccion.Direccion
+                                @direccion.Localidad
+                                @direccion.Pais
+                                @direccion.Provincia
+                                @direccion.CodPostal
+                            </label>
+                        </div>
+                    }
+                }
+
+            </div>
+
+
+
+            <div class="form-group col">
+                <label class="control-label fw-bold">Dirección de facturación</label>
+
+                @{
+                    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+                            <label class="form-check-label">
+                                @direccion.Direccion
+                                @direccion.Localidad
+                                @direccion.Pais
+                                @direccion.Provincia
+                                @direccion.CodPostal
+                            </label>
+                        </div>
+                    }
+                }
+
+            </div>
+
+
 
         </div>
 
-        <div class="col text-end">
+        <div class="col justify-content-end">
 
-            Total cesta: @totalCesta€ <br><br>
 
+            <div class="row">
+
+                <div class="col-3">
+
+
+
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Forma de envio</label>
+
+                        @{
+                            foreach (var envio in listaFormasDeEnvio)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required>
+                                    <label class="form-check-label">
+                                        @envio.FormaDeEnvio
+                                    </label>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Forma de entrega</label>
+
+                        @{
+                            foreach (var entrega in listaFormasDeEntrega)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required>
+                                    <label class="form-check-label">
+                                        @entrega.FormaDeEntrega
+                                    </label>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Forma de pago</label>
+
+                        @{
+                            foreach (var pago in listaFormasDePago)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required>
+                                    <label class="form-check-label">
+                                        @pago.FormaDePago
+                                    </label>
+                                </div>
+                            }
+
+
+
+
+                        }
+
+                    </div>
+
+
+
+                </div>
+
+                <br />
+
+            </div>
+        </div>
             <button type="button" class="btn btn-primary"> Pagar </button>
             <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
 
-        </div>
+    </div>
+    <br />
+    <div class="row justify-content-end">
+
+        <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
     </div>
 </form>
 
@@ -129,4 +262,31 @@
             }
         });
     }
+
+    function crearPedido(totalCesta) {
+
+
+        var data = {
+            total: totalCesta,
+            idFormaDeEnvio: $('input[name=radioFormaEnvio]:checked').val(),
+            idFormaDeEntrega: $('input[name=radioFormaEntrega]:checked').val(),
+            idFormaDePago: $('input[name=radioFormaPago]:checked').val(),
+            idDireccionDomicilio: $('input[name=radioDireccionDomicilio]:checked').val(),
+            idDireccionFacturacion: $('input[name=radioDireccionFacturacion]:checked').val()
+        };
+
+        $.ajax({
+            url: "/Public/Pedidos/CrearPedido",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (result) {
+                //window.location.reload();
+            },
+            error: function (qXHR, textStatus, errorThrown) {
+                //window.location.reload();
+            }
+        });
+    }
+
 </script>

@@ -52,25 +52,25 @@ namespace MiHadaMadrinaShop
             }
 
             // Sexos
-            //using (var scope = serviceProvider.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-            //    var sexos = new[] { "Mujer", "Hombre", "Otros" };
+                var sexos = new[] { "Mujer", "Hombre", "Otros" };
 
-            //    foreach (var sexo in sexos)
-            //    {
-            //        if (!await dbContext.Sexos.AnyAsync(s => s.Sexo1 == sexo))
-            //        {
-            //            await dbContext.Sexos.AddAsync(new Sexo
-            //            {
-            //                Sexo1 = sexo
-            //            });
-            //        }
-            //    }
+                foreach (var sexo in sexos)
+                {
+                    if (!await dbContext.Sexos.AnyAsync(s => s.Sexo1 == sexo))
+                    {
+                        await dbContext.Sexos.AddAsync(new Sexo
+                        {
+                            Sexo1 = sexo
+                        });
+                    }
+                }
 
-            //    await dbContext.SaveChangesAsync();
-            //}
+                await dbContext.SaveChangesAsync();
+            }
 
             // Estados
             using (var scope = serviceProvider.CreateScope())

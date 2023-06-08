@@ -30,7 +30,8 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.ImprimirPDF
                 .Select(p => new Pedido()
                 {
                     IdPedido = p.IdPedido,
-                    IdDireccion = p.IdDireccion,
+                    IdDireccionDomicilio = p.IdDireccionDomicilio,
+                    IdDireccionFacturacion = p.IdDireccionFacturacion,
                     IdEstado = p.IdEstado,
                     IdAspNetUsers = p.IdAspNetUsers,
                     IdFormaDeEntrega = p.IdFormaDeEntrega,

@@ -1,0 +1,63 @@
+﻿@page
+@using MiHadaMadrinaShop.Models
+@model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos.IndexModel
+@inject MiHadaMadrinaHandMadeDBContext _context;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+    var listaEstados = _context.Estados.ToList();
+}
+
+<h1>Mis pedidos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pedido[0].FechaPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pedido[0].FechaEnvio)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Pedido[0].Total)
+            </th>
+
+            <th>
+                Estado
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Pedido)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaPedido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaEnvio)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @{
+                        var estado = listaEstados.Where(q => q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1;
+                    }
+                    @estado
+                </td>
+                
+                <td>
+
+                    <a asp-page="./DetailsPedidos" asp-route-id="@item.IdPedido">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

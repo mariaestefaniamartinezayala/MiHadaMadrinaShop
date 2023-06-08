@@ -26,7 +26,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         // GET: Public/TCestums
         public async Task<IActionResult> Index()
         {
-            var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId())).ToList();
+            var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()) && q.IdPedido.Equals(null)).ToList();
             var contextProductos = _context.Productos;
 
             List<TCestum> listaCestas = new List<TCestum>();
@@ -209,7 +209,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             Producto producto = _context.Productos.Where(q => q.IdProducto.Equals(id)).FirstOrDefault();
 
             //SI HAY ALGUNA CESTA(LINEA EN LA BBDD) DE ESE USUARIO Y PRODUCTO SOLO ACTUALIZAR CANTIDAD
-            if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser)))
+            if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)))
             {
                 tCestum = _context.TCesta.Where(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser)).FirstOrDefault();
                 tCestum.Cantidad = tCestum.Cantidad + 1;
