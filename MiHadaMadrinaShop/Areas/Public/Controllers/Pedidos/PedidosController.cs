@@ -24,7 +24,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         // GET: Public/Pedidos
         public async Task<IActionResult> Index()
         {
-            var miHadaMadrinaHandMadeDBContext = _context.Pedidos.Include(p => p.IdAspNetUsersNavigation).Include(p => p.IdDireccionNavigation).Include(p => p.IdEstadoNavigation).Include(p => p.IdFormaDeEntregaNavigation).Include(p => p.IdFormaDeEnvioNavigation).Include(p => p.IdFormaDePagoNavigation);
+            var miHadaMadrinaHandMadeDBContext = _context.Pedidos.Include(p => p.IdAspNetUsersNavigation).Include(p => p.IdEstadoNavigation).Include(p => p.IdFormaDeEntregaNavigation).Include(p => p.IdFormaDeEnvioNavigation).Include(p => p.IdFormaDePagoNavigation);
             return View(await miHadaMadrinaHandMadeDBContext.ToListAsync());
         }
 
@@ -38,7 +38,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
 
             var pedido = await _context.Pedidos
                 .Include(p => p.IdAspNetUsersNavigation)
-                .Include(p => p.IdDireccionNavigation)
                 .Include(p => p.IdEstadoNavigation)
                 .Include(p => p.IdFormaDeEntregaNavigation)
                 .Include(p => p.IdFormaDeEnvioNavigation)
@@ -56,7 +55,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         public IActionResult Create()
         {
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id");
-            ViewData["IdDireccion"] = new SelectList(_context.Direcciones, "IdDireccion", "IdDireccion");
             ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado");
             ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega");
             ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio");
@@ -69,7 +67,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPedido,IdDireccion,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
+        public async Task<IActionResult> Create([Bind("IdPedido,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +76,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdDireccion"] = new SelectList(_context.Direcciones, "IdDireccion", "IdDireccion", pedido.IdDireccion);
             ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
             ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
             ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
@@ -100,7 +97,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
                 return NotFound();
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdDireccion"] = new SelectList(_context.Direcciones, "IdDireccion", "IdDireccion", pedido.IdDireccion);
             ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
             ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
             ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
@@ -113,7 +109,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdPedido,IdDireccion,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
+        public async Task<IActionResult> Edit(long id, [Bind("IdPedido,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
         {
             if (id != pedido.IdPedido)
             {
@@ -141,7 +137,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdDireccion"] = new SelectList(_context.Direcciones, "IdDireccion", "IdDireccion", pedido.IdDireccion);
             ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
             ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
             ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
@@ -159,7 +154,6 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
 
             var pedido = await _context.Pedidos
                 .Include(p => p.IdAspNetUsersNavigation)
-                .Include(p => p.IdDireccionNavigation)
                 .Include(p => p.IdEstadoNavigation)
                 .Include(p => p.IdFormaDeEntregaNavigation)
                 .Include(p => p.IdFormaDeEnvioNavigation)
@@ -209,12 +203,30 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
 
             Pedido pedido = new Pedido();
             pedido.Iva = 21;
+            pedido.IdDireccionFacturacion = data.IdDireccionFacturacion;
+            pedido.IdDireccionDomicilio = data.IdDireccionDomicilio;
+            pedido.IdFormaDeEntrega = data.IdFormaDeEntrega;
+            pedido.IdFormaDeEnvio = data.IdFormaDeEnvio;
+            pedido.IdFormaDePago = data.IdFormaDePago;
+
+
+
+
+
+
             //pedido.Total = decimal.Parse(totalCesta);
             //pedido.TotalSinIva = pedido.Total / (decimal)1.21;
-            
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+            return null;
+
+
+            //Que se cree el pedido
+            //Que se ponga el id pedido en las cestas del usuario
+            //En la vista de la cesta mostrar solo los que idPedido = null
+            //Poner el idpedido en la cesta solo cuando se acepte el pago?
         }
 
     }

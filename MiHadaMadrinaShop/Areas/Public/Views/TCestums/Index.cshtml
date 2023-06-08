@@ -121,8 +121,8 @@
                     foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
                     {
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion">
-                            <label class="form-check-label" for="radioDireccionDomicilio @direccion.IdDireccion">
+                            <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion">
+                            <label class="form-check-label">
                                 @direccion.Direccion
                                 @direccion.Localidad
                                 @direccion.Pais
@@ -269,10 +269,11 @@
 
         var data = {
             total: totalCesta,
-            idFormaDeEnvio: $('input[name=radioFormaEnvio]:checked').val()
-            //formaEntrega: formaEntrega,
-            //formaPago: formaPago,
-            //direccion: direccion
+            idFormaDeEnvio: $('input[name=radioFormaEnvio]:checked').val(),
+            idFormaDeEntrega: $('input[name=radioFormaEntrega]:checked').val(),
+            idFormaDePago: $('input[name=radioFormaPago]:checked').val(),
+            idDireccionDomicilio: $('input[name=radioDireccionDomicilio]:checked').val(),
+            idDireccionFacturacion: $('input[name=radioDireccionFacturacion]:checked').val()
         };
 
         $.ajax({

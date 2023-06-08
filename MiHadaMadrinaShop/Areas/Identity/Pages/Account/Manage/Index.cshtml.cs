@@ -87,6 +87,8 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
 
+            public string Dni { get; set; }
+
 
         }
 
@@ -105,7 +107,8 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
                 Nombre = usuario.Nombre,
                 Apellidos = usuario.Apellidos,
                 IdSexo = usuario.IdSexo,
-                FechaNacimiento = usuario.FechaNacimiento
+                FechaNacimiento = usuario.FechaNacimiento,
+                Dni = usuario.Dni
                
             };
         }
@@ -175,7 +178,10 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
                 usuario.IdSexo = Input.IdSexo;
             }
 
-            
+            if (Input.Dni != usuario.Dni)
+            {
+                usuario.Dni = Input.Dni;
+            }
 
             //Actuallizamos y guardamos en la base de datos
             _context.AspNetUsers.UpdateRange(usuario);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MiHadaMadrinaShop.Models
 {
@@ -14,31 +15,27 @@ namespace MiHadaMadrinaShop.Models
         }
 
         public long IdPedido { get; set; }
-        public long IdDireccion { get; set; }
+        public long IdDireccionDomicilio { get; set; }
         public int IdEstado { get; set; }
         public byte IdFormaDeEntrega { get; set; }
         public byte IdFormaDeEnvio { get; set; }
         public byte IdFormaDePago { get; set; }
         public decimal Iva { get; set; }
-
         [Display(Name = "Porcentaje de descuento")]
         public byte? PorcentajeDescuento { get; set; }
         public decimal Total { get; set; }
-
         [Display(Name = "Total sin IVA")]
         public decimal TotalSinIva { get; set; }
         public string IdAspNetUsers { get; set; } = null!;
-
         [Display(Name = "Fecha de pedido")]
         [DataType(DataType.Date)]
         public DateTime FechaPedido { get; set; }
-
         [Display(Name = "Fecha de envío")]
         [DataType(DataType.Date)]
         public DateTime FechaEnvio { get; set; }
+        public long IdDireccionFacturacion { get; set; }
 
         public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
-        public virtual Direccione IdDireccionNavigation { get; set; } = null!;
         public virtual Estado IdEstadoNavigation { get; set; } = null!;
         public virtual FormasDeEntrega IdFormaDeEntregaNavigation { get; set; } = null!;
         public virtual FormasDeEnvio IdFormaDeEnvioNavigation { get; set; } = null!;

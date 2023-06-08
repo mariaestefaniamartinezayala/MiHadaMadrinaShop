@@ -22,7 +22,7 @@ namespace MiHadaMadrinaShop.Models
 
         [Display(Name = "Activo")]
         public bool EsActivo { get; set; }
-    
+
         public virtual ICollection<Subcategoria> Subcategoria { get; set; }
 
         public virtual ICollection<Producto> IdProductos { get; set; }
