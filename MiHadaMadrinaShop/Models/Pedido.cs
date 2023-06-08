@@ -35,11 +35,11 @@ namespace MiHadaMadrinaShop.Models
         public DateTime? FechaEnvio { get; set; }
         public long IdDireccionFacturacion { get; set; }
 
-        public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
-        public virtual Estado IdEstadoNavigation { get; set; } = null!;
-        public virtual FormasDeEntrega IdFormaDeEntregaNavigation { get; set; } = null!;
-        public virtual FormasDeEnvio IdFormaDeEnvioNavigation { get; set; } = null!;
-        public virtual FormasDePago IdFormaDePagoNavigation { get; set; } = null!;
+        public virtual AspNetUser? IdAspNetUsersNavigation { get; set; } = null!;
+        public virtual Estado? IdEstadoNavigation { get; set; } = null!;
+        public virtual FormasDeEntrega? IdFormaDeEntregaNavigation { get; set; } = null!;
+        public virtual FormasDeEnvio? IdFormaDeEnvioNavigation { get; set; } = null!;
+        public virtual FormasDePago? IdFormaDePagoNavigation { get; set; } = null!;
         public virtual ICollection<Factura> Facturas { get; set; }
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
