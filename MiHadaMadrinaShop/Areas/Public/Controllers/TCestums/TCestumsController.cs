@@ -23,6 +23,13 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             _context = context;
         }
 
+        public IActionResult PedidoRealizado()
+        {
+
+            return View(nameof(PedidoRealizado));
+        }
+
+
         // GET: Public/TCestums
         public async Task<IActionResult> Index()
         {
@@ -211,7 +218,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             //SI HAY ALGUNA CESTA(LINEA EN LA BBDD) DE ESE USUARIO Y PRODUCTO SOLO ACTUALIZAR CANTIDAD
             if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)))
             {
-                tCestum = _context.TCesta.Where(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser)).FirstOrDefault();
+                tCestum = _context.TCesta.Where(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)).FirstOrDefault();
                 tCestum.Cantidad = tCestum.Cantidad + 1;
                 tCestum.TotalSinIva = tCestum.TotalSinIva + producto.PrecioConDescuento;
                 tCestum.Total = tCestum.TotalSinIva * (decimal)1.21;
@@ -315,6 +322,119 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
             
         }
 
-      
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductToCartDetails([FromBody] TCestum cesta)
+        {
+
+            var idUser = User.Identity.GetUserId();
+
+
+
+            TCestum tCestum = new TCestum();
+
+            Producto producto = _context.Productos.Where(q => q.IdProducto.Equals(cesta.IdProducto)).FirstOrDefault();
+
+            //SI HAY ALGUNA CESTA(LINEA EN LA BBDD) DE ESE USUARIO Y PRODUCTO SOLO ACTUALIZAR CANTIDAD
+            if (_context.TCesta.Any(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)))
+            {
+                tCestum = _context.TCesta.Where(q => q.IdProducto.Equals(producto.IdProducto) && q.IdAppNetUsers.Equals(idUser) && q.IdPedido.Equals(null)).FirstOrDefault();
+                tCestum.Cantidad = tCestum.Cantidad + cesta.Cantidad;
+                tCestum.TotalSinIva = tCestum.TotalSinIva + producto.PrecioConDescuento;
+                tCestum.Total = tCestum.TotalSinIva * (decimal)1.21;
+
+                _context.TCesta.Update(tCestum);
+            }
+            //SI NO HAY NINGUNA CESTA(LINEA EN LA BBDD) SE CREA UNA NUEVA DE ESE USUARIO 
+            else if (!_context.TCesta.Any())
+            {
+                _context.Add(tCestum);
+
+                //tCestum.IdCesta = 1;
+                tCestum.IdAppNetUsers = idUser;
+                tCestum.IdProducto = producto.IdProducto;
+                tCestum.Cantidad = cesta.Cantidad;
+                tCestum.Iva = 21;
+                tCestum.TotalSinIva = 0;
+                tCestum.TotalSinIva = tCestum.TotalSinIva + producto.PrecioConDescuento;
+                tCestum.Total = tCestum.TotalSinIva * (decimal)1.21;
+
+                _context.TCesta.Add(tCestum);
+
+            }
+            //SI HAY ALGUNA CESTA PERO NO DE ESE USUARIO Y PRODUCTO SE CREA UNA NUEVA
+            else
+            {
+                _context.Add(tCestum);
+
+                //tCestum.IdCesta = _context.TCesta.OrderByDescending(q => q.IdCesta).FirstOrDefault().IdCesta + 1;
+                tCestum.IdProducto = producto.IdProducto;
+                tCestum.IdAppNetUsers = idUser;
+                tCestum.Cantidad = cesta.Cantidad;
+                tCestum.Iva = 21;
+                tCestum.TotalSinIva = 0;
+                tCestum.TotalSinIva = tCestum.TotalSinIva + producto.PrecioConDescuento;
+                tCestum.Total = tCestum.TotalSinIva * (decimal)1.21;
+
+                _context.TCesta.Add(tCestum);
+            }
+
+
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CrearPedido([FromBody] Pedido data)
+        {
+            if (data.IdFormaDeEntrega == 0 || data.IdFormaDeEnvio == 0 || data.IdFormaDePago == 0 || data.IdDireccionDomicilio == 0 || data.IdDireccionFacturacion == 0)
+            {
+                return RedirectToAction(nameof(CrearPedido));
+            }
+
+
+            var user = User.Identity.GetUserId();
+
+            var cestaUser = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(user) && q.IdPedido.Equals(null));
+
+
+
+            Pedido pedido = new Pedido();
+            pedido.Iva = 21;
+            pedido.IdDireccionFacturacion = data.IdDireccionFacturacion;
+            pedido.IdDireccionDomicilio = data.IdDireccionDomicilio;
+            pedido.IdFormaDeEntrega = data.IdFormaDeEntrega;
+            pedido.IdFormaDeEnvio = data.IdFormaDeEnvio;
+            pedido.IdFormaDePago = data.IdFormaDePago;
+            pedido.Total = data.Total;
+            pedido.TotalSinIva = Math.Round((data.Total / (decimal)1.21), 2);
+            pedido.FechaPedido = DateTime.Now;
+            pedido.IdAspNetUsers = user;
+            pedido.IdEstado = 2;
+
+            _context.Add(pedido);
+            await _context.SaveChangesAsync();
+
+
+            //Ponerle a las cestas el id del pedido
+            long idPedido = _context.Pedidos.Max(q => q.IdPedido);
+
+
+
+            foreach (var cesta in cestaUser)
+            {
+                cesta.IdPedido = idPedido;
+                _context.TCesta.Update(cesta);
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(PedidoRealizado));
+
+        }
+
     }
 }

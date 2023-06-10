@@ -54,5 +54,10 @@ namespace MiHadaMadrinaShop.Models
         public virtual ICollection<TCestum> TCesta { get; set; }
 
         public virtual ICollection<AspNetRole> Roles { get; set; }
+
+        public static implicit operator AspNetUser(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

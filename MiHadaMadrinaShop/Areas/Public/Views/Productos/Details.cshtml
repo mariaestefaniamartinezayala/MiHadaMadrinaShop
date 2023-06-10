@@ -1,9 +1,13 @@
-﻿@model MiHadaMadrinaShop.Models.Producto
+﻿@using Microsoft.AspNetCore.Identity
+@model MiHadaMadrinaShop.Models.Producto
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var imagenUrl = Model.ImagenUrl;
+    var idProducto = Model.IdProducto;
 }
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -14,7 +18,7 @@
                 }
             </div>
             <div class="col-md-6">
-              @*  <div class="small mb-1">SKU: BST-498</div>*@
+                @*  <div class="small mb-1">SKU: BST-498</div>*@
                 <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
                 <div class="fs-5 mb-5">
                     @if (Model.PorcentajeDeDescuento > 0)
@@ -30,82 +34,66 @@
                 </div>
                 <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
                 <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="Model.IdProducto">
-                        <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
-                    </button>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            var roles = await UserManager.GetRolesAsync(user);
+
+                            if (roles.Contains("Public"))
+                            {
+                                <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
+                                    <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
+                                </button>
+                            }
+                            else
+                            {
+                                <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
+                                    <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                            </div>
+                        }
+                    }
+                    <div class="my-5">
+                        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
+                    </div>
                 </div>
 
-                <div class="my-5">
-                    <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
-                </div>
+
             </div>
         </div>
     </div>
 </section>
 
-@*<div>
-    <dl class="row">
-      <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionCorta)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionCorta)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionLarga)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionLarga)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeEntrada)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeEntrada)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagenUrl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImagenUrl)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioConDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrecioConDescuento)
-        </dd>
-       @* <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlProductoDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UrlProductoDigital)
-        </dd>
-    </dl>
-</div>*@
 
+<script>
+    function AddProductToCartDetails(idProducto) {
+
+        var cantidad = $("#inputQuantity").val()
+
+        var data = {
+            idProducto: idProducto,
+            cantidad: cantidad
+        };
+
+        $.ajax({
+            url: "/Public/TCestums/AddProductToCartDetails",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (result) {
+                //window.location.reload();
+            },
+            error: function (qXHR, textStatus, errorThrown) {
+                //window.location.reload();
+            }
+        });
+    }
+</script>

@@ -7,8 +7,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
+    var contextListaCestas = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()) && q.IdPedido.Equals(null)).ToList();
+    var contextProductos = _context.Productos;
     var userId = User.Identity.GetUserId();
     AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
+
+    List<TCestum> listaCestas = new List<TCestum>();
+
+    decimal totalCesta = 0;
+
+    foreach (TCestum? cesta in contextListaCestas)
+    {
+        Producto producto = contextProductos.Where(q => q.IdProducto.Equals(cesta.IdProducto)).FirstOrDefault();
+        cesta.NombreProducto = producto.Nombre;
+        cesta.PrecioProducto = producto.PrecioConDescuento;
+        cesta.DescuentoProducto = producto.PorcentajeDeDescuento;
+        cesta.ImagenUrl = producto.ImagenUrl;
+        cesta.StockProducto = producto.Stock;
+        totalCesta = Math.Round((decimal)(totalCesta + cesta.PrecioProducto * cesta.Cantidad * (decimal)1.21), 2);
+
+
+        listaCestas.Add(cesta);
+
+    }
+
+    foreach (TCestum? cesta in contextListaCestas)
+    {
+        cesta.TotalCesta = totalCesta;
+    }
+
+
 
 
     List<FormasDePago> listaFormasDePago = _context.FormasDePagos.ToList();
@@ -19,7 +47,8 @@
 
 }
 
-<h1>Cesta</h1>
+<h1>Pedido</h1>
+
 <form class="form-control" method="post">
     <table class="table">
         <thead>
@@ -28,7 +57,7 @@
                     Imagen
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cantidad)
+                    Cantidad
                 </th>
                 <th>
                     Producto
@@ -40,10 +69,10 @@
                     Total sin iva
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Iva)
+                    Iva
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Total)
+                    Total
                 </th>
                 <th>
 
@@ -53,14 +82,14 @@
         </thead>
         <tbody>
             @{
-                decimal? totalCesta = 0;
+                decimal? totalCesta2 = 0;
             }
-            @foreach (var item in Model)
+            @foreach (var item in listaCestas)
             {
                 <tr>
                     <td>
                         @{
-                            totalCesta = item.TotalCesta;
+                            totalCesta = (decimal)item.TotalCesta;
                             var imagenUrl = item.ImagenUrl;
                             var stock = item.StockProducto;
                         }
@@ -72,30 +101,30 @@
 
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.NombreProducto)
+                        @item.NombreProducto
                     </td>
                     @{
                         if (item.DescuentoProducto != 0)
                         {
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
+                                        @item.PrecioProducto€ -@item.DescuentoProducto%
                                     </td>
                         }
                         else
                         {
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioProducto)€
+                                        @item.PrecioProducto€
                                     </td>
                         }
                     }
                     <td>
-                        @Html.DisplayFor(modelItem => item.TotalSinIva)€
+                        @item.TotalSinIva€
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Iva)%
+                        @item.Iva%
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Total)€
+                        @item.Total€
                     </td>
                     <td>
                         <button class="btn btn-danger" asp-area="Public" asp-controller="TCestums" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></button>
@@ -254,7 +283,7 @@
         </div>
 
 
-    <div class="row justify-content-end">
+
         <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
         @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion) || !listaDireccionesUsuario.Any(q => q.EsDomicilio))
         {
@@ -266,16 +295,16 @@
         }
         else
         {
-            <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
+            <button class="btn btn-primary" type="submit" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
         }
 
-        <br />
 
-      @*  <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
-        <a asp-area="Public" asp-controller="TCestums" asp-action="CrearPedido" class="btn btn-primary"><i class="fas fa-shopping-bag<"></i>Procesar pedido</a>*@
     </div>
-</form>
+    <br />
 
+
+
+</form> 
 
 <script>
     function actualizarCesta(idCesta, cantidad) {
@@ -300,7 +329,6 @@
 
     function crearPedido(totalCesta) {
 
-
         var data = {
             total: totalCesta,
             idFormaDeEnvio: $('input[name=radioFormaEnvio]:checked').val(),
@@ -316,16 +344,10 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (result) {
-                if(result.success){
-                    window.location.href = "/Public/Pedidos/PedidoRealizado";
-                    console.log(result.message);
-                }else{
-                    console.log(result.message);
-                }
-                
+                //window.location.href = "/Public/TCestum/PedidoRealizado";
             },
             error: function (qXHR, textStatus, errorThrown) {
-                //window.location.href = "/Public/Pedidos/PedidoRealizado";
+                //window.location.href = "/Public/TCestum/PedidoRealizado";
             }
         });
     }
