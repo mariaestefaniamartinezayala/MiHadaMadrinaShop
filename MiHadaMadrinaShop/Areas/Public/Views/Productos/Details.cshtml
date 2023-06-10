@@ -27,7 +27,6 @@
             }
         </div>
         <div class="col-md-6">
-            @*  <div class="small mb-1">SKU: BST-498</div>*@
             <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
             <div class="fs-5 mb-5">
                 @if (Model.PorcentajeDeDescuento > 0)
@@ -43,15 +42,65 @@
             </div>
             <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
             <div class="d-flex">
-                <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
-                <button class="btn btn-outline-dark flex-shrink-0" type="button" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="Model.IdProducto">
-                    <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
-                </button>
-            </div>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+                        var roles = await UserManager.GetRolesAsync(user);
 
+                        if (roles.Contains("Public"))
+                        {
+                            <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
+                                <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
+                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                            <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                        </div>
+                    }
+                }
+                <div class="my-5">
+                    <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
+                </div>
+            </div>
             <div class="my-5">
                 <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function AddProductToCartDetails(idProducto) {
+
+        var cantidad = $("#inputQuantity").val()
+
+        var data = {
+            idProducto: idProducto,
+            cantidad: cantidad
+        };
+
+        $.ajax({
+            url: "/Public/TCestums/AddProductToCartDetails",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (result) {
+                //window.location.reload();
+            },
+            error: function (qXHR, textStatus, errorThrown) {
+                //window.location.reload();
+            }
+        });
+    }
+</script>
