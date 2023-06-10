@@ -7,40 +7,44 @@
     ViewData["Title"] = "Lista de roles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container">
     <div class="row">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="font-weight-bold font-italic">Listado de roles</h1>
             <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus"></i><span>&nbsp;Nuevo</span></a>
         </div>
-        
     </div>
-    <div class="col-12 text-cente">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="thead-color">
-                    <tr class="align-self-center">
-                        <th class="py-3 text-center" scope="col">
-                           Rol
-                        </th>
-                        <th class="py-3 text-center" scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var rol in Model)
-                    {
-                        <tr>
-                            <td class="pt-3 text-center">
-                                @Html.DisplayFor(modelItem => rol.Name)
-                            </td>
-                            <td class="pt-3 text-center">
-                                <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@rol.Id"><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-outline-danger py-2" asp-action="Delete" asp-route-id="@rol.Id"><i class="fas fa-trash"></i></a>
-                            </td>
+
+    <div class="row">
+        <div class="col-12 text-cente">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
+                                Rol
+                            </th>
+                            <th class="py-3 text-center" scope="col"></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var rol in Model)
+                        {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => rol.Name)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@rol.Id"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-outline-danger py-2" asp-action="Delete" asp-route-id="@rol.Id"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+ 
 </div>

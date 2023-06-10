@@ -19,7 +19,7 @@ public class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)//Al ponerlo a false no requiere confirmar la cuenta, en producción debe estar a true
+        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)//Al ponerlo a false no requiere confirmar la cuenta, en producci&oacute;n debe estar a true
             .AddRoles<IdentityRole>()//Para que funcionen los roles
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -30,6 +30,13 @@ public class Program
         builder.Services.AddDbContext<MiHadaMadrinaHandMadeDBContext>(options => options.UseSqlServer(connectionString));
 
         builder.Services.AddRazorPages();
+
+        //builder.Services.AddControllersWithViews(options =>
+        //{
+        //    // Registrar el filtro de autorizaci&oacute;n personalizado
+        //    options.Filters.Add(typeof(AdminAuthorizationFilter));
+        //});
+
 
         var app = builder.Build();
 
@@ -65,10 +72,19 @@ public class Program
             name: "Model",
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{model?}");
 
+        app.MapControllerRoute(
+        name: "admin",
+        pattern: "/Admin/{controller=Inicio}/{action=Index}/{id?}");
+
+        app.MapAreaControllerRoute(
+            name: "admin_area",
+            areaName: "Admin",
+            pattern: "/Admin/{controller=Inicio}/{action=Index}/{id?}");
+
         app.MapRazorPages();
 
 
-        // Configuración de la librería Rotativa. Es la encargada de generar los PDFs
+        // Configuraci&oacute;n de la librería Rotativa. Es la encargada de generar los PDFs
         IWebHostEnvironment env = app.Environment;
         Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
 
@@ -91,6 +107,10 @@ public class Program
             SupportedUICultures = new List<CultureInfo> { defaultCulture }
         };
         app.UseRequestLocalization(localizationOptions);
+
+        // Agregar filtro de autorizaci&oacute;n
+        //app.UseAuthorizationWithAdminFilter();
+       
 
         app.Run();
     }

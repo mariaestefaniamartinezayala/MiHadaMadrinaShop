@@ -1,41 +1,117 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
-<h1>@ViewData["Title"]</h1>
-<h1>Scra</h1>
 
-
-<div class="row">
-    <div class="col-8 col offset-2">
-        <div class="carrusel-container">
-            <div id="carouselIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="/img/carrusel/carrusel1.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/img/carrusel/carrusel2.jpeg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/img/carrusel/carrusel3.jpg" class="d-block w-100" alt="...">
+@* Header Start *@
+<header>
+    <div class="container">
+        <div class="row mt-4 mt-lg-4 mb-3">
+            <div class="col-12">
+                <div class="jumbotron shadow bg-white py-5">
+                    <div class="text-center display-4 font-weight-bold">
+                        <h1 class="display-4 fw-bolder">Bienvenido al m&aacute;gico mundo del scrapbooking</h1>
+                        <p class="lead fw-normal text-muted-50 mb-0">donde los sueños se convierten en creaciones hechas a mano.</p>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
             </div>
         </div>
     </div>
-</div>
+</header>
+@* Header End*@
 
+@* Main Start *@
+<div class="container d-flex flex-column min-vh-100">
+    @* Carrusel Start *@
+    <div class="row">
+        <div class="col-12 h-100 mb-0 mt-4 mt-md-2 mb-md-0">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 4"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="~/img/carrusel/1.svg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/img/carrusel/3.svg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/img/carrusel/5.svg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/img/carrusel/6.svg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+    </div>
+    @* Carrusel End *@
+
+    @* Cards Start *@
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-0 mt-md-1 justify-content-center">
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/img/illustrations/2.svg" class="card-img-top" alt="imagen card">
+                <div class="card-body">
+                    <h5 class="card-title">Inspírate y crea</h5>
+                    <p class="card-text">
+                        Déjate inspirar por nuestra amplia gama de diseños y técnicas en scrapbooking, 
+                        y dale vida a tus propias historias en cada página que creas.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/img/illustrations/undraw_designer_girl_re_h54c.svg" class="card-img-top" alt="imagen card">
+                <div class="card-body">
+                    <h5 class="card-title">Amor en cada detalle</h5>
+                    <p class="card-text">
+                        Cada pieza de nuestro trabajo hecho a mano es un reflejo de nuestro amor y pasión por el scrapbooking, 
+                        transmitiendo emociones y recuerdos en cada detalle.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/img/illustrations/undraw_add_notes_re_ln36.svg" class="card-img-top" alt="imagen card">
+                <div class="card-body">
+                    <h5 class="card-title">El arte de lo hecho a mano</h5>
+                    <p class="card-text">
+                        En un mundo donde todo es producido en masa, apreciamos el valor de lo hecho a mano. 
+                        Cada producto de nuestra tienda es único, 
+                        llevando consigo la huella del cuidado y la atención en su creación.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/img/illustrations/4.svg" class="card-img-top" alt="imagen card">
+                <div class="card-body">
+                    <h5 class="card-title">Tu historia en cada pieza</h5>
+                    <p class="card-text">
+                        Descubre la belleza de lo auténtico en nuestros productos hechos a mano. 
+                        Cada elemento lleva consigo el tiempo y la dedicación necesarios para ofrecerte 
+                        una experiencia única y personalizada.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* Cards End *@
+</div>
+@* Main End *@
 

@@ -8,14 +8,9 @@
     var user = await UserManager.GetUserAsync(User);
     var roles = await UserManager.GetRolesAsync(user);
 
-    if (roles.Contains("Admin"))
+    if (roles.Contains("Admin") || roles.Contains("Editor"))
     {
         <partial name="_MenuAdminPartial" />
-    }
-
-    if (roles.Contains("Editor"))
-    {
-        <partial name="_MenuEditorPartial" />
     }
 
     if (roles.Contains("Public"))

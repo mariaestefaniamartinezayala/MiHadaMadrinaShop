@@ -9,69 +9,76 @@
     var imagenUrl = Model.ImagenUrl;
     var idProducto = Model.IdProducto;
 }
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
-                @{
-                    <img class="card-img-top mb-5 mb-md-0" src="~/img/productos/@imagenUrl" alt="Imagen del producto" />
+
+<div class="container mt-4" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Tienda</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Productos" asp-action="Details" class="text-dark text-decoration-none active">Detalle</a></li>
+    </ol>
+</div>
+<hr class="d-block d-md-none" />
+
+<div class="container px-4 px-lg-5 my-5 d-flex flex-column min-vh-100">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+        <div class="col-md-6">
+            @{
+                <img class="card-img-top mb-5 mb-md-0" src="~/img/productos/@imagenUrl" alt="Imagen del producto" />
+            }
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
+            <div class="fs-5 mb-5">
+                @if (Model.PorcentajeDeDescuento > 0)
+                {
+                    <span class="card-text"> @Html.DisplayFor(modelItem => Model.PrecioConDescuento)€</span>
+
+                    <span class="text-muted text-decoration-line-through">@Html.DisplayFor(modelItem => Model.Precio)€</span>
+                }
+                else
+                {
+                    <span class="card-text">@Html.DisplayFor(modelItem => Model.Precio)€</span>
                 }
             </div>
-            <div class="col-md-6">
-                @*  <div class="small mb-1">SKU: BST-498</div>*@
-                <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
-                <div class="fs-5 mb-5">
-                    @if (Model.PorcentajeDeDescuento > 0)
+            <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
+            <div class="d-flex">
+                @{
+                    if (User.Identity.IsAuthenticated)
                     {
-                        <span class="card-text"> @Html.DisplayFor(modelItem => Model.PrecioConDescuento)€</span>
+                        var user = await UserManager.GetUserAsync(User);
+                        var roles = await UserManager.GetRolesAsync(user);
 
-                        <span class="text-muted text-decoration-line-through">@Html.DisplayFor(modelItem => Model.Precio)€</span>
-                    }
-                    else
-                    {
-                        <span class="card-text">@Html.DisplayFor(modelItem => Model.Precio)€</span>
-                    }
-                </div>
-                <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
-                <div class="d-flex">
-                    @{
-                        if (User.Identity.IsAuthenticated)
+                        if (roles.Contains("Public"))
                         {
-                            var user = await UserManager.GetUserAsync(User);
-                            var roles = await UserManager.GetRolesAsync(user);
-
-                            if (roles.Contains("Public"))
-                            {
-                                <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
-                                <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
-                                    <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
-                                </button>
-                            }
-                            else
-                            {
-                                <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
-                                    <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
-                                </div>
-                            }
+                            <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
+                                <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
+                            </button>
                         }
                         else
                         {
-                            <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                            <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
                                 <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
                             </div>
                         }
                     }
-                    <div class="my-5">
-                        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
-                    </div>
+                    else
+                    {
+                        <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                            <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                        </div>
+                    }
+                }
+                <div class="my-5">
+                    <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
                 </div>
-
-
+            </div>
+            <div class="my-5">
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
             </div>
         </div>
     </div>
-</section>
-
+</div>
 
 <script>
     function AddProductToCartDetails(idProducto) {

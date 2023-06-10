@@ -17,7 +17,7 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Categoría")]
         public string Categoria1 { get; set; } = null!;
 
-        [Display(Name = "Descripción")]
+        [Display(Name = "Descripci&oacute;n")]
         public string? Descripcion { get; set; }
 
         [Display(Name = "Activo")]

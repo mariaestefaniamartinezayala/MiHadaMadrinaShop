@@ -91,7 +91,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 // Asignamos la fecha de entrada como el momento actual
                 producto.FechaDeEntrada = DateTime.Now;
 
-                // Calculamos el precio con descuento si hay un porcentaje de descuento válido
+                // Calculamos el precio con descuento si hay un porcentaje de descuento v&aacute;lido
                 if (producto.PorcentajeDeDescuento.HasValue)
                 {
                     decimal descuento = producto.Precio * (decimal)(producto.PorcentajeDeDescuento.Value / 100.0);
@@ -108,7 +108,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
                 // Asignar la imagen principal
                 //producto.ImagenPrincipalUrl = producto.ImagenFiles.FirstOrDefault()?.FileName;
 
-                //Asignamos la url de las imágenes
+                //Asignamos la url de las im&aacute;genes
                 producto.ImagenUrl = nombresImagen;
 
 
@@ -258,19 +258,19 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 
             if (imagen != null)
             {
-                // Ruta de la carpeta donde se guardarán las imágenes
+                // Ruta de la carpeta donde se guardar&aacute;n las im&aacute;genes
                 string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img/productos");
                 
                 // Generar un nombre único para la imagen
                  nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
                 
-                // Ruta completa del archivo donde se guardará la imagen
+                // Ruta completa del archivo donde se guardar&aacute; la imagen
                 string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
                 
                 // Crea la carpeta "img" si no existe
                 Directory.CreateDirectory(carpetaImagenes);
                 
-                // Crear un FileStream para escribir el archivo en la ubicación especificada
+                // Crear un FileStream para escribir el archivo en la ubicaci&oacute;n especificada
                 using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
                 {
                     // Copiar el contenido del archivo al FileStream
@@ -289,10 +289,10 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 
         //    if (imagenes != null && imagenes.Count > 0)
         //    {
-        //        // Ruta de la carpeta donde se guardarán las imágenes
+        //        // Ruta de la carpeta donde se guardar&aacute;n las im&aacute;genes
         //        string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
 
-        //        // Lista para almacenar los nombres de las imágenes
+        //        // Lista para almacenar los nombres de las im&aacute;genes
         //        var nombres = new List<string>();
 
         //        foreach (var imagen in imagenes)
@@ -300,13 +300,13 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         //            // Generar un nombre único para la imagen
         //            string nombreImagen = $"{Guid.NewGuid()}_{imagen.FileName}";
 
-        //            // Ruta completa del archivo donde se guardará la imagen
+        //            // Ruta completa del archivo donde se guardar&aacute; la imagen
         //            string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
 
         //            // Crea la carpeta "img" si no existe
         //            Directory.CreateDirectory(carpetaImagenes);
 
-        //            // Crear un FileStream para escribir el archivo en la ubicación especificada
+        //            // Crear un FileStream para escribir el archivo en la ubicaci&oacute;n especificada
         //            using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
         //            {
         //                // Copiar el contenido del archivo al FileStream
@@ -317,7 +317,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
         //            nombres.Add(nombreImagen);
         //        }
 
-        //        // Concatenar los nombres de las imágenes separados por comas
+        //        // Concatenar los nombres de las im&aacute;genes separados por comas
         //        nombresImagenes = string.Join(",", nombres);
         //    }
 
@@ -332,19 +332,19 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Productos
 
 //    if (producto != null)
 //    {
-//        // Ruta de la carpeta donde se guardarán las imágenes
+//        // Ruta de la carpeta donde se guardar&aacute;n las im&aacute;genes
 //        string carpetaImagenes = Path.Combine(_webHostEnvironment.WebRootPath, "img");
 
 //        // Generar un nombre único para la imagen
 //        nombreImagen = $"{Guid.NewGuid()}_{producto.ImagenFile.FileName}";
 
-//        // Ruta completa del archivo donde se guardará la imagen
+//        // Ruta completa del archivo donde se guardar&aacute; la imagen
 //        string rutaImagen = Path.Combine(carpetaImagenes, nombreImagen);
 
 //        // Crea la carpeta "img" si no existe
 //        Directory.CreateDirectory(carpetaImagenes);
 
-//        // Crear un FileStream para escribir el archivo en la ubicación especificada
+//        // Crear un FileStream para escribir el archivo en la ubicaci&oacute;n especificada
 //        using (var fileStream = new FileStream(rutaImagen, FileMode.Create))
 //        {
 //            // Copiar el contenido del archivo ImagenFile del producto al FileStream

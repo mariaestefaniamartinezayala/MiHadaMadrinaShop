@@ -1,17 +1,18 @@
-﻿@using MiHadaMadrinaShop.Models;
+﻿@using MiHadaMadrinaShop.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
+
     @if (SignInManager.IsSignedIn(User))
     {
         string userName = User.Identity.Name.Split("@")[0];
 
-        <li class="nav-item dropdown btn btn-outline-dark m-1">
-            <a class="nav-link dropdown-toggle p-0" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item dropdown m-1">
+            <button class="dropdown-toggle btn btn-outline-dark justify-content-end" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user"></i> Hola @userName
-            </a>
+            </button>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
@@ -31,7 +32,7 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Registrarse</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Iniciar sesión</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Iniciar sesi&oacute;n</a>
         </li>
     }
 </ul>

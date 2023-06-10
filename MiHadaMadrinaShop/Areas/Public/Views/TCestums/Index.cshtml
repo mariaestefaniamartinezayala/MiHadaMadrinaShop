@@ -3,144 +3,167 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 
     var userId = User.Identity.GetUserId();
     AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 
-
-    List<FormasDePago> listaFormasDePago = _context.FormasDePagos.ToList();
+    List < FormasDePago > listaFormasDePago = _context.FormasDePagos.ToList();
     List<FormasDeEnvio> listaFormasDeEnvio = _context.FormasDeEnvios.ToList();
     List<FormasDeEntrega> listaFormasDeEntrega = _context.FormasDeEntregas.ToList();
 
     List<Direccione> listaDireccionesUsuario = _context.Direcciones.Where(q => q.IdAspNetUsers.Equals(userId)).ToList();
 
+    decimal? totalCesta = 0;
+
 }
-
-<h1>Cesta</h1>
-<form class="form-control" method="post">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Imagen
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cantidad)
-                </th>
-                <th>
-                    Producto
-                </th>
-                <th>
-                    Precio
-                </th>
-                <th>
-                    Total sin iva
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Iva)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Total)
-                </th>
-                <th>
-
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                decimal? totalCesta = 0;
-            }
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @{
-                            totalCesta = item.TotalCesta;
-                            var imagenUrl = item.ImagenUrl;
-                            var stock = item.StockProducto;
-                        }
-                        <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
-                    </td>
-                    <td>
-                        <input asp-for="@item.Cantidad" type="number" value="@item.Cantidad" min="1" max="@stock" onchange="actualizarCesta(@item.IdCesta, this.value)">
+<div class="container mt-4" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Tienda</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="TCestums" asp-action="Index" class="text-dark text-decoration-none active">Carrito</a></li>
+    </ol>
+</div>
+<hr class="d-block d-md-none" />
 
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NombreProducto)
-                    </td>
-                    @{
-                        if (item.DescuentoProducto != 0)
-                        {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
-                                    </td>
-                        }
-                        else
-                        {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PrecioProducto)€
-                                    </td>
-                        }
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalSinIva)€
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Iva)%
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Total)€
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" asp-area="Public" asp-controller="TCestums" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
 
+<div class="container d-flex flex-column min-vh-100">
     <div class="row">
-        <div class="row justify-content-end">
-            Total cesta: @totalCesta€ <br><br>
+        <div class="d-flex justify-content-center mt-5">
+            <h1 class="font-weight-bold font-italic">Carrito</h1>
+        </div>
+    </div>
+
+    <div class="row h-100">
+        <div class="col-12 text-center w-100">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr>
+                            <th class="py-3 text-center" scope="col">
+                                Imagen
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Producto
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Precio
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Total sin iva
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                @Html.DisplayNameFor(model => model.Iva)
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+                            <th class="py-3 text-center" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <form class="form-control" method="post">
+
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                        @{
+                                            totalCesta = item.TotalCesta;
+                                            var imagenUrl = item.ImagenUrl;
+                                            var stock = item.StockProducto;
+                                        }
+                                    <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <input class="form-control text-center mx-auto" asp-for="@item.Cantidad" type="number" value="@item.Cantidad" min="1" max="@stock" onchange="actualizarCesta(@item.IdCesta, this.value)" style="max-width: 5rem" required>
+                                </td>
+                                <td class="pt-3 text-center">
+                                        @Html.DisplayFor(modelItem => item.NombreProducto)
+                                </td>
+                                    @{
+                                        if (item.DescuentoProducto != 0)
+                                        {
+                                        <td class="pt-3 text-end">
+                                                @Html.DisplayFor(modelItem => item.PrecioProducto)€ -@Html.DisplayFor(modelItem => item.DescuentoProducto)%
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                        <td class="pt-3 text-end">
+                                                @Html.DisplayFor(modelItem => item.PrecioProducto)€
+                                        </td>
+                                        }
+                                    }
+                                <td class="pt-3 text-end">
+                                        @Html.DisplayFor(modelItem => item.TotalSinIva)€
+                                </td>
+                                <td class="pt-3 text-end">
+                                        @Html.DisplayFor(modelItem => item.Iva)%
+                                </td>
+                                <td class="pt-3 text-end">
+                                        @Html.DisplayFor(modelItem => item.Total)€
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <button class="btn btn-danger" asp-area="Public" asp-controller="TCestums" asp-action="DeleteConfirmed" asp-route-id="@item.IdCesta"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            }
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (totalCesta == 0)
+        {
+            <div class="col-12 d-flex justify-content-center mb-4 mt-2 fw-bolder h4">
+                No tiene art&iacute;culos en el carrito
+            </div>
+        }
+        <div class="col-12 d-flex justify-content-end mb-4 mt-2 fw-bolder h4">
+            Total: @totalCesta€
         </div>
 
-
-        <div class="col justify-content-start">
-            <label class="control-label fw-bold">Datos personales</label><br />
-
-
-            <label class="control-label fw-bold">Nombre</label><br />
-            <label class="control-label">@user.Nombre</label><br />
-
-            <label class="control-label fw-bold">Apellidos</label><br />
-            <label class="control-label">@user.Apellidos</label><br />
+        @if (totalCesta > 0)
+        {
+            <div class="row">
+                <div class="col justify-content-start">
+                    <label class="control-label fw-bold">Datos personales</label><br />
 
 
-            <label class="control-label fw-bold">Teléfono</label><br />
-            <label class="control-label">@user.PhoneNumber</label><br />
+                    <label class="control-label fw-bold">Nombre</label><br />
+                    <label class="control-label">@user.Nombre</label><br />
 
-            <label class="control-label fw-bold">Dni</label><br />
-            <label class="control-label">@user.Dni</label><br />
-
-        </div>
+                    <label class="control-label fw-bold">Apellidos</label><br />
+                    <label class="control-label">@user.Apellidos</label><br />
 
 
+                    <label class="control-label fw-bold">Teléfono</label><br />
+                    <label class="control-label">@user.PhoneNumber</label><br />
 
-        <div class="col justify-content-between">
+                    <label class="control-label fw-bold">Dni</label><br />
+                    <label class="control-label">@user.Dni</label><br />
+
+                </div>
 
 
-            <div class="form-group col">
-                <label class="control-label fw-bold">Dirección de entrega</label>
 
-                @{
-                    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
-                    {
+                <div class="col justify-content-between">
+
+
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Dirección de entrega</label>
+
+                        @{
+                            foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
+                            {
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required>
                                     <label class="form-check-label">
@@ -151,19 +174,19 @@
                                         @direccion.CodPostal
                                     </label>
                                 </div>
-                    }
-                }
+                            }
+                        }
 
-            </div>
+                    </div>
 
 
 
-            <div class="form-group col">
-                <label class="control-label fw-bold">Dirección de facturación</label>
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Dirección de facturación</label>
 
-                @{
-                    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
-                    {
+                        @{
+                            foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
+                            {
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required>
                                     <label class="form-check-label">
@@ -174,109 +197,112 @@
                                         @direccion.CodPostal
                                     </label>
                                 </div>
-                    }
-                }
+                            }
+                        }
 
-            </div>
-
-
-
-        </div>
-
-        <div class="col justify-content-end">
-
-
-            <div class="col-3">
+                    </div>
 
 
 
-                <div class="form-group col">
-                    <label class="control-label fw-bold">Forma de envio</label>
+                </div>
 
-                    @{
-                        foreach (var envio in listaFormasDeEnvio)
-                        {
+                <div class="col justify-content-end">
+
+
+                    <div class="col-3">
+
+
+
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de envio</label>
+
+                            @{
+                                foreach (var envio in listaFormasDeEnvio)
+                                {
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required>
                                         <label class="form-check-label">
                                             @envio.FormaDeEnvio
                                         </label>
                                     </div>
-                        }
-                    }
+                                }
+                            }
 
-                </div>
+                        </div>
 
-                <div class="form-group col">
-                    <label class="control-label fw-bold">Forma de entrega</label>
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de entrega</label>
 
-                    @{
-                        foreach (var entrega in listaFormasDeEntrega)
-                        {
+                            @{
+                                foreach (var entrega in listaFormasDeEntrega)
+                                {
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required>
                                         <label class="form-check-label">
                                             @entrega.FormaDeEntrega
                                         </label>
                                     </div>
-                        }
-                    }
+                                }
+                            }
 
-                </div>
+                        </div>
 
-                <div class="form-group col">
-                    <label class="control-label fw-bold">Forma de pago</label>
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de pago</label>
 
-                    @{
-                        foreach (var pago in listaFormasDePago)
-                        {
+                            @{
+                                foreach (var pago in listaFormasDePago)
+                                {
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required>
                                         <label class="form-check-label">
                                             @pago.FormaDePago
                                         </label>
                                     </div>
-                        }
+                                }
 
 
 
 
+                            }
+
+                        </div>
+
+
+
+                    </div>
                     }
 
+                    <div class="col-12 d-flex justify-content-between" role="group" aria-label="Botones">
+                        <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>&nbsp;
+                        @if (totalCesta > 0)
+                        {
+                            <button asp-area="Public" asp-controller="TCestums" asp-action="CrearPedido" class="btn btn-primary opacity-75" onclick="crearPedido(@totalCesta)">Procesar pedido</button>
+                            
+                            @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion) || !listaDireccionesUsuario.Any(q => q.EsDomicilio))
+                            {
+                                <button class="btn btn-secondary disabled">Debes añadir dirección de entrega y/o facturación para hacer el pedido</button>
+                            }
+                            else if (String.IsNullOrEmpty(user.Nombre) || String.IsNullOrEmpty(user.Apellidos) || String.IsNullOrEmpty(user.Dni) ||  String.IsNullOrEmpty(user.PhoneNumber))
+                            {
+                                <button class="btn btn-secondary disabled">Debes añadir tus datos personales en tu perfil para hacer el pedido</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary opacity-75" disabled>Procesar pedido</button>
+                        }
+                    </div>
                 </div>
-
-
-
             </div>
-
-            <br />
-
-        </div>
-
-
-    <div class="row justify-content-end">
-        <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
-        @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion) || !listaDireccionesUsuario.Any(q => q.EsDomicilio))
-        {
-            <button class="btn btn-secondary disabled">Debes añadir dirección de entrega y/o facturación para hacer el pedido</button>
-        }
-        else if (String.IsNullOrEmpty(user.Nombre) || String.IsNullOrEmpty(user.Apellidos) || String.IsNullOrEmpty(user.Dni) || String.IsNullOrEmpty(user.PhoneNumber))
-        {
-            <button class="btn btn-secondary disabled">Debes añadir tus datos personales en tu perfil para hacer el pedido</button>
-        }
-        else
-        {
-            <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
         }
 
-        <br />
-
-      @*  <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag<"></i> Seguir comprando</a>
-        <a asp-area="Public" asp-controller="TCestums" asp-action="CrearPedido" class="btn btn-primary"><i class="fas fa-shopping-bag<"></i>Procesar pedido</a>*@
     </div>
-</form>
-
-
+</div>
 <script>
     function actualizarCesta(idCesta, cantidad) {
         var data = {
@@ -300,7 +326,6 @@
 
     function crearPedido(totalCesta) {
 
-
         var data = {
             total: totalCesta,
             idFormaDeEnvio: $('input[name=radioFormaEnvio]:checked').val(),
@@ -316,13 +341,13 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (result) {
-                if(result.success){
+                if (result.success) {
                     window.location.href = "/Public/Pedidos/PedidoRealizado";
                     console.log(result.message);
-                }else{
+                } else {
                     console.log(result.message);
                 }
-                
+
             },
             error: function (qXHR, textStatus, errorThrown) {
                 //window.location.href = "/Public/Pedidos/PedidoRealizado";
@@ -330,4 +355,166 @@
         });
     }
 
+
 </script>
+@*
+    @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion)!listaDireccionesUsuario.Any(q => q.EsDomicilio))
+    {
+    <button class="btn btn-secondary disabled">Debes añadir dirección de entrega y/o facturación para hacer el pedido</button>
+    }
+    else if (String.IsNullOrEmpty(user.Nombre)  String.IsNullOrEmpty(user.Apellidos)  String.IsNullOrEmpty(user.Dni)  String.IsNullOrEmpty(user.PhoneNumber))
+    {
+    <button class="btn btn-secondary disabled">Debes añadir tus datos personales en tu perfil para hacer el pedido</button>
+    }
+    else
+    {
+    <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
+    }*@
+
+@*
+
+
+
+
+    <div class="col justify-content-start">
+    <label class="control-label fw-bold">Datos personales</label><br />
+
+
+    <label class="control-label fw-bold">Nombre</label><br />
+    <label class="control-label">@user.Nombre</label><br />
+
+    <label class="control-label fw-bold">Apellidos</label><br />
+    <label class="control-label">@user.Apellidos</label><br />
+
+
+    <label class="control-label fw-bold">Teléfono</label><br />
+    <label class="control-label">@user.PhoneNumber</label><br />
+
+    <label class="control-label fw-bold">Dni</label><br />
+    <label class="control-label">@user.Dni</label><br />
+
+    </div>
+
+
+
+    <div class="col justify-content-between">
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Dirección de entrega</label>
+
+    @{
+    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+    <label class="form-check-label">
+    @direccion.Direccion
+    @direccion.Localidad
+    @direccion.Pais
+    @direccion.Provincia
+    @direccion.CodPostal
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Dirección de facturación</label>
+
+    @{
+    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+    <label class="form-check-label">
+    @direccion.Direccion
+    @direccion.Localidad
+    @direccion.Pais
+    @direccion.Provincia
+    @direccion.CodPostal
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+
+
+    </div>
+
+    <div class="col justify-content-end">
+
+
+    <div class="col-3">
+
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de envio</label>
+
+    @{
+    foreach (var envio in listaFormasDeEnvio)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required>
+    <label class="form-check-label">
+    @envio.FormaDeEnvio
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de entrega</label>
+
+    @{
+    foreach (var entrega in listaFormasDeEntrega)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required>
+    <label class="form-check-label">
+    @entrega.FormaDeEntrega
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de pago</label>
+
+    @{
+    foreach (var pago in listaFormasDePago)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required>
+    <label class="form-check-label">
+    @pago.FormaDePago
+    </label>
+    </div>
+    }
+
+
+
+
+    }
+
+    </div>
+
+
+
+    </div>
+
+    <br />
+
+    </div>
+    *@

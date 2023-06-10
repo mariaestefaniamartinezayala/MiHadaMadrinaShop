@@ -60,7 +60,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            //Se debe poner a false en producción
+            //Se debe poner a false en producci&oacute;n
             DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
             {

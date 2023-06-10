@@ -1,24 +1,35 @@
 ﻿@using MiHadaMadrinaShop.Areas.Public.Controllers;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container w-auto mb-3">
+<div class="container mt-4" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Contacto" asp-action="Index" class="text-dark text-decoration-none active">Contacto</a></li>
+    </ol>
+</div>
+<hr class="d-block d-md-none" />
+
+<div class="container p-4 d-flex flex-column min-vh-100">
     <div class="row justify-content-center align-self-center">
-        <div class="col-11 col-md-8 container-shadow p-3 bg-white">
-            <div class="col-12 h3 text-center color-text font-weight-bold">
+        <div class="col-11 col-md-8 container-shadow px-3 bg-white py-4 rounded shadow-sm border">
+            <div class="col-12 col-md-6 text-center my-3 mx-auto">
+                <img src="~/img/illustrations/contact.svg" alt="Formulario de contacto" class="img-fluid imagen-width" />
+            </div>
+            <div class="col-12 h3 text-center pb-2 color-text font-weight-bold">
                 Formulario de contacto
             </div>
-            <div class="col-12 h5 text-justify mb-4">
+            <div class="col-12 h5 text-justify px-4">
                 ¡Hola! Si tienes alguna consulta, sugerencia o simplemente deseas contactarme, 
                 no dudes en utilizar el formulario de contacto. Estoy aquí para escucharte y 
-                responder a todas tus inquietudes. Tu opinión es muy importante para mí y haré todo 
-                lo posible por brindarte la mejor atención posible. ¡Espero con ansias recibir 
-                tu mensaje y comenzar una conversación llena de creatividad y magia!
+                responder a todas tus inquietudes. Tu opini&oacute;n es muy importante para mí y haré todo 
+                lo posible por brindarte la mejor atenci&oacute;n posible. ¡Espero con ansias recibir 
+                tu mensaje y comenzar una conversaci&oacute;n llena de creatividad y magia!
             </div>
-            <div class="col-12">
+            <div class="col-12 px-4">
                 <form enctype="text/plain" action="mailto:contacto@mihadamadrina.com" method="post">
                     <div class="form-row align-items-center">
                         <div class="col-12">
@@ -33,6 +44,10 @@
                                 </div>
                                 <input type="text" class="form-control" id="email" placeholder="Email">
                             </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="control-label label-form pl-1" for="name">Asunto</label>
+                            <input type="text" class="form-control mb-2" id="name" placeholder="Asunto">
                         </div>
                         <div class="col-12">
                             <label class="control-label label-form pl-1" for="message">Mensaje</label>
