@@ -1,48 +1,31 @@
 ﻿@page
 @model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos.DetailsModel
 @using MiHadaMadrinaShop.Areas.Public.Controllers.ImprimirPDF
+@using MiHadaMadrinaShop.Models
+@inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
     ViewData["Title"] = "Details";
     //Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
     var estado = Model.Pedido.IdEstado;
+    List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).ToList();
+    Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionDomicilio)).FirstOrDefault();
+    Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionFacturacion)).FirstOrDefault();
+
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Pedido</h4>
     <hr />
+
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdDireccionDomicilio)
+            Número de pedido
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdDireccionDomicilio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.Iva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.Iva)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.PorcentajeDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.PorcentajeDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.Total)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.Total)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.TotalSinIva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.TotalSinIva)
+            @Html.DisplayFor(model => model.Pedido.IdPedido)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Pedido.FechaPedido)
@@ -57,49 +40,88 @@
             @Html.DisplayFor(model => model.Pedido.FechaEnvio)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdDireccionFacturacion)
+            Dirección de domicilio
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdDireccionFacturacion)
+            @direccionDomicilio.Direccion<br />
+            @direccionDomicilio.CodPostal<br />
+            @direccionDomicilio.Localidad<br />
+            @direccionDomicilio.Provincia<br />
+            @direccionDomicilio.Pais<br />
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdAspNetUsersNavigation)
+            Dirección de facturación
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdAspNetUsersNavigation.Id)
+            @direccionFacturacion.Direccion<br />
+            @direccionFacturacion.CodPostal<br />
+            @direccionFacturacion.Localidad<br />
+            @direccionFacturacion.Provincia<br />
+            @direccionFacturacion.Pais<br />
+        </dd>
+
+    </dl>
+
+    @*Productos*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in listaCestas)
+                {
+                    <tr>
+                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
+                        <td>@item.Cantidad</td>
+                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
+                        <td>@item.Total€</td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <dl class="row">
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pedido.TotalSinIva)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pedido.TotalSinIva)€
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdEstadoNavigation)
+            @Html.DisplayNameFor(model => model.Pedido.Iva)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdEstadoNavigation.IdEstado)
+            @Html.DisplayFor(model => model.Pedido.Iva)€
         </dd>
+
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdFormaDeEntregaNavigation)
+            @Html.DisplayNameFor(model => model.Pedido.Total)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdFormaDeEntregaNavigation.IdFormaDeEntrega)
+            @Html.DisplayFor(model => model.Pedido.Total)€
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdFormaDeEnvioNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdFormaDeEnvioNavigation.IdFormaDeEnvio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.IdFormaDePagoNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdFormaDePagoNavigation.IdFormaDePago)
-        </dd>
+
     </dl>
 </div>
 <div>
+    <a asp-page="./IndexPedidos" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
     @{
-        if(estado > 2){
-            <partial name="_ImprimirPedidoPartial" />
+        if (estado > 2)
+        {
+            <a asp-area="Public" asp-controller="ImprimirPDF" asp-action="ImprimirPDF" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Pedido</a>
         }
     }
-    
-    <a asp-page="./IndexPedidos">Volver</a>
+
+
 </div>

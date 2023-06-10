@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+    ViewData["ActivePage"] = ManageNavPages.Pedidos;
     var listaEstados = _context.Estados.ToList();
 }
 

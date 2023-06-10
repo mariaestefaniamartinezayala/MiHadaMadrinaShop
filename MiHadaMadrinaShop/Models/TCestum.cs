@@ -31,6 +31,8 @@ namespace MiHadaMadrinaShop.Models
         [NotMapped]
         public int? StockProducto { get; set; }
 
+       
+
         public virtual AspNetUser? IdAppNetUsersNavigation { get; set; }
         public virtual Pedido? IdPedidoNavigation { get; set; }
         public virtual Producto? IdProductoNavigation { get; set; }

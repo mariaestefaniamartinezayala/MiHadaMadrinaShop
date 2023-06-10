@@ -23,10 +23,10 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.ImprimirPDF
             return View();
         }
 
-        public IActionResult ImprimirPDF(int idPedido)
+        public IActionResult ImprimirPDF(int id)
         {
             // Obtenemos la cabecera del pedido
-            Pedido modelo = _dbContext.Pedidos.Include(c => c.TCesta).Where(p => p.IdPedido == idPedido)
+            Pedido modelo = _dbContext.Pedidos.Include(c => c.TCesta).Where(p => p.IdPedido == id)
                 .Select(p => new Pedido()
                 {
                     IdPedido = p.IdPedido,

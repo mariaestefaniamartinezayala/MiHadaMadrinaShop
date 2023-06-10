@@ -15,6 +15,6 @@ namespace MiHadaMadrinaShop.Models
         public bool EsFacturacion { get; set; }
         public bool EsDomicilio { get; set; }
 
-        public virtual AspNetUser IdAspNetUsersNavigation { get; set; } = null!;
+        public virtual AspNetUser? IdAspNetUsersNavigation { get; set; } = null!;
     }
 }
