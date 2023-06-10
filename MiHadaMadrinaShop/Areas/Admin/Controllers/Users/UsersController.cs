@@ -86,7 +86,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Users
                 // Si el usuario se ha creado correctamente y el login es OK, redirigimos a home
                 if (resultado.Succeeded)
                 {
-                    // Redirige a la la página INDEX de los usuarios
+                    // Redirige a la la p&aacute;gina INDEX de los usuarios
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -163,7 +163,61 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Users
             }
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var usuario = await _userManager.FindByIdAsync(id);
+
+            if (usuario == null)
+            {
+                ViewBag.ErrorMessage = $"EL usuario con el ID: {usuario.Id}, no existe en la base de datos";
+                return View("Error");
+            }
+            else
+            {
+                var resultado = await _userManager.DeleteAsync(usuario);
+
+                if (resultado.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                foreach (var error in resultado.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    if (_context.AspNetUsers == null)
+        //    {
+        //        return Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetUsers'  is null.");
+        //    }
+        //    var aspNetUser = await _context.AspNetUsers.FindAsync(id);
+        //    if (aspNetUser != null)
+        //    {
+        //        _context.AspNetUsers.Remove(aspNetUser);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        private bool AspNetUserExists(string id)
+        {
+            return (_context.AspNetUsers?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+    }
+}
+/*
+    [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.AspNetUsers == null)
@@ -198,10 +252,4 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Users
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool AspNetUserExists(string id)
-        {
-            return (_context.AspNetUsers?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-    }
-}
+ */

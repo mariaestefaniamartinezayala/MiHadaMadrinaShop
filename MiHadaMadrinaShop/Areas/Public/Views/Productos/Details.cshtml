@@ -5,107 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var imagenUrl = Model.ImagenUrl;
 }
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6">
-                @{
-                    <img class="card-img-top mb-5 mb-md-0" src="~/img/productos/@imagenUrl" alt="Imagen del producto" />
+
+<div class="container mt-4" aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Tienda</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Public" asp-controller="Productos" asp-action="Details" class="text-dark text-decoration-none active">Detalle</a></li>
+    </ol>
+</div>
+<hr class="d-block d-md-none" />
+
+<div class="container px-4 px-lg-5 my-5 d-flex flex-column min-vh-100">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+        <div class="col-md-6">
+            @{
+                <img class="card-img-top mb-5 mb-md-0" src="~/img/productos/@imagenUrl" alt="Imagen del producto" />
+            }
+        </div>
+        <div class="col-md-6">
+            @*  <div class="small mb-1">SKU: BST-498</div>*@
+            <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
+            <div class="fs-5 mb-5">
+                @if (Model.PorcentajeDeDescuento > 0)
+                {
+                    <span class="card-text"> @Html.DisplayFor(modelItem => Model.PrecioConDescuento)€</span>
+
+                    <span class="text-muted text-decoration-line-through">@Html.DisplayFor(modelItem => Model.Precio)€</span>
+                }
+                else
+                {
+                    <span class="card-text">@Html.DisplayFor(modelItem => Model.Precio)€</span>
                 }
             </div>
-            <div class="col-md-6">
-              @*  <div class="small mb-1">SKU: BST-498</div>*@
-                <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
-                <div class="fs-5 mb-5">
-                    @if (Model.PorcentajeDeDescuento > 0)
-                    {
-                        <span class="card-text"> @Html.DisplayFor(modelItem => Model.PrecioConDescuento)€</span>
+            <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
+            <div class="d-flex">
+                <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
+                <button class="btn btn-outline-dark flex-shrink-0" type="button" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="Model.IdProducto">
+                    <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
+                </button>
+            </div>
 
-                        <span class="text-muted text-decoration-line-through">@Html.DisplayFor(modelItem => Model.Precio)€</span>
-                    }
-                    else
-                    {
-                        <span class="card-text">@Html.DisplayFor(modelItem => Model.Precio)€</span>
-                    }
-                </div>
-                <p class="lead"> @Html.DisplayFor(model => model.DescripcionLarga)</p>
-                <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button" asp-controller="TCestums" asp-action="AddProductToCart" asp-route-id="Model.IdProducto">
-                        <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
-                    </button>
-                </div>
-
-                <div class="my-5">
-                    <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
-                </div>
+            <div class="my-5">
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>
             </div>
         </div>
     </div>
-</section>
-
-@*<div>
-    <dl class="row">
-      <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionCorta)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionCorta)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionLarga)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionLarga)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeEntrada)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeEntrada)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagenUrl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImagenUrl)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioConDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrecioConDescuento)
-        </dd>
-       @* <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlProductoDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UrlProductoDigital)
-        </dd>
-    </dl>
-</div>*@
-
+</div>

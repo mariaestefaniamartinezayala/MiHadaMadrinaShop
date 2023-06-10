@@ -3333,7 +3333,7 @@
     "search": {
       "terms": [
         "bahai",
-        "bahá'í",
+        "bah&aacute;'í",
         "star"
       ]
     },
@@ -3341,7 +3341,7 @@
       "solid"
     ],
     "unicode": "f666",
-    "label": "Bahá'í",
+    "label": "Bah&aacute;'í",
     "voted": false,
     "svg": {
       "solid": {

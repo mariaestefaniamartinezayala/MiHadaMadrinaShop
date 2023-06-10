@@ -1,46 +1,63 @@
 ﻿@using MiHadaMadrinaShop.Areas.Public.Controllers;
 
 @{
-    ViewData["Title"] = "FAQ";
+    ViewData["Title"] = "Documentos";
 }
 
-<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3 sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" asp-area="Public" asp-controller="Home" asp-action="Index">
-            <img class="imagen-icon pr-1" src="~/img/logo-MiHadaMadrinaHandMade.png" alt="Logo Mi Hada Madrina">
-            <span>Mi Hada Madrina</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-md-inline-flex">
-            <ul class="navbar-nav flex-grow-1 justify-content-end text-right">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-light text-dark font-weight-bold ml-1 text-right px-2" asp-area="Public" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i>  Home</a>
-                </li>
-            </ul>
+<a name="documentos">&nbsp;</a>
+
+<div class="container-fluid w-auto">
+    <div class="row justify-content-center align-self-center">
+        <div class="col-11 col-md-8 container-shadow px-3 bg-white py-4 rounded shadow-sm border">
+            <div class="col-12 col-md-4 offset-4 text-center my-3">
+                <img src="~/img/illustrations/undraw_photocopy_re_gln4.svg" alt="Descarga de ficheros" class="img-fluid imagen-width" />
+            </div>
+            <div class="col-12 h3 text-center pb-2 color-text font-weight-bold" id="archivosDigitales">
+                Instrucciones para imprimir archivos digitales
+            </div>
+            <div class="col-12">
+                <dl class="px-4">
+                    <dt class="fw-bold">Paso 1: Descarga el archivo</dt>
+                    <dd>Después de realizar la compra, recibirás un enlace de descarga. Haz clic en el enlace y guarda el archivo en tu ordenador.</dd>
+
+                    <dt>Paso 2: Requisitos de impresión</dt>
+                    <dd>Recomendamos imprimir los archivos en papel de gramaje 200 o 300 para obtener mejores resultados. Esto garantizará una calidad óptima y durabilidad en tus impresiones.</dd>
+
+                    <dt>Paso 3: Configuración de la impresora</dt>
+                    <dd>Asegúrate de tener tu impresora correctamente configurada. Verifica los ajustes de calidad de impresión, tamaño de papel y alineación antes de imprimir. Si tienes alguna duda sobre la configuración de tu impresora, consulta el manual del fabricante o comunícate con el soporte técnico.</dd>
+
+                    <dt>Paso 4: Prueba de impresión</dt>
+                    <dd>Antes de imprimir el archivo completo, te recomendamos hacer una prueba en una hoja de papel común. Esto te permitirá ajustar cualquier configuración necesaria y verificar que la impresión se ajuste a tus expectativas.</dd>
+
+                    <dt>Paso 5: Ajuste de tamaño</dt>
+                    <dd>Algunos archivos pueden tener diferentes tamaños y orientaciones. Antes de imprimir, asegúrate de ajustar el tamaño del archivo según tus preferencias y las dimensiones de tu papel.</dd>
+                </dl>
+            </div>
         </div>
     </div>
-</nav>
+</div>
 
 
-<a name="docs">&nbsp;</a>
+<a name="guia">&nbsp;</a>
 
 <div class="container-fluid w-auto mb-3">
     <div class="row justify-content-center align-self-center">
-        <div class="col-11 col-md-8 container-shadow px-3 bg-white py-4">
-            <div class="col-12 text-center my-3">
-                <img src="~/img/download.svg" alt="Descarga de ficheros" class="img-fluid imagen-width" />
+        <div class="col-11 col-md-8 container-shadow px-3 bg-white py-4 rounded shadow-sm border">
+            <div class="col-12 col-md-4 offset-4 text-center my-3">
+                <img src="~/img/illustrations/undraw_profile_details_re_ch9r.svg" alt="Guía de uso" class="img-fluid imagen-width" />
             </div>
-            <div class="col-12 h3 text-center pb-2 color-text font-weight-bold" id="archivosDigitales">
-                C&oacute;mo descargar los archivos digitales 
+            <div class="col-12 h3 text-center pb-2 color-text font-weight-bold" id="guia">
+                Gu&iacute;a de uso
             </div>
             <div class="col-12">
-                <div class="col-12 alert alert-primary text-center">
-                    El trozo de texto estándar de Lorem Ipsum usado desde el año 1500 es reproducido debajo para aquellos interesados. Las secciones 1.10.32 y 1.10.33 
-                    de "de Finibus Bonorum et Malorum" por Cicero son también reproducidas en su forma original exacta, acompañadas por versiones en Inglés de la traducción realizada en 1914 por H. Rackham.
-                </div>
+                <ul class="px-4">
+                    <li>Solamente se puede modificar el contenido de los textos en el caso que el producto tenga textos editables.</li>
+                    <li>Debes editar los textos desde una ordenador. Desde el móvil o tablet no funciona.</li>
+                    <li>La tipografía, alineación, tamaños, colores, ubicaciones y dibujos no se pueden modificar o extraer.</li>
+                    <li>Los archivos no se pueden abrir o editar en programas de diseño (Illustrator, Corel o Photoshop). Tampoco en Powerpoint.</li>
+                    <li>Configurado para imprimir únicamente en hojas tamaño A4 y el mismo no se puede modificar.</li>
+                    <li>Aptos para imprimir en impresora hogareña o para llevarlo a la imprenta.</li>
+                </ul>
             </div>
         </div>
     </div>

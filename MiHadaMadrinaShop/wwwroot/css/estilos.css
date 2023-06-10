@@ -23,7 +23,6 @@ body {
  */
 .contenedor {
     margin-bottom: 200px;
-    margin-top: 20px;
     height: auto;
 }
 
@@ -46,7 +45,14 @@ body {
 /*
  * Carrusel
  */
-.carrusel-container img {
+/*@media (max-width: 576px) {
+    .carousel-indicators,
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+}*/
+/*.carrusel-container img {
     width: auto;
     height: 500px;
     min-height: 500px;
@@ -56,6 +62,11 @@ body {
     background: no-repeat center center scroll;
     background-size: cover;
 }
+*/
+.slide{
+    margin-top: 10px;
+}
+
 
 /*
  * Tienda
@@ -165,3 +176,24 @@ body {
 .tooltip .arrow:before {
     border-top-color: hotpink;
 }
+
+
+/*
+ * Cabecera de las tablas
+ */
+.thead-color {
+    background-color: #F9C7CF;
+    color: #000000;
+}
+
+/*
+ * 
+ */
+
+/*
+ * 
+ */
+
+/*
+ * 
+ */

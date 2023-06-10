@@ -3,9 +3,15 @@
 @{
     if (User.Identity.GetUserId() != null)
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Public" asp-controller="TCestums" asp-action="Index"><i class="fas fa-shopping-cart"></i></a>
-        </li>
-
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark justify-content-end" type="submit" asp-area="Public" asp-controller="TCestums" asp-action="Index">
+                        <i class="fas fa-shopping-cart me-1"></i>
+                        Carrito
+                    </button>
+                </form>
+            </li>
+        </ul>
     }
 }

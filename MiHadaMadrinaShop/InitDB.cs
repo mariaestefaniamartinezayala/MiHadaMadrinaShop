@@ -140,7 +140,7 @@ namespace MiHadaMadrinaShop
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                var formasDeEnvios = new[] { "Envío estándar", "Envío urgente" };
+                var formasDeEnvios = new[] { "Envío est&aacute;ndar", "Envío urgente" };
 
                 foreach (var fe in formasDeEnvios)
                 {

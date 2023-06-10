@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MiHadaMadrinaShop.Models;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (User.Identity.IsAuthenticated)
+{
+    var user = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(user);
+
+    if (roles.Contains("Admin"))
+    {
+        @* Usuarios - Roles Start *@
+        <div class="sb-sidenav-menu-heading">Usuarios - Roles</div>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsuRol" aria-expanded="false" aria-controls="collapseUsuRol">
+            <div class="sb-nav-link-icon"><i class="fas fa-people-group"></i></div>
+            Usuarios - Roles
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseUsuRol" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordionUsuRol">
+            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionUsuRol">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#UsuariosCollapseUsuarios" aria-expanded="false" aria-controls="UsuariosCollapseUsuarios">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    Usuarios
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="UsuariosCollapseUsuarios" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionUsuRol">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">Lista de usuarios</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Create">Crear usuario</a>
+                    </nav>
+                </div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#rolesCollapseRoles" aria-expanded="false" aria-controls="rolesCollapseRoles">
+                    <div class="sb-nav-link-icon"><i class="fas fa-person-circle-exclamation"></i></div>
+                    Roles
+                    <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="rolesCollapseRoles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionUsuRol">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Roles" asp-action="Index">Lista de roles</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Roles" asp-action="Create">Crear rol</a>
+                    </nav>
+                </div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#sexosCollapseSexos" aria-expanded="false" aria-controls="sexosCollapseSexos">
+                    <div class="sb-nav-link-icon"><i class="fas fa-venus-mars"></i></div>
+                    Sexos
+                    <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="sexosCollapseSexos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionUsuRol">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Sexos" asp-action="Index">Lista de sexos</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Sexos" asp-action="Create">Crear sexo</a>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+        @* Usuarios - Roles End *@
+    }
+
+    if (roles.Contains("Editor"))
+    {
+        @* Sexos Start *@
+        <div class="sb-sidenav-menu-heading">Usuarios - Roles</div>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsuRol" aria-expanded="false" aria-controls="collapseUsuRol">
+            <div class="sb-nav-link-icon"><i class="fas fa-people-group"></i></div>
+            Usuarios - Roles
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseUsuRol" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordionUsuRol">
+            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionUsuRol">
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#sexosCollapseSexos" aria-expanded="false" aria-controls="sexosCollapseSexos">
+                    <div class="sb-nav-link-icon"><i class="fas fa-venus-mars"></i></div>
+                    Sexos
+                    <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="sexosCollapseSexos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionUsuRol">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Sexos" asp-action="Index">Lista de sexos</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Sexos" asp-action="Create">Crear sexo</a>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+        @* Sexos End *@
+    }
+}

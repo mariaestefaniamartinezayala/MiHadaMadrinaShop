@@ -58,28 +58,31 @@
                         }
 
                         <tr>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => item.Nombre)
                             </td>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => item.Apellidos)
                             </td>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => nombreSexo)
                             </td>
-                           <td class="pt-3 text-center">
+                            <td class="pt-3 text-center">
                                 @Html.DisplayFor(modelItem => item.PhoneNumber)
                             </td>
                             <td class="pt-3 text-center">
-                                <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-outline-success py-2" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info"></i></a>
-                                <a class="btn btn-outline-danger py-2" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                                
+                                @*    <a class="btn btn-outline-success py-2" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info"></i></a>*@
+                                <form method="post" asp-action="Delete" asp-route-id="@item.Id">
+                                    <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                                    <button class="btn btn-outline-danger py-2" type="submit" onclick="return confirm('¿Est&aacute; seguro que desea borrar el usuario: @item.UserName')"><i class="fas fa-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
                     }

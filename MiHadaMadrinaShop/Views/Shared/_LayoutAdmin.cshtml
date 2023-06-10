@@ -1,0 +1,112 @@
+﻿@using MiHadaMadrinaShop.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject MiHadaMadrinaHandMadeDBContext _context
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = null;
+    string userName = User.Identity.Name.Split("@")[0];
+}
+
+<!DOCTYPE html>
+<html lang="es-es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="keywords" content="Scrap, Scrapbooking, Papeler&iacute;a, Regalos, Bebes, &Aacute;lbum, Decoraci&oacute;n" />
+    <meta name="description" content="Tienda Online venta de articulos de scrapbooking" />
+    <meta name="robots" content="index,nofollow" />
+    <meta name="author" content="Andrea Lamus Prada" />
+    <meta name="author" content="Mar&iacute;a Estefan&iacute;a Mart&iacute;nez Ayala" />
+    <meta name="copyright" content="(C) DevFAndy - 2023" />
+    <title>@ViewData["Title"] - Mi Hada Madrina Hand Made</title>
+    @*Bootstrap CSS*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*Bootstrap icons*@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+    @*Fontawesome icons*@
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
+
+
+    @*Estilos p&aacute;ginas de registro y login*@
+    <link rel="stylesheet" href="~/css/auth.css" />
+    @*Estilos que sobre escribe los colores de bootstrap*@
+    <link rel="stylesheet" href="~/css/core.css" />
+    @*<link rel="stylesheet" href="~/css/theme-default.css" />*@
+    @*Estilos generales*@
+    <link rel="stylesheet" href="~/css/estilos.css" />
+
+    @*Datatable*@
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    @*Core theme CSS (includes Bootstrap)*@
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+    <header>
+        @* Navigation Start *@
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            @* <div class="container px-4 px-lg-5">*@
+            <a class="navbar-brand ps-3" asp-area="Admin" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+            @* Navbar Start *@
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i><span class="d-none d-md-inline">Hola @userName</span></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="dropdown-item">Salir</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            @* Navbar End *@
+            @*
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <partial name="_LoginPartial" />
+            </div>*@
+            @* </div>*@
+        </nav>
+        @* Navigation End *@
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-2">
+            @RenderBody()
+        </main>
+    </div>
+
+    <partial name="_CookieConsentPartial" />
+    <partial name="_FooterPartial" />
+    @*jQuery first, then Bootstrap JS*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/popper/popper.js"></script>
+    @* Bootstrap core JS *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* Bootstrap core JS *@
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>*@
+    <script src="~/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/assets/demo/chart-area-demo.js"></script>
+    <script src="~/assets/demo/chart-bar-demo.js"></script>
+    <script src="~/assets/demo/chart-pie-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

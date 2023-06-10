@@ -157,7 +157,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage
                 
             }
 
-            StatusMessage = "El email no es válido";
+            StatusMessage = "El email no es v&aacute;lido";
             return RedirectToPage();
         }
 

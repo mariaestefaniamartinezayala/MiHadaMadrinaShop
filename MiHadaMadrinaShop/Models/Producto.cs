@@ -18,10 +18,10 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "ID")]
         public long IdProducto { get; set; }
 
-        [Display(Name = "Descripción corta")]
+        [Display(Name = "Descripci&oacute;n corta")]
         public string? DescripcionCorta { get; set; }
 
-        [Display(Name = "Descripción larga")]
+        [Display(Name = "Descripci&oacute;n larga")]
         public string? DescripcionLarga { get; set; }
 
         [Display(Name = "Fecha de entrada")]
