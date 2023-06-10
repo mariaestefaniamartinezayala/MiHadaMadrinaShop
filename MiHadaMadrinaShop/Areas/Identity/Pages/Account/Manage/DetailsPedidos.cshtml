@@ -11,7 +11,8 @@
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionDomicilio)).FirstOrDefault();
     Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionFacturacion)).FirstOrDefault();
-
+  
+  
 }
 
 <h1>Detalles</h1>
@@ -117,9 +118,21 @@
 <div>
     <a asp-page="./IndexPedidos" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
     @{
+        
         if (estado > 2)
         {
             <a asp-area="Public" asp-controller="ImprimirPDF" asp-action="ImprimirPDF" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Pedido</a>
+        }
+
+        if (estado == 7)
+        {
+            if (_context.Facturas.Any(q => q.IdPedido.Equals(Model.Pedido.IdPedido)))
+            {
+                //var idFactura = _context.Facturas.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).FirstOrDefault().IdFactura;
+
+                <a asp-area="Public" asp-controller="ImprimirFactura" asp-action="ImprimirFactura" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir factura</a>
+            }
+            
         }
     }
 

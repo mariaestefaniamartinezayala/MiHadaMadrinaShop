@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNet.Identity
+@model MiHadaMadrinaShop.Models.Pedido
+@inject MiHadaMadrinaHandMadeDBContext _context;
+@{
+    Layout = null;
+    var idUser = User.Identity.GetUserId();
+    AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(idUser)).FirstOrDefault();
+    List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
+    Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
+    Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionFacturacion)).FirstOrDefault();
+
+ 
+
+    var idFactura = _context.Facturas.Where(q => q.IdPedido.Equals(Model.IdPedido)).FirstOrDefault().IdFactura;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ImprimirPedido</title>
+    <link rel="stylesheet" href="~/css/estilosPDF.css" />
+</head>
+<body>
+
+    <div class="contenedor">
+
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <img src="~/img/logo.png" style="width: 75px;" />
+                </td>
+                <td style="text-align:right">
+                    <table style="margin-right:0;margin-left:auto">
+                        <tr><td><p class="title2">NÚMERO FACTURA</p></td></tr>
+                        <tr><td>@idFactura</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <p class="title">MI HADA MADRINA</p>
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="text">Dirección domicilio </p>
+                                <p>@direccionDomicilio.Direccion</p>
+                                <p>@direccionDomicilio.CodPostal</p>
+                                <p>@direccionDomicilio.Localidad</p>
+                                <p>@direccionDomicilio.Provincia</p>
+                                <p>@direccionDomicilio.Pais</p>
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="text">Dirección facturación </p>
+                                <p>@direccionFacturacion.Direccion</p>
+                                <p>@direccionFacturacion.CodPostal</p>
+                                <p>@direccionFacturacion.Localidad</p>
+                                <p>@direccionFacturacion.Provincia</p>
+                                <p>@direccionFacturacion.Pais</p>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                </td>
+                <td style="text-align:right">
+                    <table style="margin-right:0;margin-left:auto">
+                        <tr>
+                            <td><p class="title">CLIENTE</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text">@user.Nombre @user.Apellidos</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text">@user.Dni</p></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="text">Correo: @user.Email</p></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+        <table class="tbproductos" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="tbth">Producto</th>
+                    <th class="tbth" style="width:130px">Cantidad</th>
+                    <th class="tbth" style="width:130px">Precio</th>
+                    <th class="tbth" style="width:130px">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in listaCestas)
+                    {
+                        <tr>
+                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</p></td>
+                            <td class="td-item"><p class="item" style="color: #000000">@item.Cantidad</p></td>
+                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento</p></td>
+                            <td style="background-color:#EDF6F9"><p class="item" style="color: #000000">@item.Total</p></td>
+                        </tr>
+
+                    }
+                }
+                <tr>
+                    <td colspan="2" rowspan="3">
+                    </td>
+                    <td class="td-item">
+                        <p class="item-2" style="color: #000000">Total sin IVA</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.TotalSinIva</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-item">
+                        <p class="item-2" style="color: #000000">IVA</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.Iva</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="item-3">
+                        <p>Total</p>
+                    </td>
+                    <td class="item-3">
+                        <p>@Model.Total</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

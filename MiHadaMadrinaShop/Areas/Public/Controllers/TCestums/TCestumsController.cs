@@ -384,7 +384,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
 
 
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true, message = "Añadido" });
         }
 
 

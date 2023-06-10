@@ -18,7 +18,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos
             _context = context;
         }
 
-      public Pedido Pedido { get; set; } = default!; 
+        public Pedido Pedido { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -32,11 +32,34 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Pedido = pedido;
             }
+
+            CrearFactura(pedido);
+
             return Page();
+        }
+
+        public void CrearFactura(Pedido pedido)
+        {
+
+
+            if (pedido.IdEstado == 7)
+            {
+
+                if (!_context.Facturas.Any(q => q.IdPedido.Equals(pedido.IdPedido)))
+                {
+                    Factura factura = new Factura();
+                    factura.IdPedido = pedido.IdPedido;
+
+                    _context.Add(factura);
+                    _context.SaveChangesAsync();
+                }
+
+
+            }
         }
     }
 }

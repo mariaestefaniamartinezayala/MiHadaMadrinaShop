@@ -29,7 +29,7 @@ namespace MiHadaMadrinaShop.Models
         public string IdAspNetUsers { get; set; } = null!;
         [Display(Name = "Fecha de pedido")]
         [DataType(DataType.Date)]
-        public DateTime FechaPedido { get; set; }
+        public DateTime FechaPedido { get; set; } = DateTime.MinValue;
         [Display(Name = "Fecha de envío")]
         [DataType(DataType.Date)]
         public DateTime? FechaEnvio { get; set; }
