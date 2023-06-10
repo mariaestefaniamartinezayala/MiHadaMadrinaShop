@@ -22,170 +22,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
             _context = context;
         }
 
-        // GET: Public/Pedidos
-        public async Task<IActionResult> Index()
-        {
-            var miHadaMadrinaHandMadeDBContext = _context.Pedidos.Include(p => p.IdAspNetUsersNavigation).Include(p => p.IdEstadoNavigation).Include(p => p.IdFormaDeEntregaNavigation).Include(p => p.IdFormaDeEnvioNavigation).Include(p => p.IdFormaDePagoNavigation);
-            return View(await miHadaMadrinaHandMadeDBContext.ToListAsync());
-        }
-
-        // GET: Public/Pedidos/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null || _context.Pedidos == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedidos
-                .Include(p => p.IdAspNetUsersNavigation)
-                .Include(p => p.IdEstadoNavigation)
-                .Include(p => p.IdFormaDeEntregaNavigation)
-                .Include(p => p.IdFormaDeEnvioNavigation)
-                .Include(p => p.IdFormaDePagoNavigation)
-                .FirstOrDefaultAsync(m => m.IdPedido == id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            return View(pedido);
-        }
-
-        // GET: Public/Pedidos/Create
-        public IActionResult Create()
-        {
-            ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id");
-            ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado");
-            ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega");
-            ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio");
-            ViewData["IdFormaDePago"] = new SelectList(_context.FormasDePagos, "IdFormaDePago", "IdFormaDePago");
-            return View();
-        }
-
-        // POST: Public/Pedidos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPedido,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(pedido);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
-            ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
-            ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
-            ViewData["IdFormaDePago"] = new SelectList(_context.FormasDePagos, "IdFormaDePago", "IdFormaDePago", pedido.IdFormaDePago);
-            return View(pedido);
-        }
-
-        // GET: Public/Pedidos/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null || _context.Pedidos == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedidos.FindAsync(id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
-            ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
-            ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
-            ViewData["IdFormaDePago"] = new SelectList(_context.FormasDePagos, "IdFormaDePago", "IdFormaDePago", pedido.IdFormaDePago);
-            return View(pedido);
-        }
-
-        // POST: Public/Pedidos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("IdPedido,IdEstado,IdFormaDeEntrega,IdFormaDeEnvio,IdFormaDePago,Iva,PorcentajeDescuento,Total,TotalSinIva,IdAspNetUsers,FechaPedido,FechaEnvio")] Pedido pedido)
-        {
-            if (id != pedido.IdPedido)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pedido);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PedidoExists(pedido.IdPedido))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdAspNetUsers"] = new SelectList(_context.AspNetUsers, "Id", "Id", pedido.IdAspNetUsers);
-            ViewData["IdEstado"] = new SelectList(_context.Estados, "IdEstado", "IdEstado", pedido.IdEstado);
-            ViewData["IdFormaDeEntrega"] = new SelectList(_context.FormasDeEntregas, "IdFormaDeEntrega", "IdFormaDeEntrega", pedido.IdFormaDeEntrega);
-            ViewData["IdFormaDeEnvio"] = new SelectList(_context.FormasDeEnvios, "IdFormaDeEnvio", "IdFormaDeEnvio", pedido.IdFormaDeEnvio);
-            ViewData["IdFormaDePago"] = new SelectList(_context.FormasDePagos, "IdFormaDePago", "IdFormaDePago", pedido.IdFormaDePago);
-            return View(pedido);
-        }
-
-        // GET: Public/Pedidos/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.Pedidos == null)
-            {
-                return NotFound();
-            }
-
-            var pedido = await _context.Pedidos
-                .Include(p => p.IdAspNetUsersNavigation)
-                .Include(p => p.IdEstadoNavigation)
-                .Include(p => p.IdFormaDeEntregaNavigation)
-                .Include(p => p.IdFormaDeEnvioNavigation)
-                .Include(p => p.IdFormaDePagoNavigation)
-                .FirstOrDefaultAsync(m => m.IdPedido == id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
-            return View(pedido);
-        }
-
-        // POST: Public/Pedidos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            if (_context.Pedidos == null)
-            {
-                return Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Pedidos'  is null.");
-            }
-            var pedido = await _context.Pedidos.FindAsync(id);
-            if (pedido != null)
-            {
-                _context.Pedidos.Remove(pedido);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+   
 
         private bool PedidoExists(long id)
         {
@@ -198,13 +35,15 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
         {
             if(data.IdFormaDeEntrega == 0 || data.IdFormaDeEnvio == 0 || data.IdFormaDePago == 0 || data.IdDireccionDomicilio == 0 || data.IdDireccionFacturacion == 0)
             {
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = false, message = "Pedido no creado" });
             }
            
 
             var user = User.Identity.GetUserId();
 
-            var cestaUser = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(user));
+            var cestaUser = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(user) && q.IdPedido.Equals(null));
+
+            
 
             Pedido pedido = new Pedido();
             pedido.Iva = 21;
@@ -226,6 +65,8 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
             //Ponerle a las cestas el id del pedido
             long idPedido = _context.Pedidos.Max(q => q.IdPedido);
 
+            
+
             foreach (var cesta in cestaUser)
             {
                 cesta.IdPedido = idPedido;
@@ -233,15 +74,15 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.Pedidos
             }
             await _context.SaveChangesAsync();
 
+            return Json(new { success = true, message = "Pedido creado" });
 
+        }
 
-            return RedirectToAction(nameof(Index));
-           
+        [HttpGet]
+        public async Task<IActionResult> PedidoRealizado()
+        {
 
-
-            //Que se cree el pedido
-            //Que se ponga el id pedido en las cestas del usuario
-            //Poner el idpedido en la cesta solo cuando se acepte el pago?
+            return View(nameof(PedidoRealizado));
         }
 
     }

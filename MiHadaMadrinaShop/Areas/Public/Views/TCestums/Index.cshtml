@@ -6,13 +6,13 @@
     ViewData["Title"] = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var user = User.Identity.GetUserId();
+
 
     List<FormasDePago> listaFormasDePago = _context.FormasDePagos.ToList();
     List<FormasDeEnvio> listaFormasDeEnvio = _context.FormasDeEnvios.ToList();
     List<FormasDeEntrega> listaFormasDeEntrega = _context.FormasDeEntregas.ToList();
 
-    List<Direccione> listaDireccionesUsuario = _context.Direcciones.Where(q => q.IdAspNetUsers.Equals(user)).ToList();
+    List<Direccione> listaDireccionesUsuario = _context.Direcciones.Where(q => q.IdAspNetUsers.Equals(userId)).ToList();
 
     decimal? totalCesta = 0;
 
@@ -143,6 +143,7 @@
     </div>
 </div>
 
+
 <script>
     function actualizarCesta(idCesta, cantidad) {
         var data = {
@@ -182,10 +183,16 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (result) {
-                //window.location.reload();
+                if(result.success){
+                    window.location.href = "/Public/Pedidos/PedidoRealizado";
+                    console.log(result.message);
+                }else{
+                    console.log(result.message);
+                }
+                
             },
             error: function (qXHR, textStatus, errorThrown) {
-                //window.location.reload();
+                //window.location.href = "/Public/Pedidos/PedidoRealizado";
             }
         });
     }

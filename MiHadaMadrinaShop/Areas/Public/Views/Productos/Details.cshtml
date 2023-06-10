@@ -1,9 +1,13 @@
-﻿@model MiHadaMadrinaShop.Models.Producto
+﻿@using Microsoft.AspNetCore.Identity
+@model MiHadaMadrinaShop.Models.Producto
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var imagenUrl = Model.ImagenUrl;
+    var idProducto = Model.IdProducto;
 }
 
 <div class="container mt-4" aria-label="breadcrumb">

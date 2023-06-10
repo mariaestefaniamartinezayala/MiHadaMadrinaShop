@@ -1,6 +1,15 @@
-﻿@model MiHadaMadrinaShop.Models.Pedido
+﻿@using Microsoft.AspNet.Identity
+@model MiHadaMadrinaShop.Models.Pedido
+@inject MiHadaMadrinaHandMadeDBContext _context;
 @{
     Layout = null;
+    var idUser = User.Identity.GetUserId();
+    AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(idUser)).FirstOrDefault();
+    List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
+    Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
+    Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionFacturacion)).FirstOrDefault();
+
+
 }
 
 <!DOCTYPE html>
@@ -23,7 +32,7 @@
                 <td style="text-align:right">
                     <table style="margin-right:0;margin-left:auto">
                         <tr><td><p class="title2">NÚMERO PEDIDO</p></td></tr>
-                        <tr><td>@Model.</td></tr>
+                        <tr><td>@Model.IdPedido</td></tr>
                     </table>
                 </td>
             </tr>
@@ -36,16 +45,31 @@
                         <tr>
                             <td>
                                 <p class="title">MI HADA MADRINA</p>
+                                <br />
                             </td>
-                        </tr>
-                        <tr>
-                            <td><p class="text">Direcci&oacute;n: Rua Do Progreso 315</p></td>
                         </tr>
                         <tr>
                             <td>
-                                <p class="text">Correo: contacto@mihadamadrina.com</p>
+                                <p class="text">Dirección domicilio </p>
+                                <p>@direccionDomicilio.Direccion</p>
+                                <p>@direccionDomicilio.CodPostal</p>
+                                <p>@direccionDomicilio.Localidad</p>
+                                <p>@direccionDomicilio.Provincia</p>
+                                <p>@direccionDomicilio.Pais</p>
+                                <br />
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <p class="text">Dirección facturación </p>
+                                <p>@direccionFacturacion.Direccion</p>
+                                <p>@direccionFacturacion.CodPostal</p>
+                                <p>@direccionFacturacion.Localidad</p>
+                                <p>@direccionFacturacion.Provincia</p>
+                                <p>@direccionFacturacion.Pais</p>
+                            </td>
+                        </tr>
+                        
                     </table>
                 </td>
                 <td style="text-align:right">
@@ -54,10 +78,13 @@
                             <td><p class="title">CLIENTE</p></td>
                         </tr>
                         <tr>
-                            <td><p class="text">@*@Model.IdAspNetUsers*@Andrea Lamus</p></td>
+                            <td><p class="text">@user.Nombre @user.Apellidos</p></td>
                         </tr>
                         <tr>
-                            <td><p class="text">78451245P</p></td><!--Poner el documento del cliente-->
+                            <td><p class="text">@user.Dni</p></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="text">Correo: @user.Email</p></td>
                         </tr>
                     </table>
                 </td>
@@ -77,13 +104,13 @@
             </thead>
             <tbody>
                 @{
-                    foreach (var item in Model.TCesta)
+                    foreach (var item in listaCestas)
                     {
                         <tr>
-                            <td class="td-item"><p class="item">@item.NombreProducto</p></td>
-                            <td class="td-item"><p class="item">@item.Cantidad</p></td>
-                            <td class="td-item"><p class="item">@item.PrecioProducto</p></td>
-                            <td style="background-color:#EDF6F9"><p class="item">@item.TotalSinIva</p></td>
+                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</p></td>
+                            <td class="td-item"><p class="item" style="color: #000000">@item.Cantidad</p></td>
+                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento</p></td>
+                            <td style="background-color:#EDF6F9"><p class="item" style="color: #000000">@item.Total</p></td>
                         </tr>
 
                     }
@@ -92,7 +119,7 @@
                     <td colspan="2" rowspan="3">
                     </td>
                     <td class="td-item">
-                        <p class="item-2">Total sin IVA</p>
+                        <p class="item-2" style="color: #000000">Total sin IVA</p>
                     </td>
                     <td class="item-3">
                         <p>@Model.TotalSinIva</p>
@@ -100,7 +127,7 @@
                 </tr>
                 <tr>
                     <td class="td-item">
-                        <p class="item-2">IVA</p>
+                        <p class="item-2" style="color: #000000">IVA</p>
                     </td>
                     <td class="item-3">
                         <p>@Model.Iva</p>

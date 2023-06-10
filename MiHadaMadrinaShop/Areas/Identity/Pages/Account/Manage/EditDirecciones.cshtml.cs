@@ -44,10 +44,10 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
             var user = User.Identity.GetUserId();
             Direccione.IdAspNetUsers = user;
 
