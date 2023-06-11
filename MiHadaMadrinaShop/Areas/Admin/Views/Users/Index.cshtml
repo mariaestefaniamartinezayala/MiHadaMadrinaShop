@@ -4,25 +4,33 @@
 
 @{
     ViewData["Title"] = "Lista de usuarios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
     var data = ViewBag.Context = _context;
     var listaSexos = _context.Sexos.ToList();
 }
-<div class="container">
-    <div class="row">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="font-weight-bold font-italic">Listado de usuarios</h1>
-            <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus"></i><span>&nbsp;Nuevo</span></a>
-        </div>
 
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <ol class="breadcrumb mt-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index" class="text-dark text-decoration-none active">Usuario</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+    <div class="row">
+        <div class="col mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="font-weight-bold font-italic">Lista de usuarios</h1>
+            <a class="btn btn-primary" asp-action="Create">
+                <i class="fas fa-plus"></i><span>&nbsp;Nuevo</span></a>
+        </div>
     </div>
-    <div class="col-12 text-cente">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="thead-color">
-                    <tr class="align-self-center">
-                        <th class="py-3 text-center" scope="col">
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
                             User Name
                         </th>
                         <th class="py-3 text-center" scope="col">
@@ -78,11 +86,10 @@
                             </td>
                             <td class="pt-3 text-center">
                                 
-                                @*    <a class="btn btn-outline-success py-2" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info"></i></a>*@
-                                <form method="post" asp-action="Delete" asp-route-id="@item.Id">
-                                    <a class="btn btn-outline-info py-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                                    <button class="btn btn-outline-danger py-2" type="submit" onclick="return confirm('¿Est&aacute; seguro que desea borrar el usuario: @item.UserName')"><i class="fas fa-trash"></i></button>
-                                </form>
+                               @* <form method="post" asp-action="Delete" asp-route-id="@item.Id">*@
+                                        <a class="btn btn-warning mx-auto opacity-50" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                                    <buttom class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@item.Id" type="submit" onclick="return confirm('¿Est&aacute; seguro que desea borrar el usuario: @item.UserName')"><i class="fas fa-trash"></i></buttom>
+                                @*</form>*@
                             </td>
                         </tr>
                     }

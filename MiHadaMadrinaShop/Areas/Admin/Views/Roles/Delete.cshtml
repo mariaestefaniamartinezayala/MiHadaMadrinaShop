@@ -1,27 +1,45 @@
 ﻿@model MiHadaMadrinaShop.Models.AspNetRole
 
 @{
-    ViewData["Title"] = "Eliminar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Eliminar rol";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Eliminar</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Rol</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="text-black-50 text-decoration-none">Rol</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Roles" asp-action="Delete" class="text-dark text-decoration-none active">Eliminar</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
 
-<h3>¿Est&aacute;s seguro de querer eliminar este rol?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar</button>
-    </form>
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Eliminar rol</h1>
+                </div>
+                <form asp-action="Delete" method="post">
+                    <div class="card-body py-0">
+                        <h3>¿Est&aacute;s seguro de querer eliminar el rol @Html.DisplayFor(model => model.Name)?</h3>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="card-footer">
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-danger w-auto mb-1"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-8 col-md-4 align-items-center">
+            <img src="~/img/illustrations/undraw_cancel_re_pkdm.svg" alt="eliminar imagen" class="imagen-width img-fluid rounded mx-auto" />
+        </div>
+    </div>
 </div>

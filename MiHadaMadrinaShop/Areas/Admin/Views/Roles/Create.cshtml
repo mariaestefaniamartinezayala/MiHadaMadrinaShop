@@ -3,25 +3,48 @@
 
 @{
     ViewData["Title"] = "Crear rol";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container">
+<div class="container py-5 d-flex flex-column min-vh-100">
     <div class="row">
-        <div class="col-4 align-items-center offset-4">
-            <h1 class="font-weight-bold font-italic">Crear rol</h1>
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group pb-2">
-                    <label asp-for="Name" class="control-label">Nombre del rol</label>
-                    <input asp-for="Name" class="form-control" aria-required="true" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Roles</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="text-black-50 text-decoration-none">Rol</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Roles" asp-action="Create" class="text-dark text-decoration-none active">Crear</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Crear rol</h1>
                 </div>
-                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
-                    <a asp-action="Index" class="btn btn-secondary flex-fill mr-2"><i class="fas fa-arrow-left"></i> Volver</a>
-                    <button type="submit" class="btn btn-primary flex-fill ml-2"><i class="fas fa-save"></i> Guardar</button>
-                </div>
-            </form>
+                <form asp-action="Create" method="post">
+                    <div class="card-body py-0">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="control-label">Nombre del rol</label>
+                            <input asp-for="Name" class="form-control" aria-required="true" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-8 col-md-4 align-items-center">
+            <img src="~/img/illustrations/undraw_my_documents_re_13dc.svg" alt="imagen de creaci&oacute;n" class="imagen-width img-fluid rounded mx-auto" />
         </div>
     </div>
 </div>

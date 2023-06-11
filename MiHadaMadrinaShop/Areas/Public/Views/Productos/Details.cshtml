@@ -50,23 +50,23 @@
 
                         if (roles.Contains("Public"))
                         {
-                                <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
-                                <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
-                                    <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
-                                </button>
+                            <input class="form-control text-center me-3" id="inputQuantity" type="text" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="AddProductToCartDetails(@idProducto)">
+                                <i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito
+                            </button>
                         }
                         else
                         {
-                                <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
-                                    <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
-                                </div>
+                            <div class="text-center" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Debes iniciar sesión">
+                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                            </div>
                         }
                     }
                     else
                     {
-                            <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
-                                <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
-                            </div>
+                        <div class="text-center" data-toggle="tooltip" data-placement="top" title="Debes iniciar sesión">
+                            <a class="btn btn-outline-dark m-auto" disabled><i class="bi-cart-fill me-1"></i>A&ntilde;adir al carrito</a>
+                        </div>
                     }
                 }
                 <div class="my-5">
@@ -96,7 +96,7 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (result) {
-                if(result.success){
+                if (result.success) {
                     window.location.href = "/Public/TCestums/Index";
                 }
                 //window.location.reload();

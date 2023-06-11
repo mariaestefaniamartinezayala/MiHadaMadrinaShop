@@ -16,7 +16,7 @@ p.title {
 
 p.title2 {
     font-weight: bold;
-    color: #03A99F;
+    color: #696cff;
     font-size: 20px;
 }
 
@@ -40,7 +40,7 @@ table.tbproductos {
 }
 
     table.tbproductos thead tr th {
-        background-color: #03A99F;
+        background-color: #696cff;
         padding: 10px;
         font-size: 15px;
         color: white;
@@ -65,7 +65,7 @@ table.tbproductos {
 .item-3 {
     font-size: 15px;
     font-weight: bold;
-    background-color: #03A99F;
+    background-color: #696cff;
     color: white;
 }
 

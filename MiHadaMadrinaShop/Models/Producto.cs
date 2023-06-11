@@ -18,10 +18,10 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "ID")]
         public long IdProducto { get; set; }
 
-        [Display(Name = "Descripci&oacute;n corta")]
+        [Display(Name = "Descripción corta")]
         public string? DescripcionCorta { get; set; }
 
-        [Display(Name = "Descripci&oacute;n larga")]
+        [Display(Name = "Descripción larga")]
         public string? DescripcionLarga { get; set; }
 
         [Display(Name = "Fecha de entrada")]
@@ -31,7 +31,7 @@ namespace MiHadaMadrinaShop.Models
         public string? ImagenUrl { get; set; }
 
         [NotMapped]
-        [Display(Name = "Seleccionar imagenes")]
+        [Display(Name = "Seleccionar imagen")]
         public IFormFile? ImagenFile { get; set; }
 
 
@@ -60,14 +60,8 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Activo")]
         public bool EsActivo { get; set; }
 
-        //[Display(Name = "Seleccionar categoría")]
-        //[NotMapped]
-        //public IEnumerable<SelectListItem> CategoriaList { get; set; }
-
-
         public virtual ICollection<ProductosPedido> ProductosPedidos { get; set; }
         public virtual ICollection<TCestum> TCesta { get; set; }
-
         public virtual ICollection<Categoria>? IdCategoria { get; set; }
     }
 }

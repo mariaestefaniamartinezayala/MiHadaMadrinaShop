@@ -5,7 +5,7 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle pedido";
     //Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
     var estado = Model.Pedido.IdEstado;
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).ToList();
@@ -15,126 +15,112 @@
   
 }
 
-<h1>Detalles</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
 
-<div>
-    <h4>Pedido</h4>
-    <hr />
+    <div class="row">
+        <div class="col-12 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic text-center">Pedido</h1>
+                </div>
+                <div class="card-body py-0">
+                    <div class="row">
+                        <h5 class="col-sm-2 text-end">
+                            N&uacute;mero de pedido
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Pedido.IdPedido)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.Pedido.FechaPedido)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Pedido.FechaPedido)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.Pedido.FechaEnvio)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Pedido.FechaEnvio)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            Direcci&oacute;n de domicilio
+                        </h5>
+                        <p class="col-sm-10">
+                            @direccionDomicilio.Direccion<br />
+                            @direccionDomicilio.CodPostal<br />
+                            @direccionDomicilio.Localidad<br />
+                            @direccionDomicilio.Provincia<br />
+                            @direccionDomicilio.Pais<br />
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            Direcci&oacute;n de facturaci&oacute;n
+                        </h5>
+                        <p class="col-sm-10">
+                            @direccionFacturacion.Direccion<br />
+                            @direccionFacturacion.CodPostal<br />
+                            @direccionFacturacion.Localidad<br />
+                            @direccionFacturacion.Provincia<br />
+                            @direccionFacturacion.Pais<br />
+                        </p>
+                    </div>
 
-    <dl class="row">
-        <dt class="col-sm-2">
-            Número de pedido
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.IdPedido)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.FechaPedido)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.FechaPedido)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.FechaEnvio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.FechaEnvio)
-        </dd>
-        <dt class="col-sm-2">
-            Dirección de domicilio
-        </dt>
-        <dd class="col-sm-10">
-            @direccionDomicilio.Direccion<br />
-            @direccionDomicilio.CodPostal<br />
-            @direccionDomicilio.Localidad<br />
-            @direccionDomicilio.Provincia<br />
-            @direccionDomicilio.Pais<br />
-        </dd>
-        <dt class="col-sm-2">
-            Dirección de facturación
-        </dt>
-        <dd class="col-sm-10">
-            @direccionFacturacion.Direccion<br />
-            @direccionFacturacion.CodPostal<br />
-            @direccionFacturacion.Localidad<br />
-            @direccionFacturacion.Provincia<br />
-            @direccionFacturacion.Pais<br />
-        </dd>
+                    @*Productos*@
+                    <table class="table border">
+                        <thead class="thead-color">
+                            <tr class="align-self-center">
+                                <th class="py-3 text-center" scope="col">Producto</th>
+                                <th class="py-3 text-end" scope="col">Cantidad</th>
+                                <th class="py-3 text-end" scope="col">Precio</th>
+                                <th class="py-3 text-end" scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in listaCestas)
+                                {
+                                    <tr>
+                                        <td class="pt-3 text-center">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
+                                        <td class="pt-3 text-end">@item.Cantidad</td>
+                                        <td class="pt-3 text-end">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
+                                        <td class="pt-3 text-end">@item.Total€</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
 
-    </dl>
-
-    @*Productos*@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var item in listaCestas)
-                {
-                    <tr>
-                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
-                        <td>@item.Cantidad</td>
-                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
-                        <td>@item.Total€</td>
-                    </tr>
-
-                }
-            }
-        </tbody>
-    </table>
-
-    <br />
-    <dl class="row">
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.TotalSinIva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.TotalSinIva)€
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.Iva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.Iva)€
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pedido.Total)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pedido.Total)€
-        </dd>
-
-    </dl>
-</div>
-<div>
-    <a asp-page="./IndexPedidos" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-    @{
-        
-        if (estado > 2)
-        {
-            <a asp-area="Public" asp-controller="ImprimirPDF" asp-action="ImprimirPDF" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Pedido</a>
-        }
-
-        if (estado == 7)
-        {
-            if (_context.Facturas.Any(q => q.IdPedido.Equals(Model.Pedido.IdPedido)))
-            {
-                //var idFactura = _context.Facturas.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).FirstOrDefault().IdFactura;
-
-                <a asp-area="Public" asp-controller="ImprimirFactura" asp-action="ImprimirFactura" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir factura</a>
-            }
-            
-        }
-    }
-
-
+                    <div class="row mt-3">
+                            <h5 class="col-sm-2 text-end">
+                                @Html.DisplayNameFor(model => model.Pedido.TotalSinIva)
+                            </h5>
+                            <p class="col-sm-10">
+                                @Html.DisplayFor(model => model.Pedido.TotalSinIva)€
+                            </p>
+                            <h5 class="col-sm-2 text-end">
+                                @Html.DisplayNameFor(model => model.Pedido.Iva)
+                            </h5>
+                            <p class="col-sm-10">
+                                @Html.DisplayFor(model => model.Pedido.Iva)€
+                            </p>
+                            <h5 class="col-sm-2 text-end">
+                                @Html.DisplayNameFor(model => model.Pedido.Total)
+                            </h5>
+                            <p class="col-sm-10">
+                                @Html.DisplayFor(model => model.Pedido.Total)€
+                            </p>
+                    </div>
+                </div>
+                <div>
+                    <a asp-page="./IndexPedidos" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+                    @{
+                        if (estado > 2)
+                        {
+                            <a asp-area="Public" asp-controller="ImprimirPDF" asp-action="ImprimirPDF" asp-route-id="@Model.Pedido.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Pedido</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

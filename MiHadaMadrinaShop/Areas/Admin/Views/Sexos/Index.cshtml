@@ -1,36 +1,53 @@
 ﻿@model IEnumerable<MiHadaMadrinaShop.Models.Sexo>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Lista de tipos de sexo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <ol class="breadcrumb mt-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Sexos" asp-action="Index" class="text-dark text-decoration-none active">Sexo</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+    <div class="row">
+        <div class="col mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="font-weight-bold font-italic">Lista de tipos de sexo</h1>
+            <a class="btn btn-primary" asp-action="Create">
+                <i class="fas fa-plus"></i><span>&nbsp;Nuevo</span>
+            </a>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Sexo1)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sexo1)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdSexo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdSexo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdSexo">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
+                                @Html.DisplayNameFor(model => model.Sexo1)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.Sexo1)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <a class="btn btn-warning mx-auto opacity-50" asp-action="Edit" asp-route-id="@item.IdSexo"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@item.IdSexo"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

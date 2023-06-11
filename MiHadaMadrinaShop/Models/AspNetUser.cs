@@ -19,6 +19,8 @@ namespace MiHadaMadrinaShop.Models
         }
 
         public string Id { get; set; } = null!;
+
+        [Display(Name = "Nombre de usuario")]
         public string? UserName { get; set; }
         public string? NormalizedUserName { get; set; }
         public string? Email { get; set; }
@@ -39,6 +41,8 @@ namespace MiHadaMadrinaShop.Models
         [Display(Name = "Fecha de Nacimiento")]
         [DataType(DataType.Date)]
         public DateTime? FechaNacimiento { get; set; }
+
+        [Display(Name = "Sexo")]
         public byte? IdSexo { get; set; }
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }

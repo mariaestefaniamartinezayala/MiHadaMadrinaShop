@@ -1,34 +1,55 @@
 ﻿@model MiHadaMadrinaShop.Models.FormasDePago
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear forma de pago";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Forma de pago</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="FormasDePagos" asp-action="Index" class="text-black-50 text-decoration-none">Forma de pago</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="FormasDePagos" asp-action="Create" class="text-dark text-decoration-none active">Crear</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
 
-<h4>FormasDePago</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FormaDePago" class="control-label"></label>
-                <input asp-for="FormaDePago" class="form-control" />
-                <span asp-validation-for="FormaDePago" class="text-danger"></span>
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Crear forma de pago</h1>
+                </div>
+                <form asp-action="Create" method="post">
+                    <div class="card-body py-0">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group mb-3">
+                            <label asp-for="FormaDePago" class="control-label"></label>
+                            <input asp-for="FormaDePago" class="form-control" />
+                            <span asp-validation-for="FormaDePago" class="text-danger"></span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="col-8 col-md-4 align-items-center">
+            <img src="~/img/illustrations/undraw_my_documents_re_13dc.svg" alt="imagen de creaci&oacute;n" class="imagen-width img-fluid rounded mx-auto" />
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

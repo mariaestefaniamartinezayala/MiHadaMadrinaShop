@@ -4,61 +4,69 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista de pedidos";
     Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
     ViewData["ActivePage"] = ManageNavPages.Pedidos;
     var listaEstados = _context.Estados.ToList();
 }
 
-<h1>Mis pedidos</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Pedido[0].FechaPedido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pedido[0].FechaEnvio)
-            </th>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="mb-3">Mis pedidos</h1>
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
+                                @Html.DisplayNameFor(model => model.Pedido[0].FechaPedido)
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                @Html.DisplayNameFor(model => model.Pedido[0].FechaEnvio)
+                            </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Pedido[0].Total)
-            </th>
+                            <th class="py-3 text-end" scope="col">
+                                @Html.DisplayNameFor(model => model.Pedido[0].Total)
+                            </th>
 
-            <th>
-                Estado
-            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Estado
+                            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Pedido)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaPedido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaEnvio)
-                </td>
+                            <th class="py-3 text-center" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Pedido)
+                        {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.FechaPedido)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.FechaEnvio)
+                                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                <td>
-                    @{
-                        var estado = listaEstados.Where(q => q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1;
-                    }
-                    @estado
-                </td>
-                
-                <td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.Total)€
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @{
+                                        var estado = listaEstados.Where(q => q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1;
+                                    }
+                                    @estado
+                                </td>
 
-                    <a asp-page="./DetailsPedidos" asp-route-id="@item.IdPedido">Detalles</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                <td class="pt-3 text-center">
+                                    <a class="btn btn-info opacity-75" asp-page="./DetailsPedidos" asp-route-id="@item.IdPedido"><i class="fas fa-info"></i> Detalles</a>
+                                    @* <a asp-page="./DetailsPedidos" asp-route-id="@item.IdPedido">Detalles</a>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

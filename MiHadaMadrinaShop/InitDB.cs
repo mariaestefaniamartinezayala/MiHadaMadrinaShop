@@ -98,7 +98,7 @@ namespace MiHadaMadrinaShop
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                var formaDePago = new[] { "Transferencia", "Tarjeta", "Paypal" };
+                var formaDePago = new[] { "Bizum", "Transferencia", "Tarjeta", "Paypal" };
 
                 foreach (var fp in formaDePago)
                 {
@@ -135,12 +135,12 @@ namespace MiHadaMadrinaShop
                 await dbContext.SaveChangesAsync();
             }
 
-            // Firmas de envío
+            // Formas de envío
             using (var scope = serviceProvider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<MiHadaMadrinaHandMadeDBContext>();
 
-                var formasDeEnvios = new[] { "Envío est&aacute;ndar", "Envío urgente" };
+                var formasDeEnvios = new[] { "Envío estándar", "Envío urgente" };
 
                 foreach (var fe in formasDeEnvios)
                 {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MiHadaMadrinaShop.Models
 {
@@ -11,6 +13,8 @@ namespace MiHadaMadrinaShop.Models
         }
 
         public byte IdFormaDePago { get; set; }
+
+        [Display(Name = "Forma de pago")]
         public string FormaDePago { get; set; } = null!;
 
         public virtual ICollection<Pedido> Pedidos { get; set; }

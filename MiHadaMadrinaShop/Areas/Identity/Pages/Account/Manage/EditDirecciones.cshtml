@@ -2,7 +2,7 @@
 @model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar dirección";
     Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
 }
 
@@ -50,16 +50,20 @@
                     <input class="form-check-input" asp-for="Direccione.EsDomicilio" /> Direcci&oacute;n de domicilio
                 </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                <a asp-page="./IndexDirecciones" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
             </div>
+           @* <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>*@
         </form>
     </div>
 </div>
-
+@*
 <div>
     <a asp-page="./IndexDirecciones">Volver</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

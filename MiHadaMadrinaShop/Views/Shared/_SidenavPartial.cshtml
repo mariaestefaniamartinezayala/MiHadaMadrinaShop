@@ -1,0 +1,143 @@
+﻿<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
+                    </a>
+
+                    @* Catálogo Start *@
+                    <div class="sb-sidenav-menu-heading">Cat&aacute;logo</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCatalogo"
+                       aria-expanded="false" aria-controls="collapseCatalogo">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Cat&aacute;logo
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseCatalogo" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionCatalogolo">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordioncatalogo">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#catalogoCollapseCategoria" aria-expanded="false" aria-controls="catalogoCollapseCategoria">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
+                                Categor&iacute;as
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="catalogoCollapseCategoria" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionCatalogolo">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Categorias" asp-action="Index">Lista de categor&iacute;as</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Categorias" asp-action="Create">Crear categor&iacute;a</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#catalogoCollapseProducto" aria-expanded="false" aria-controls="catalogoCollapseProducto">
+                                <div class="sb-nav-link-icon"><i class="fas fa-box-open"></i></div>
+                                Productos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="catalogoCollapseProducto" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionCatalogolo">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Productos" asp-action="Index">Lista de productos</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Productos" asp-action="Create">Crear producto</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                    @* Catálogo End *@
+
+                    @* Usuarios - Roles - Sexos Start *@
+                    <partial name="_DashboardPartial" />
+                    @* Usuarios - Roles - Sexos End *@
+
+                    @* Pedidos Start *@
+                    <div class="sb-sidenav-menu-heading">Pedidos</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePedidos" aria-expanded="false" aria-controls="collapsePedidos">
+                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                        Pedidos
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePedidos" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordionPedidos">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPedidos">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pedidosCollapseEntrega" aria-expanded="false" aria-controls="pedidosCollapseEntrega">
+                                <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                                Formas de entrega
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pedidosCollapseEntrega" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPedidos">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDeEntregas" asp-action="Index">Lista</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDeEntregas" asp-action="Create">Crear</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pedidosCollapseEnvio" aria-expanded="false" aria-controls="pedidosCollapseEnvio">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
+                                Formas de envío
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pedidosCollapseEnvio" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPedidos">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDeEnvios" asp-action="Index">Lista</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDeEnvios" asp-action="Create">Crear</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pedidosCollapsePago" aria-expanded="false" aria-controls="pedidosCollapsePago">
+                                <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                                Formas de pago
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pedidosCollapsePago" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPedidos">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDePagos" asp-action="Index">Lista</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="FormasDePagos" asp-action="Create">Crear</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pedidosCollapsePedidos" aria-expanded="false" aria-controls="pedidosCollapsePedidos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                                Pedidos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pedidosCollapsePedidos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPedidos">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Pedidos" asp-action="Index">Lista</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Pedidos" asp-action="Create">Gestionar</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                    @* Pedidos End *@
+
+                    @* Facturas Start *@
+                    <div class="sb-sidenav-menu-heading">Facturas</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFacturas"
+                       aria-expanded="false" aria-controls="collapseFacturas">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                        Facturas
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseFacturas" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordionFacturas">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Facturas" asp-action="Index">Lista</a>
+                        </nav>
+                    </div>
+                    @* Facturas End *@
+
+                    @* Tienda Start *@
+                    <div class="sb-sidenav-menu-heading">Tienda</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTienda"
+                       aria-expanded="false" aria-controls="collapseTienda">
+                        <div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>
+                        Tienda
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseTienda" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordionTienda">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-area="Public" asp-controller="Productos" asp-action="Index">Tienda</a>
+                        </nav>
+                    </div>
+                    @* Tienda End *@
+
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

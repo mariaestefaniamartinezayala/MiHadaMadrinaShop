@@ -8,8 +8,6 @@
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
     Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionFacturacion)).FirstOrDefault();
-
-
 }
 
 <!DOCTYPE html>
@@ -27,7 +25,7 @@
         <table style="width:100%">
             <tr>
                 <td>
-                    <img src="~/img/logo.png" style="width: 75px;" />
+                    <img src="~/img/logo_rosa.png" style="width: 75px; height: auto;" />
                 </td>
                 <td style="text-align:right">
                     <table style="margin-right:0;margin-left:auto">
