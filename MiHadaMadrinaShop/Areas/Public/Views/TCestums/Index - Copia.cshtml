@@ -9,7 +9,7 @@
     var userId = User.Identity.GetUserId();
     AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 
-    List<FormasDePago> listaFormasDePago = _context.FormasDePagos.ToList();
+    List < FormasDePago > listaFormasDePago = _context.FormasDePagos.ToList();
     List<FormasDeEnvio> listaFormasDeEnvio = _context.FormasDeEnvios.ToList();
     List<FormasDeEntrega> listaFormasDeEntrega = _context.FormasDeEntregas.ToList();
 
@@ -129,155 +129,172 @@
             Total: @totalCesta€
         </div>
 
-        <div class="col-12 d-flex justify-content-between" role="group" aria-label="Botones">
-            <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>&nbsp;
-            @if (totalCesta > 0)
-            {
-                <button class="btn btn-primary opacity-75" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Procesar pedido</button>
-            }
-        </div>
-        <div class="row collapse m-2" id="collapseExample">
+        @if (totalCesta > 0)
+        {
+            <div class="row">
+                <div class="col justify-content-start">
+                    <label class="control-label fw-bold">Datos personales</label><br />
 
-            <div class="card">
-                <div class="card-head pt-4 ps-4">
-                    <h1>Revisa los datos para realizar la compra</h1>
+                    <label class="control-label fw-bold">Nombre</label><br />
+                    <label class="control-label">@user.Nombre</label><br />
+
+                    <label class="control-label fw-bold">Apellidos</label><br />
+                    <label class="control-label">@user.Apellidos</label><br />
+
+
+                    <label class="control-label fw-bold">Teléfono</label><br />
+                    <label class="control-label">@user.PhoneNumber</label><br />
+
+                    <label class="control-label fw-bold">Dni</label><br />
+                    <label class="control-label">@user.Dni</label><br />
+
                 </div>
-                <div class="card-body py-0">
-                    <div class="row">
-                        <h3 class="mt-2">Datos personales</h3>
-                        <div class="col-6 col-md-1">
-                            <h5 class="text-end">Nombre</h5>
-                            <h5 class="text-end">Apellidos</h5>
-                            <h5 class="text-end">Tel&eacute;fono</h5>
-                            <h5 class="text-end">Dni</h5>
-                        </div>
-                        <div class="col-6 col-md-11">
-                            <h5 class="text-start">@user.Nombre</h5>
-                            <h5 class="text-start">@user.Apellidos</h5>
-                            <h5 class="text-start">@user.PhoneNumber</h5>
-                            <h5 class="text-start">@user.Dni</h5>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <h3 class="mt-2">Direcci&oacute;n de entrega</h3>
-                        <div class="col-12">
-                            @{
-                                foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
-                                {
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required checked>
-                                        <label class="form-check-label">
-                                            @direccion.Direccion
-                                            @direccion.Localidad
-                                            @direccion.Pais
-                                            @direccion.Provincia
-                                            @direccion.CodPostal
-                                        </label>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <h3 class="mt-2">Direcci&oacute;n de facturaci&oacute;n</h3>
-                        <div class="col-12">
-                            @{
-                                foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
-                                {
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required checked>
-                                        <label class="form-check-label">
-                                            @direccion.Direccion
-                                            @direccion.Localidad
-                                            @direccion.Pais
-                                            @direccion.Provincia
-                                            @direccion.CodPostal
-                                        </label>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="col-12 col-md-4">
-                        <h3 class="mt-2">Forma de env&iacute;o</h3>
+                <div class="col justify-content-between">
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Dirección de entrega</label>
 
-                        <div class="form-group">
+                        @{
+                            foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+                                    <label class="form-check-label">
+                                        @direccion.Direccion
+                                        @direccion.Localidad
+                                        @direccion.Pais
+                                        @direccion.Provincia
+                                        @direccion.CodPostal
+                                    </label>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+
+
+                    <div class="form-group col">
+                        <label class="control-label fw-bold">Dirección de facturación</label>
+
+                        @{
+                            foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+                                    <label class="form-check-label">
+                                        @direccion.Direccion
+                                        @direccion.Localidad
+                                        @direccion.Pais
+                                        @direccion.Provincia
+                                        @direccion.CodPostal
+                                    </label>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="col justify-content-end">
+
+
+                    <div class="col-3">
+
+
+
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de envio</label>
+
                             @{
                                 foreach (var envio in listaFormasDeEnvio)
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required checked>
+                                        <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required>
                                         <label class="form-check-label">
                                             @envio.FormaDeEnvio
                                         </label>
                                     </div>
                                 }
                             }
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <h3 class="mt-2">Forma de entrega</h3>
 
-                        <div class="form-group">
+                        </div>
+
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de entrega</label>
+
                             @{
                                 foreach (var entrega in listaFormasDeEntrega)
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required checked>
+                                        <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required>
                                         <label class="form-check-label">
                                             @entrega.FormaDeEntrega
                                         </label>
                                     </div>
                                 }
                             }
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <h3 class="mt-2">Forma de pago</h3>
 
-                        <div class="form-group">
+                        </div>
+
+                        <div class="form-group col">
+                            <label class="control-label fw-bold">Forma de pago</label>
+
                             @{
                                 foreach (var pago in listaFormasDePago)
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required checked>
+                                        <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required>
                                         <label class="form-check-label">
                                             @pago.FormaDePago
                                         </label>
                                     </div>
                                 }
+
+
+
+
                             }
+
                         </div>
+
+
+
+                    </div>
+                    }
+
+                    <div class="col-12 d-flex justify-content-between" role="group" aria-label="Botones">
+                        <a asp-area="Public" asp-controller="Productos" asp-action="Index" class="btn btn-secondary"><i class="fas fa-shopping-bag"></i> Seguir comprando</a>&nbsp;
+                        @if (totalCesta > 0)
+                        {
+                            <button asp-area="Public" asp-controller="TCestums" asp-action="CrearPedido" class="btn btn-primary opacity-75" onclick="crearPedido(@totalCesta)">Procesar pedido</button>
+                            
+                            @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion) || !listaDireccionesUsuario.Any(q => q.EsDomicilio))
+                            {
+                                <button class="btn btn-secondary disabled">Debes añadir dirección de entrega y/o facturación para hacer el pedido</button>
+                            }
+                            else if (String.IsNullOrEmpty(user.Nombre) || String.IsNullOrEmpty(user.Apellidos) || String.IsNullOrEmpty(user.Dni) ||  String.IsNullOrEmpty(user.PhoneNumber))
+                            {
+                                <button class="btn btn-secondary disabled">Debes añadir tus datos personales en tu perfil para hacer el pedido</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary opacity-75" disabled>Procesar pedido</button>
+                        }
                     </div>
                 </div>
-                @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion) || !listaDireccionesUsuario.Any(q => q.EsDomicilio))
-                {
-                    <div class="card-footer">
-                        <h4>Debes a&ntilde;adir direcci&oacute;n de entrega para poder continuar con el pedido.</h4>
-                        <a class="btn btn-info opacity-50" asp-area="Identity" asp-page="/Account/Manage/IndexDirecciones">Direcciones</a>
-                    </div>
-                }
-                @if (String.IsNullOrEmpty(user.Nombre) || String.IsNullOrEmpty(user.Apellidos) || String.IsNullOrEmpty(user.Dni) || String.IsNullOrEmpty(user.PhoneNumber))
-                {
-                    <div class="card-footer">
-                        <h4>Debes completar tus datos personales para poder continuar con el pedido.</h4>
-                        <a class="btn btn-info opacity-50" asp-area="Identity" asp-page="/Account/Manage/Index">Perfil</a>
-                    </div>
-                }
-                else
-                {
-                    <div class="card-footer">
-                        <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Finalizar pedido</button>
-                    </div>
-                }
             </div>
-        </div>
+        }
+
     </div>
 </div>
-
 <script>
     function actualizarCesta(idCesta, cantidad) {
         var data = {
@@ -329,4 +346,167 @@
             }
         });
     }
+
+
 </script>
+@*
+    @if (!listaDireccionesUsuario.Any(q => q.EsFacturacion)!listaDireccionesUsuario.Any(q => q.EsDomicilio))
+    {
+    <button class="btn btn-secondary disabled">Debes añadir dirección de entrega y/o facturación para hacer el pedido</button>
+    }
+    else if (String.IsNullOrEmpty(user.Nombre)  String.IsNullOrEmpty(user.Apellidos)  String.IsNullOrEmpty(user.Dni)  String.IsNullOrEmpty(user.PhoneNumber))
+    {
+    <button class="btn btn-secondary disabled">Debes añadir tus datos personales en tu perfil para hacer el pedido</button>
+    }
+    else
+    {
+    <button class="btn btn-primary" onclick="crearPedido(@totalCesta)">Hacer pedido</button>
+    }*@
+
+@*
+
+
+
+
+    <div class="col justify-content-start">
+    <label class="control-label fw-bold">Datos personales</label><br />
+
+
+    <label class="control-label fw-bold">Nombre</label><br />
+    <label class="control-label">@user.Nombre</label><br />
+
+    <label class="control-label fw-bold">Apellidos</label><br />
+    <label class="control-label">@user.Apellidos</label><br />
+
+
+    <label class="control-label fw-bold">Teléfono</label><br />
+    <label class="control-label">@user.PhoneNumber</label><br />
+
+    <label class="control-label fw-bold">Dni</label><br />
+    <label class="control-label">@user.Dni</label><br />
+
+    </div>
+
+
+
+    <div class="col justify-content-between">
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Dirección de entrega</label>
+
+    @{
+    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsDomicilio))
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioDireccionDomicilio" id="radioDirecccionDomicilio @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+    <label class="form-check-label">
+    @direccion.Direccion
+    @direccion.Localidad
+    @direccion.Pais
+    @direccion.Provincia
+    @direccion.CodPostal
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Dirección de facturación</label>
+
+    @{
+    foreach (var direccion in listaDireccionesUsuario.Where(q => q.EsFacturacion))
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioDireccionFacturacion" id="radioDirecccionFacturacion @direccion.IdDireccion" value="@direccion.IdDireccion" required>
+    <label class="form-check-label">
+    @direccion.Direccion
+    @direccion.Localidad
+    @direccion.Pais
+    @direccion.Provincia
+    @direccion.CodPostal
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+
+
+    </div>
+
+    <div class="col justify-content-end">
+
+
+    <div class="col-3">
+
+
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de envio</label>
+
+    @{
+    foreach (var envio in listaFormasDeEnvio)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaEnvio" id="radioFormaEnvio @envio.IdFormaDeEnvio" value="@envio.IdFormaDeEnvio" required>
+    <label class="form-check-label">
+    @envio.FormaDeEnvio
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de entrega</label>
+
+    @{
+    foreach (var entrega in listaFormasDeEntrega)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaEntrega" id="radioFormaEntrega @entrega.IdFormaDeEntrega" value="@entrega.IdFormaDeEntrega" required>
+    <label class="form-check-label">
+    @entrega.FormaDeEntrega
+    </label>
+    </div>
+    }
+    }
+
+    </div>
+
+    <div class="form-group col">
+    <label class="control-label fw-bold">Forma de pago</label>
+
+    @{
+    foreach (var pago in listaFormasDePago)
+    {
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="radioFormaPago" id="radioFormaPago @pago.IdFormaDePago" value="@pago.IdFormaDePago" required>
+    <label class="form-check-label">
+    @pago.FormaDePago
+    </label>
+    </div>
+    }
+
+
+
+
+    }
+
+    </div>
+
+
+
+    </div>
+
+    <br />
+
+    </div>
+    *@

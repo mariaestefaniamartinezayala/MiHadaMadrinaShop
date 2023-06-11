@@ -2,44 +2,97 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Lista de pedidos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var listaEstados = _context.Estados.ToList();
 }
 
-<h1>Gestionar pedidos</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Número de pedido</th>
-            <th>Fecha pedido</th>
-            <th>Fecha envío</th>
-            <th>Total sin iva</th>
-            <th>IVA</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderByDescending(q=>q.FechaPedido))
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
-                <td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
-                <td>@Html.DisplayFor(modelItem => item.FechaEnvio)</td>
-                <td>@Html.DisplayFor(modelItem => item.TotalSinIva)</td>
-                <td>@Html.DisplayFor(modelItem => item.Iva)</td>
-                <td>@Html.DisplayFor(modelItem => item.Total)</td>
-                <td>@listaEstados.Where(q=>q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1</td>
-                
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdPedido">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdPedido">Detalles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdPedido">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Pedido</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-dark text-decoration-none active">Lista de pedidos</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+    <div class="row">
+        <div class="col mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="font-weight-bold font-italic">Lista de pedidos</h1>
+            <a class="btn btn-primary" asp-action="Create">
+                <i class="fas fa-plus"></i><span>&nbsp;Nuevo</span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
+                                N&uacute;mero de pedido
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Fecha pedido
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Fecha envío
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Total sin iva
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                IVA
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Total
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Estado
+                            </th>
+                            <th class="py-3 text-center" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderByDescending(q => q.FechaPedido))
+                        {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.IdPedido)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.FechaPedido)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.FechaEnvio)
+                                </td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.TotalSinIva)€
+                                </td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.Iva)%
+                                </td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.Total)€
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @listaEstados.Where(q=>q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <div class="d-flex justify-content-between">
+                                        <a class="btn btn-warning opacity-50" asp-action="Edit" asp-route-id="@item.IdPedido"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-info mx-1 opacity-50" asp-action="Details" asp-route-id="@item.IdPedido"><i class="fas fa-info"></i></a>
+                                        <a class="btn btn-danger opacity-75" asp-action="Delete" asp-route-id="@item.IdPedido"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

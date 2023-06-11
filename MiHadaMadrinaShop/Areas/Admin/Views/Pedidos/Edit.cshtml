@@ -2,8 +2,8 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Editar pedido";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var listaEstados = _context.Estados.ToList();
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
@@ -12,159 +12,155 @@
     AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 }
 
-<h1>Edit</h1>
-
-<h4>Pedido</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-
-        <dl class="row">
-            <dt class="col-sm-2">
-                Número de pedido
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IdPedido)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FechaPedido)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FechaPedido)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FechaEnvio)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FechaEnvio)
-            </dd>
-            <dt class="col-sm-2">
-                Cliente
-            </dt>
-            <dd class="col-sm-10">
-                @user.Nombre<br />
-                @user.Apellidos<br />
-                @user.Dni<br />
-                @user.Email<br />
-                @user.PhoneNumber<br />
-            </dd>
-            <dt class="col-sm-2">
-                Dirección de domicilio
-            </dt>
-            <dd class="col-sm-10">
-                @direccionDomicilio.Direccion<br />
-                @direccionDomicilio.CodPostal<br />
-                @direccionDomicilio.Localidad<br />
-                @direccionDomicilio.Provincia<br />
-                @direccionDomicilio.Pais<br />
-            </dd>
-            <dt class="col-sm-2">
-                Dirección de facturación
-            </dt>
-            <dd class="col-sm-10">
-                @direccionFacturacion.Direccion<br />
-                @direccionFacturacion.CodPostal<br />
-                @direccionFacturacion.Localidad<br />
-                @direccionFacturacion.Provincia<br />
-                @direccionFacturacion.Pais<br />
-            </dd>
-
-        </dl>
-
-        @*Productos*@
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var item in listaCestas)
-                    {
-                        <tr>
-                            <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
-                            <td>@item.Cantidad</td>
-                            <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
-                            <td>@item.Total€</td>
-                        </tr>
-
-                    }
-                }
-            </tbody>
-        </table>
-
-        <br />
-        <dl class="row">
-
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TotalSinIva)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TotalSinIva)€
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Iva)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Iva)%
-            </dd>
-
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Total)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Total)€
-            </dd>
-
-        </dl>
-
-    </div>
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdPedido" />
-            
-        <div class="form-group">
-            <label asp-for="IdEstado" class="control-label">Estado del pedido</label>
-            <select asp-for="IdEstado" class="form-control">
-                @{
-                    foreach (var estado in listaEstados)
-                    {
-                        <option value="@estado.IdEstado">@estado.Estado1 </option>
-                    }
-                }
-
-            </select>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Pedido</h1>
         </div>
-
-
-            <div class="form-group">
-                <label asp-for="FechaEnvio" class="control-label"></label>
-                <input asp-for="FechaEnvio" class="form-control" />
-                <span asp-validation-for="FechaEnvio" class="text-danger"></span>
-            </div>
-
-        <div class="form-group">
-            <label asp-for="IdAspNetUsers" class="control-label" hidden="hidden"></label>
-            <input asp-for="IdAspNetUsers" class="form-control" hidden="hidden" />
-            <span asp-validation-for="IdAspNetUsers" class="text-danger"></span>
-        </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
-        </form>
     </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Pedido</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Edit" class="text-dark text-decoration-none active">Editar</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+    <div class="row">
+        <div class="col-12 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic text-center">Editar el pedido n&uacute;mero: @Model.IdPedido</h1>
+                </div>
+                <div class="card-body py-0">
+                    <div class="row">
+                        <h5 class="col-sm-2 text-end">
+                            N&uacute;mero de pedido
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.IdPedido)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.FechaPedido)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.FechaPedido)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.FechaEnvio)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.FechaEnvio)
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            Cliente
+                        </h5>
+                        <p class="col-sm-10">
+                            @user.Nombre<br />
+                            @user.Apellidos<br />
+                            @user.Dni<br />
+                            @user.Email<br />
+                            @user.PhoneNumber<br />
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            Direcci&oacute;n de domicilio
+                        </h5>
+                        <p class="col-sm-10">
+                            @direccionDomicilio.Direccion<br />
+                            @direccionDomicilio.CodPostal<br />
+                            @direccionDomicilio.Localidad<br />
+                            @direccionDomicilio.Provincia<br />
+                            @direccionDomicilio.Pais<br />
+                        </p>
+                        <h5 class="col-sm-2 text-end">
+                            Direcci&oacute;n de facturaci&oacute;n
+                        </h5>
+                        <p class="col-sm-10">
+                            @direccionFacturacion.Direccion<br />
+                            @direccionFacturacion.CodPostal<br />
+                            @direccionFacturacion.Localidad<br />
+                            @direccionFacturacion.Provincia<br />
+                            @direccionFacturacion.Pais<br />
+                        </p>
 
-<div>
-    <a asp-action="Index">Volver</a>
+                    </div>
+
+                    @*Productos*@
+                    <table class="table border">
+                        <thead class="thead-color">
+                            <tr class="align-self-center">
+                                <th class="py-3 text-center" scope="col">Producto</th>
+                                <th class="py-3 text-end" scope="col">Cantidad</th>
+                                <th class="py-3 text-end" scope="col">Precio</th>
+                                <th class="py-3 text-end" scope="col">Total</th>
+                            </tr>
+                        <tbody>
+                                @{
+                                    foreach (var item in listaCestas)
+                                    {
+                                    <tr>
+                                        <td class="pt-3 text-center">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
+                                        <td class="pt-3 text-end">@item.Cantidad</td>
+                                        <td class="pt-3 text-end">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
+                                        <td class="pt-3 text-end">@item.Total€</td>
+                                    </tr>
+                                    }
+                                }
+                        </tbody>
+                    </table>
+
+                    <div class="row mt-3">
+                        <h5 class="col-sm-10 text-end">
+                            @Html.DisplayNameFor(model => model.TotalSinIva)
+                        </h5>
+                        <p class="col-sm-2 text-end">
+                            @Html.DisplayFor(model => model.TotalSinIva)€
+                        </p>
+                        <h5 class="col-sm-10 text-end">
+                            @Html.DisplayNameFor(model => model.Iva)
+                        </h5>
+                        <p class="col-sm-2 text-end">
+                            @Html.DisplayFor(model => model.Iva)%
+                        </p>
+                        <h5 class="col-sm-10 text-end">
+                            @Html.DisplayNameFor(model => model.Total)
+                        </h5>
+                        <p class="col-sm-2 text-end">
+                            @Html.DisplayFor(model => model.Total)€
+                        </p>
+                    </div>
+                    <form asp-action="Edit" method="post">
+                        <div class="card-footer">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="IdPedido" />
+
+                            <div class="form-group mb-3">
+                                <label asp-for="IdEstado" class="control-label">Estado del pedido</label>
+                                <select asp-for="IdEstado" class="form-control">
+                                    @{
+                                        foreach (var estado in listaEstados)
+                                        {
+                                            <option value="@estado.IdEstado">@estado.Estado1 </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="FechaEnvio" class="control-label"></label>
+                                <input asp-for="FechaEnvio" class="form-control" />
+                                <span asp-validation-for="FechaEnvio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="IdAspNetUsers" class="control-label" hidden="hidden"></label>
+                                <input asp-for="IdAspNetUsers" class="form-control" hidden="hidden" />
+                                <span asp-validation-for="IdAspNetUsers" class="text-danger"></span>
+                            </div>
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-@*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-*@

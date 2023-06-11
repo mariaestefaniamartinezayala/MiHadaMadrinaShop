@@ -2,8 +2,8 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Eliminar pedido";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var listaEstados = _context.Estados.ToList();
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
@@ -12,130 +12,52 @@
     AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 }
 
-<h1>Eliminar</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Pedido</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Pedido</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Delete" class="text-dark text-decoration-none active">Eliminar</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
 
-<h3>¿Seguro que desea eliminar el pedido?</h3>
-<div>
-    <h5>Número de pedido: @Model.IdPedido</h5>
-    <hr />
-
-    <dl class="row">
-        <dt class="col-sm-2">
-            Número de pedido
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdPedido)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaPedido)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaPedido)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaEnvio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaEnvio)
-        </dd>
-        <dt class="col-sm-2">
-            Cliente
-        </dt>
-        <dd class="col-sm-10">
-            @user.Nombre<br />
-            @user.Apellidos<br />
-            @user.Dni<br />
-            @user.Email<br />
-            @user.PhoneNumber<br />
-        </dd>
-        <dt class="col-sm-2">
-            Dirección de domicilio
-        </dt>
-        <dd class="col-sm-10">
-            @direccionDomicilio.Direccion<br />
-            @direccionDomicilio.CodPostal<br />
-            @direccionDomicilio.Localidad<br />
-            @direccionDomicilio.Provincia<br />
-            @direccionDomicilio.Pais<br />
-        </dd>
-        <dt class="col-sm-2">
-            Dirección de facturación
-        </dt>
-        <dd class="col-sm-10">
-            @direccionFacturacion.Direccion<br />
-            @direccionFacturacion.CodPostal<br />
-            @direccionFacturacion.Localidad<br />
-            @direccionFacturacion.Provincia<br />
-            @direccionFacturacion.Pais<br />
-        </dd>
-
-    </dl>
-
-    @*Productos*@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var item in listaCestas)
-                {
-                    <tr>
-                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
-                        <td>@item.Cantidad</td>
-                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
-                        <td>@item.Total€</td>
-                    </tr>
-
-                }
-            }
-        </tbody>
-    </table>
-
-    <br />
-    <dl class="row">
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalSinIva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TotalSinIva)€
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Iva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Iva)%
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Total)€
-        </dd>
-
-    </dl>
-
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Eliminar pedido</h1>
+                </div>
+                <form asp-action="Delete" method="post">
+                    <div class="card-body py-0">
+                        <h3>¿Seguro que desea eliminar el pedido n&uacute;mero: @Model.IdPedido?</h3>
+                        <input type="hidden" asp-for="IdPedido" />
+                        @{
+                            if (Model.IdEstado != 7)
+                            {
+                                <div class="card-footer">
+                                    <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                        <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                        <button type="submit" class="btn btn-danger w-auto mb-1"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card-footer">
+                                    <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-8 col-md-4 align-items-center">
+            <img src="~/img/illustrations/undraw_cancel_re_pkdm.svg" alt="eliminar imagen" class="imagen-width img-fluid rounded mx-auto" />
+        </div>
+    </div>
 </div>
-
-<form asp-action="Delete">
-    
-    @{
-        if (Model.IdEstado != 7)
-        {
-            <input type="hidden" asp-for="IdPedido" />
-            <input type="submit" value="Eliminar" class="btn btn-danger" />
-
-        }
-    }
-
-    <a asp-action="Index">Volver</a>
-</form>
-

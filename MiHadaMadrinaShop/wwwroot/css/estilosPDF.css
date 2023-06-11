@@ -39,16 +39,16 @@ table.tbproductos {
     border-spacing: 4px;
 }
 
-    table.tbproductos thead tr th {
-        background-color: #696cff;
-        padding: 10px;
-        font-size: 15px;
-        color: white;
-    }
+table.tbproductos thead tr th {
+    background-color: #696cff;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+}
 
-    table.tbproductos tbody tr td {
-        padding: 10px;
-    }
+table.tbproductos tbody tr td {
+    padding: 10px;
+}
 
 .item {
     font-size: 15px;
@@ -71,4 +71,12 @@ table.tbproductos {
 
 .td-item {
     border-bottom: 2px solid #E8E8E8 !important;
+}
+
+.tbl-center {
+    text-align: center;
+}
+
+.tbl-right {
+    text-align: right;
 }

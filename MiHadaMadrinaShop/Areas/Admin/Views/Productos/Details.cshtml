@@ -8,11 +8,11 @@
 <div class="container py-5 d-flex flex-column min-vh-100">
     <div class="row">
         <div class="col mt-4">
-            <h1 class="font-weight-bold font-italic">Detalle del producto</h1>
+            <h1 class="font-weight-bold font-italic">Detalles del producto</h1>
         </div>
     </div>
     <ol class="breadcrumb mb-4 bg-transparent">
-        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Pedidos" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
         <li><a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Producto</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
         <li><a asp-area="Admin" asp-controller="Productos" asp-action="Details" class="text-dark text-decoration-none active">Detalle</a></li>
     </ol>
@@ -22,7 +22,7 @@
         <div class="col-12 align-items-center">
             <div class="card d-flex justify-content-center p-4">
                 <div class="card-header">
-                    <h1 class="font-weight-bold font-italic text-center">Detalle del producto</h1>
+                    <h1 class="font-weight-bold font-italic text-center">Detalles del producto</h1>
                 </div>
                 <div class="card-body py-0">
                     <div class="row">
@@ -64,10 +64,10 @@
                         </div>
                         <hr/>
                         <h5 class="col-sm-2 text-end">
-                            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)%
+                            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
                         </h5>
                         <p class="col-sm-10">
-                            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
+                            @Html.DisplayFor(model => model.PorcentajeDeDescuento)%
                         </p>
                         <hr/>
                         <h5 class="col-sm-2 text-end">

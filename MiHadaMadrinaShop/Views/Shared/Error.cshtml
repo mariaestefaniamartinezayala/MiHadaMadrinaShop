@@ -3,6 +3,23 @@
     ViewData["Title"] = "Error";
 }
 
+<div class="container d-flex flex-column min-vh-100">
+    <div class="row m-5">
+        <div class="col-6 d-flex align-items-center">
+            <div>
+                <h1 class="text-danger">@ViewData["Title"]</h1>
+                <h6 class="text-danger">No puede realizar est&aacute; operaci&oacute;n, consulte con los administradores de la p&aacute;gina.</h6>
+            </div>
+        </div>
+        <div class="col-6 align-items-center">
+            <img src="~/img/illustrations/undraw_cancel_re_pkdm.svg" alt="imagen de acceso denegado" class="imagen-width img-fluid" />
+        </div>
+    </div>
+</div>
+
+
+
+@*
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
@@ -23,3 +40,4 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+*@

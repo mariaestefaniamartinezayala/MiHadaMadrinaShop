@@ -3,15 +3,15 @@
 @inject MiHadaMadrinaHandMadeDBContext _context;
 @{
     Layout = null;
-    var idUser = User.Identity.GetUserId();
-    AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(idUser)).FirstOrDefault();
+    
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
     Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionFacturacion)).FirstOrDefault();
 
- 
-
     var idFactura = _context.Facturas.Where(q => q.IdPedido.Equals(Model.IdPedido)).FirstOrDefault().IdFactura;
+
+    string idUser = listaCestas.FirstOrDefault().IdAppNetUsers;
+    AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(idUser)).FirstOrDefault();
 }
 
 <!DOCTYPE html>
@@ -19,7 +19,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>ImprimirPedido</title>
+    <title>Imprimir Factura</title>
     <link rel="stylesheet" href="~/css/estilosPDF.css" />
 </head>
 <body>
@@ -29,7 +29,7 @@
         <table style="width:100%">
             <tr>
                 <td>
-                    <img src="~/img/logo.png" style="width: 75px;" />
+                    <img src="~/img/logo_rosa.png" style="width: 150px; height: auto;" />
                 </td>
                 <td style="text-align:right">
                     <table style="margin-right:0;margin-left:auto">
@@ -98,10 +98,10 @@
         <table class="tbproductos" style="width:100%">
             <thead>
                 <tr>
-                    <th class="tbth">Producto</th>
-                    <th class="tbth" style="width:130px">Cantidad</th>
-                    <th class="tbth" style="width:130px">Precio</th>
-                    <th class="tbth" style="width:130px">Total</th>
+                    <th class="tbth tbl-center">Producto</th>
+                    <th class="tbth tbl-center" style="width:130px">Cantidad</th>
+                    <th class="tbth tbl-right" style="width:130px">Precio</th>
+                    <th class="tbth tbl-right" style="width:130px">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,10 +109,10 @@
                     foreach (var item in listaCestas)
                     {
                         <tr>
-                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</p></td>
-                            <td class="td-item"><p class="item" style="color: #000000">@item.Cantidad</p></td>
-                            <td class="td-item"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento</p></td>
-                            <td style="background-color:#EDF6F9"><p class="item" style="color: #000000">@item.Total</p></td>
+                            <td class="td-item tbl-center"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</p></td>
+                            <td class="td-item tbl-center"><p class="item" style="color: #000000">@item.Cantidad</p></td>
+                            <td class="td-item tbl-right"><p class="item" style="color: #000000">@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</p></td>
+                            <td class="tbl-right" style="background-color:#EDF6F9"><p class="item" style="color: #000000">@item.Total€</p></td>
                         </tr>
 
                     }
@@ -120,27 +120,27 @@
                 <tr>
                     <td colspan="2" rowspan="3">
                     </td>
-                    <td class="td-item">
+                    <td class="td-item tbl-right">
                         <p class="item-2" style="color: #000000">Total sin IVA</p>
                     </td>
-                    <td class="item-3">
-                        <p>@Model.TotalSinIva</p>
+                    <td class="item-3 tbl-right">
+                        <p>@Model.TotalSinIva€</p>
                     </td>
                 </tr>
                 <tr>
-                    <td class="td-item">
+                    <td class="td-item tbl-right">
                         <p class="item-2" style="color: #000000">IVA</p>
                     </td>
-                    <td class="item-3">
-                        <p>@Model.Iva</p>
+                    <td class="item-3 tbl-right">
+                        <p>@Model.Iva%</p>
                     </td>
                 </tr>
                 <tr>
-                    <td class="item-3">
+                    <td class="item-3 tbl-right">
                         <p>Total</p>
                     </td>
-                    <td class="item-3">
-                        <p>@Model.Total</p>
+                    <td class="item-3 tbl-right">
+                        <p>@Model.Total€</p>
                     </td>
                 </tr>
             </tbody>

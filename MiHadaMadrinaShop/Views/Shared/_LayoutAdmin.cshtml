@@ -49,7 +49,7 @@
     <header>
         @* Navigation Start *@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand ps-3" asp-area="Admin" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+            <a class="navbar-brand ps-3" asp-area="Admin" asp-controller="Pedidos" asp-action="Index">Mi Hada Madrina</a>
             @* Sidebar Toggle *@
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -93,22 +93,6 @@
             </div>
         </div>
     </div>
-
-    @*
-
-    <div class="contenedor mb-5">
-    <main role="main" class="pb-2">
-  
-    <div id="layoutSidenav">  *@
-        @* Sidenav *@
-       @* <partial name="_SidenavPartial" />
-        <div class="layoutSidenav_content">
-            <main>
-                @RenderBody()
-            </main>
-        </div>
-    </div>*@
-
 
     <partial name="_CookieConsentPartial" />
     <partial name="_FooterPartial" />

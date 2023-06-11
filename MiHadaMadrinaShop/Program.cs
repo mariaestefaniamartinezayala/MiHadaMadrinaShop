@@ -61,7 +61,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllerRoute(
-               name: "MyArea",
+            name: "MyArea",
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
         app.MapControllerRoute(
@@ -72,14 +72,10 @@ public class Program
             name: "Model",
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{model?}");
 
-        app.MapControllerRoute(
-        name: "admin",
-        pattern: "/Admin/{controller=Inicio}/{action=Index}/{id?}");
-
         app.MapAreaControllerRoute(
             name: "admin_area",
             areaName: "Admin",
-            pattern: "/Admin/{controller=Inicio}/{action=Index}/{id?}");
+            pattern: "/Admin/{controller=Pedidos}/{action=Index}/{id?}");
 
         app.MapRazorPages();
 
