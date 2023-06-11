@@ -34,11 +34,7 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones
         {
 
             var user = User.Identity.GetUserId();
-
-            if (!ModelState.IsValid || _context.Direcciones == null || Direccione == null)
-            {
-                return Page();
-            }
+            
 
             Direccione.IdAspNetUsers = user;
 

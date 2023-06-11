@@ -24,7 +24,7 @@
             <div class="card d-flex justify-content-center p-4">
                 <div class="card-header">
                     <h3 class="font-weight-bold font-italic">Añadir o eliminar usuarios a este rol</h3>
-                    <form asp-action="Edit" method="post">
+                    <form asp-action="EditarUsuarioRol" method="post">
                         <div class="card-body py-0">
                             @for (int i = 0; i < Model.Count; i++)
                             {
@@ -42,7 +42,7 @@
                         <div class="card-footer">
                             <div class="form-group justify-content-between" role="group" aria-label="Botones">
                                 <a asp-action="Index" class="btn btn-secondary w-auto"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
-                                <button type="submit" class="btn btn-primary w-auto"><i class="fas fa-save"></i> Guardar</button>
+                                <button type="submit" class="btn btn-primary w-auto" asp-route-rolId="@roleId"><i class="fas fa-save"></i> Guardar</button>
                             </div>
                         </div>
                     </form>
