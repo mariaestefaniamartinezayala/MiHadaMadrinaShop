@@ -86,10 +86,9 @@
                             </td>
                             <td class="pt-3 text-center">
                                 
-                               @* <form method="post" asp-action="Delete" asp-route-id="@item.Id">*@
-                                        <a class="btn btn-warning mx-auto opacity-50" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                                    <buttom class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@item.Id" type="submit" onclick="return confirm('¿Est&aacute; seguro que desea borrar el usuario: @item.UserName')"><i class="fas fa-trash"></i></buttom>
-                                @*</form>*@
+                                     <a class="btn btn-warning mx-auto opacity-50" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                                    <buttom class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@item.Id" type="submit" onclick="confirmDeleteUser('@item.Nombre', '@item.Id')"><i class="fas fa-trash"></i></buttom>
+                               
                             </td>
                         </tr>
                     }
@@ -98,3 +97,31 @@
         </div>
     </div>
 </div>
+
+    <script>
+        function confirmDeleteUser(userName, userId) {
+            var result = confirm('¿Está seguro que desea borrar el usuario: ' + userName + '?');
+
+            if (result) {
+                // Si el usuario confirmó la eliminación, realizar una solicitud al servidor
+                deleteUser(userId);
+            }
+        }
+
+        function deleteUser(userId) {
+            // Realizar una solicitud AJAX al controlador para eliminar el usuario
+            $.ajax({
+                url: '/Admin/Users/Delete',
+                data: { id: userId },
+                success: function (response) {
+                    window.location.href = '/Admin/Users/Index';
+                },
+                error: function (error) {
+                    window.location.href = '/Admin/Users/Index';
+                }
+            });
+        }
+    </script>
+  
+
+

@@ -230,41 +230,71 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             return RedirectToAction("Edit", new { Id = rolId });
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.AspNetRoles == null)
+
+            var rol = await _roleManager.FindByIdAsync(id);
+
+            if (rol == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"EL rol con el ID: {rol.Id}, no existe en la base de datos";
+                return View("Error");
+            }
+            else
+            {
+                var resultado = await _roleManager.DeleteAsync(rol);
+
+                if (resultado.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                foreach (var error in resultado.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
 
-            var aspNetRole = await _context.AspNetRoles
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aspNetRole == null)
-            {
-                return NotFound();
-            }
-
-            return View(aspNetRole);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            if (_context.AspNetRoles == null)
-            {
-                return Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetRoles'  is null.");
-            }
-            var aspNetRole = await _context.AspNetRoles.FindAsync(id);
-            if (aspNetRole != null)
-            {
-                _context.AspNetRoles.Remove(aspNetRole);
-            }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    if (id == null || _context.AspNetRoles == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var aspNetRole = await _context.AspNetRoles
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (aspNetRole == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(aspNetRole);
+        //}
+
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    if (_context.AspNetRoles == null)
+        //    {
+        //        return Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.AspNetRoles'  is null.");
+        //    }
+        //    var aspNetRole = await _context.AspNetRoles.FindAsync(id);
+        //    if (aspNetRole != null)
+        //    {
+        //        _context.AspNetRoles.Remove(aspNetRole);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool AspNetRoleExists(string id)
         {
