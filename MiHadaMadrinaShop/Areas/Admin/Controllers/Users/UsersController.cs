@@ -163,8 +163,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Users
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             var usuario = await _userManager.FindByIdAsync(id);
