@@ -3,34 +3,56 @@
 
 @{
     ViewData["Title"] = "Editar usuarios a este rol";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var roleId = ViewBag.roleId;
 }
 
-<div class="container">
+<div class="container py-5 d-flex flex-column min-vh-100">
     <div class="row">
-        <div class="col-4 align-items-center offset-4">
-            <h1 class="font-weight-bold font-italic">Añadir o eliminar usuarios a este rol</h1>
-            <form method="post">
-                <div>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        <div class="form-check m-1">
-                            <input type="hidden" asp-for="@Model[i].UsuarioId" />
-                            <input type="hidden" asp-for="@Model[i].NombreUsuario" />
-                            <input asp-for="@Model[i].EstaSeleccionado" class="form-check-input" />
-                            <label class="form-check-label" asp-for="@Model[i].EstaSeleccionado">
-                                @Model[i].NombreUsuario"
-                            </label>
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">A&ntilde;adir o eliminar usuarios a este rol</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index" class="text-black-50 text-decoration-none">Usuario</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Edit" class="text-black-50 text-decoration-none">Editar</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Roles" asp-action="EditarUsuarioRol" class="text-dark text-decoration-none active">Editar Usuario Rol</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h3 class="font-weight-bold font-italic">Añadir o eliminar usuarios a este rol</h3>
+                    <form asp-action="Edit" method="post">
+                        <div class="card-body py-0">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <div class="form-group form-check">
+                                    <input type="hidden" asp-for="@Model[i].UsuarioId" />
+                                    <input type="hidden" asp-for="@Model[i].NombreUsuario" />
+                                    <input asp-for="@Model[i].EstaSeleccionado" class="form-check-input" />
+                                    <label class="form-check-label" asp-for="@Model[i].EstaSeleccionado">
+                                        @Model[i].NombreUsuario
+                                    </label>
+                                </div>
+                            }
 
                         </div>
-                    }
+                        <div class="card-footer">
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-primary w-auto"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group d-flex justify-content-between" role="group" aria-label="Botones">
-                    <a asp-action="Edit" asp-route-id="@roleId" class="btn btn-secondary flex-fill mr-2"><i class="fas fa-arrow-left"></i> Volver</a>
-                    <button type="submit" class="btn btn-primary flex-fill ml-2"><i class="fas fa-save"></i> Guardar</button>
-                </div>
-            </form>
+            </div>
+            <div class="col-6">
+                <img src="~/img/illustrations/undraw_my_documents_re_13dc.svg" alt="imagen de edici&oacute;n" class="imagen-width img-fluid rounded mx-auto" />
+            </div>
         </div>
     </div>
 </div>

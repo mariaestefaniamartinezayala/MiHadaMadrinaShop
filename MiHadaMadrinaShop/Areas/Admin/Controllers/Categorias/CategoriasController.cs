@@ -22,7 +22,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             _context = context;
         }
 
-        // GET: Admin/Categorias
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return _context.Categorias != null ?
@@ -30,7 +30,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
                         Problem("Entity set 'MiHadaMadrinaHandMadeDBContext.Categorias'  is null.");
         }
 
-        // GET: Admin/Categorias/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Categorias == null)
@@ -48,18 +48,15 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             return View(categoria);
         }
 
-        // GET: Admin/Categorias/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categorias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCategoria,Categoria1,Descripcion,EsActivo")] Categoria categoria)
+        public async Task<IActionResult> Create(Categoria categoria)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +67,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             return View(categoria);
         }
 
-        // GET: Admin/Categorias/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Categorias == null)
@@ -86,12 +83,9 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             return View(categoria);
         }
 
-        // POST: Admin/Categorias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCategoria,Categoria1,Descripcion,EsActivo")] Categoria categoria)
+        public async Task<IActionResult> Edit(int id, Categoria categoria)
         {
             if (id != categoria.IdCategoria)
             {
@@ -121,7 +115,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             return View(categoria);
         }
 
-        // GET: Admin/Categorias/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Categorias == null)
@@ -139,7 +133,6 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Categorias
             return View(categoria);
         }
 
-        // POST: Admin/Categorias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

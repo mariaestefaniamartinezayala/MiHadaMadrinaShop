@@ -14,6 +14,7 @@ namespace MiHadaMadrinaShop.Models.ViewModels
         public string Id { get; set; }
 
         [Required]
+        [Display(Name = "Nombre de usuario")]
         public string NombreUsuario { get; set; }
 
         [Required]

@@ -2,145 +2,166 @@
 
 @{
     ViewData["Title"] = "Lista de productos";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div>
-    <h1>Listado de productos</h1>
-    <button class="btn btn-mg btn-new">
-        <a class="new-button" asp-action="Create"><i class="fas fa-plus"></i>&nbsp;Nuevo</a>
-    </button>
-</div>
-<div class="mt-2">
-    @using (Html.BeginForm())
-    {
-        <p>
-            Buscar por producto: @Html.TextBox("searchString")
-            <input type="submit" value="Search" />
-        </p>
-    }
-    <table class="table table-inverse table-hover">
-        <thead>
-            <tr>
-                <th class="text-center align-middle" scope="col">
-                    Nombre
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Descripci&oacute;n corta
-                </th>
-                <th class="text-center align-middle" scope="col" width="15%">
-                    Descripci&oacute;n larga
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Fecha de entrada
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Imagen
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Precio
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Porcentaje de descuento
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Precio con descuento
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Stock
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Es digital
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Url producto digital
-                </th>
-                <th class="text-center align-middle" scope="col">
-                    Es activo
-                </th>
-                <th class="text-center align-middle" scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.DescripcionCorta)
-                    </td>
-                    <td class="text-center align-middle" width="15%"> 
-                        <p class="module line-clamp">
-                            @Html.DisplayFor(modelItem => item.DescripcionLarga)
-                        </p>
-                     </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.FechaDeEntrada)
-                    </td>
-                    <td class="text-center align-middle">
-                        @*Mostramos la imagen*@
-                        <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.Precio)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.PrecioConDescuento)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.Stock)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.EsDigital)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.UrlProductoDigital)
-                    </td>
-                    <td class="text-center align-middle">
-                        @Html.DisplayFor(modelItem => item.EsActivo)
-                    </td>
-                    <td class="text-center align-middle">
-                        <button class="btn btn-mg edit-button">
-                            <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@item.IdProducto"><i class="fas fa-edit"></i> Editar</a>
-                        </button>
-                        @*<button class="btn btn-mg details-button">
-                    <a class="custom-button-ede d-flex align-items-center" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info-circle"></i> Detalle</a>
-                    </button>*@
-                        <button class="btn btn-mg delete-button">
-                            <a class="custom-button-ede d-flex align-items-center" asp-action="Delete" asp-route-id="@item.IdProducto"><i class="fas fa-trash"></i> Eliminar</a>
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<br />
+<div class="container pt-5 d-flex flex-column min-vh-100">
+    <ol class="breadcrumb mt-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="text-dark text-decoration-none active">Producto</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+    <div class="mt-2">
+        @* Buscador Start *@
+        @using (Html.BeginForm())
+        {
+            <div class="container mb-3">
+                <div class="row">
+                    <div class="col-lg-6 pt-4 col-md-12 mx-auto">
+                        <div class="input-group">
+                            <label for="searchString" class="input-group-text">Buscar por producto:</label>
+                            @Html.TextBox("searchString", null, new { @class = "form-control search-input" })
+                            <button class="btn btn-outline-dark search-button" type="submit">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @* Buscardor End *@
+    </div>
+    <div class="row">
+        <div class="col mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="font-weight-bold font-italic">Lista de productos</h1>
+            <a class="btn btn-primary" asp-action="Create">
+                <i class="fas fa-plus"></i><span>&nbsp;Nuevo</span>
+            </a>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead class="thead-color">
+                        <tr class="align-self-center">
+                            <th class="py-3 text-center" scope="col">
+                                Nombre
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Descripci&oacute;n corta
+                            </th>
+                            <th class="py-3 text-center" scope="col" width="15%">
+                                Descripci&oacute;n larga
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Fecha de entrada
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Imagen
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Precio
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Porcentaje de descuento
+                            </th>
+                            <th class="py-3 text-end" scope="col">
+                                Precio con descuento
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Stock
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Es digital
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Url producto digital
+                            </th>
+                            <th class="py-3 text-center" scope="col">
+                                Es activo
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.DescripcionCorta)
+                                </td>
+                                <td class="text-center align-middle" width="15%">
+                                    <p class="module line-clamp">
+                                        @Html.DisplayFor(modelItem => item.DescripcionLarga)
+                                    </p>
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.FechaDeEntrada)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @*Mostramos la imagen*@
+                                    <img src="~/img/productos/@item.ImagenUrl" style="width:75px;height:75px;" />
+                                </td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.Precio)€
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.PorcentajeDeDescuento)%
+                                </td>
+                                <td class="pt-3 text-end">
+                                    @Html.DisplayFor(modelItem => item.PrecioConDescuento)€
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.Stock)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.EsDigital)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.UrlProductoDigital)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    @Html.DisplayFor(modelItem => item.EsActivo)
+                                </td>
+                                <td class="pt-3 text-center">
+                                    <div class="d-flex justify-content-between">
+                                        <a class="btn btn-warning opacity-50" asp-action="Edit" asp-route-id="@item.IdProducto"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-info mx-1 opacity-50" asp-action="Details" asp-route-id="@item.IdProducto"><i class="fas fa-info"></i></a>
+                                        <a class="btn btn-danger opacity-75" asp-action="Delete" asp-route-id="@item.IdProducto"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<div class="text-center">
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
+    <div class="text-center mt-2">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
 
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @prevDisabled">
-        Anterior
-    </a>
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @nextDisabled">
-        Siguiente
-    </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Anterior
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Siguiente
+        </a>
+    </div>
 </div>

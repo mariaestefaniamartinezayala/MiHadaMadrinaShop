@@ -2,20 +2,24 @@
 
 @{
     ViewData["Title"] = "Editar usuario";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container" aria-label="breadcrumb">
-    <ol class="breadcrumb bg-transparent mt-4">
-        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Inicio</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
-        <li><a asp-area="Admin" asp-controller="Users" asp-action="Edit" class="text-dark text-decoration-none active">Editar Usuario</a></li>
-    </ol>
-</div>
-<hr class="d-block d-md-none" />
-
-<div class="container">
+<div class="container py-5 d-flex flex-column min-vh-100">
     <div class="row">
-        <div class="col-4 align-items-center">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Usuario</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index" class="text-black-50 text-decoration-none">Usuario</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Users" asp-action="Edit" class="text-dark text-decoration-none active">Editar</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
+
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 align-items-center">
             <div class="card">
                 <div class="card-header">
                     <h1 class="font-weight-bold font-italic">Editar usuario</h1>
@@ -29,25 +33,34 @@
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
-                         <div class="form-group mb-3">
-                        <label asp-for="NombreUsuario" class="control-label"></label>
-                        <input asp-for="NombreUsuario" class="form-control" />
-                        <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                        <div class="form-group mb-3">
+                            <label asp-for="NombreUsuario" class="control-label"></label>
+                            <input asp-for="NombreUsuario" class="form-control" />
+                            <span asp-validation-for="NombreUsuario" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group justify-content-between" role="group" aria-label="Botones">
-                            <a asp-action="Index" class="btn btn-secondary w-auto"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
-                            <button type="submit" class="btn btn-primary w-auto"><i class="fas fa-save"></i> Guardar</button>
+                            <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                            <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-8 col-md-4 align-items-center">
             <img src="~/img/illustrations/undraw_profile_data_re_v81r.svg" alt="imagen de edici&oacute;n" class="imagen-width img-fluid rounded mx-auto" />
         </div>
-        <div class="col-4 d-flex align-items-center">
+       
+    </div>
+
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+@* <div class="col-12 col-md-6 col-lg-4 align-items-center">
             <div class="card">
                 <div class="card-header">
                     <h1>Roles del usuario</h1>
@@ -73,49 +86,4 @@
                     <a asp-controller="Users" asp-action="EditarRolUsuario" asp-route-rolId="@Model.Id" class="btn btn-primary justify-content-center"><i class="fas fa-user"></i> Gestionar roles</a>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
-@* 
-    <form>
-  <div class="row">
-    <div class="col-md-6">
-      <!-- Campo Username -->
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
-      </div>
-
-      <!-- Campo Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-      </div>
-
-      <!-- Bot&oacute;n de guardar -->
-      <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-
-    <div class="col-md-6">
-      <!-- Imagen -->
-      <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input type="file" class="form-control" id="image" name="image">
-      </div>
-
-      <!-- Vista previa de la imagen -->
-      <div class="mb-3">
-        <img src="path/to/image.jpg" alt="Preview" class="img-fluid">
-      </div>
-    </div>
-  </div>
-</form>
-
-    *@
+        </div>*@

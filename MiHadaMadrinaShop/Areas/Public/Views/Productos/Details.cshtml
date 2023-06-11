@@ -96,6 +96,9 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (result) {
+                if (result.success) {
+                    window.location.href = "/Public/TCestums/Index";
+                }
                 //window.location.reload();
             },
             error: function (qXHR, textStatus, errorThrown) {

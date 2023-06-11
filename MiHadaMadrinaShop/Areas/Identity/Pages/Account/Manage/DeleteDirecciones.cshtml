@@ -2,7 +2,7 @@
 @model MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Direcciones.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar dirección";
     Layout = "~/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
 }
 
@@ -58,8 +58,10 @@
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="Direccione.IdDireccion" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-page="./IndexDirecciones">Volver</a>
+        <div class="form-group justify-content-between" role="group" aria-label="Botones">
+            <input type="hidden" asp-for="Direccione.IdDireccion" />
+            <a asp-page="./IndexDirecciones" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+            <button type="submit" class="btn btn-danger w-auto mb-1"><i class="fas fa-trash-alt"></i> Eliminar</button>
+        </div>
     </form>
 </div>

@@ -1,96 +1,45 @@
 ﻿@model MiHadaMadrinaShop.Models.Producto
 
 @{
-    ViewData["Title"] = "Eliminar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var imagenUrl = Model.ImagenUrl;
+    ViewData["Title"] = "Eliminar producto";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Eliminar</h1>
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Producto</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Producto</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Productos" asp-action="Delete" class="text-dark text-decoration-none active">Eliminar</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
 
-<h3>¿Est&aacute;s seguro de querer eliminar este producto?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionCorta)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionCorta)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionLarga)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionLarga)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeEntrada)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeEntrada)
-        </dd>
-        <dt class="col-sm-2">
-            Imagen
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                <img src="~/img/productos/@imagenUrl" style="width:75px;height:75px;" />
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioConDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrecioConDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EsDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EsDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlProductoDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UrlProductoDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EsActivo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EsActivo)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdProducto" />
-        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar</button>
-    </form>
+    <div class="row">
+        <div class="col-12 col-md-6 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic">Eliminar producto</h1>
+                </div>
+                <form asp-action="Delete" method="post">
+                    <div class="card-body py-0">
+                        <h3>¿Est&aacute;s seguro de querer eliminar el producto @Html.DisplayFor(model => model.Nombre)?</h3>
+                        <input type="hidden" asp-for="IdProducto" />
+                        <div class="card-footer">
+                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                <button type="submit" class="btn btn-danger w-auto mb-1"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-8 col-md-4 align-items-center">
+            <img src="~/img/illustrations/undraw_cancel_re_pkdm.svg" alt="eliminar imagen" class="imagen-width img-fluid rounded mx-auto" />
+        </div>
+    </div>
 </div>

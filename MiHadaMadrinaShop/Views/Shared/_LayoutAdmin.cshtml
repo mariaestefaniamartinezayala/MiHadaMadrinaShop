@@ -31,32 +31,34 @@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/fontawesome/css/fontawesome.css" />
 
-
-    @*Estilos p&aacute;ginas de registro y login*@
+    @*Estilos páginas de registro y login*@
     <link rel="stylesheet" href="~/css/auth.css" />
-    @*Estilos que sobre escribe los colores de bootstrap*@
-    <link rel="stylesheet" href="~/css/core.css" />
-    @*<link rel="stylesheet" href="~/css/theme-default.css" />*@
-    @*Estilos generales*@
-    <link rel="stylesheet" href="~/css/estilos.css" />
-
+   
     @*Datatable*@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     @*Core theme CSS (includes Bootstrap)*@
     <link rel="stylesheet" href="~/css/styles.css" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    @*Estilos generales*@
+    <link rel="stylesheet" href="~/css/estilos.css" />
+    @*Estilos que sobre escribe los colores de bootstrap*@
+    <link rel="stylesheet" href="~/css/core.css" />
+    <link rel="stylesheet" href="~/css/theme-default.css" />
 </head>
 <body class="sb-nav-fixed">
     <header>
         @* Navigation Start *@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            @* <div class="container px-4 px-lg-5">*@
             <a class="navbar-brand ps-3" asp-area="Admin" asp-controller="Home" asp-action="Index">Mi Hada Madrina</a>
+            @* Sidebar Toggle *@
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
             @* Navbar Start *@
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown ms-auto">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user fa-fw"></i><span class="d-none d-md-inline">Hola @userName</span></a>
+                        <i class="fas fa-user"></i><span class="d-none d-md-inline">&nbsp;Hola @userName</span>
+                    </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li>
                             <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
@@ -71,23 +73,42 @@
                 </li>
             </ul>
             @* Navbar End *@
-            @*
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <partial name="_LoginPartial" />
-            </div>*@
-            @* </div>*@
+
         </nav>
         @* Navigation End *@
     </header>
+
+   
     <div class="container-fluid">
-        <main role="main" class="pb-2">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-2">
+                <partial name="_SidenavPartial" />
+            </div>
+            <div class="col-12 col-sm-10">
+                <div class="layoutSidenav_content">
+                    <main>
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+        </div>
     </div>
+
+    @*
+
+    <div class="contenedor mb-5">
+    <main role="main" class="pb-2">
+  
+    <div id="layoutSidenav">  *@
+        @* Sidenav *@
+       @* <partial name="_SidenavPartial" />
+        <div class="layoutSidenav_content">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+    </div>*@
+
 
     <partial name="_CookieConsentPartial" />
     <partial name="_FooterPartial" />

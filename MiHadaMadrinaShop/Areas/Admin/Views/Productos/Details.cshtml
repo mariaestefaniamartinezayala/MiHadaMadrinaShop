@@ -1,96 +1,130 @@
 ﻿@model MiHadaMadrinaShop.Models.Producto
 
 @{
-    ViewData["Title"] = "Detalles";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detalle del producto";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var imagenUrl = Model.ImagenUrl;
 }
+<div class="container py-5 d-flex flex-column min-vh-100">
+    <div class="row">
+        <div class="col mt-4">
+            <h1 class="font-weight-bold font-italic">Detalle del producto</h1>
+        </div>
+    </div>
+    <ol class="breadcrumb mb-4 bg-transparent">
+        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-black-50 text-decoration-none">Dashboard</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Productos" asp-action="Index" class="text-black-50 text-decoration-none">Producto</a><i class="fas fa-angle-right text-black-50 px-2"></i></li>
+        <li><a asp-area="Admin" asp-controller="Productos" asp-action="Details" class="text-dark text-decoration-none active">Detalle</a></li>
+    </ol>
+    <hr class="d-block d-md-none" />
 
-<h1>Detalles</h1>
+    <div class="row">
+        <div class="col-12 align-items-center">
+            <div class="card d-flex justify-content-center p-4">
+                <div class="card-header">
+                    <h1 class="font-weight-bold font-italic text-center">Detalle del producto</h1>
+                </div>
+                <div class="card-body py-0">
+                    <div class="row">
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Nombre)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.DescripcionCorta)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.DescripcionCorta)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.DescripcionLarga)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.DescripcionLarga)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.FechaDeEntrada)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.FechaDeEntrada)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            Imagen
+                        </h5>
+                        <div class="col-sm-8 mb-3">
+                            @{
+                                <img src="~/img/productos/@imagenUrl" style="height: 300px; width: auto;" />
+                            }
+                        </div>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)%
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.Precio)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Precio)€
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.PrecioConDescuento)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.PrecioConDescuento)€
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.Stock)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.EsDigital)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.EsDigital)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.UrlProductoDigital)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.UrlProductoDigital)
+                        </p>
+                        <hr/>
+                        <h5 class="col-sm-2 text-end">
+                            @Html.DisplayNameFor(model => model.EsActivo)
+                        </h5>
+                        <p class="col-sm-10">
+                            @Html.DisplayFor(model => model.EsActivo)
+                        </p>
+                        <hr/>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group justify-content-between text-end" role="group" aria-label="Botones">
+                        <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                        <a class="btn btn-warning mx-auto mb-1 opacity-50" asp-action="Edit" asp-route-id="@Model?.IdProducto"><i class="fas fa-edit"></i> Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div>
-    <h4>Producto</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionCorta)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionCorta)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionLarga)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionLarga)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeEntrada)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeEntrada)
-        </dd>
-        <dt class="col-sm-2">
-            Imagen
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                <img src="~/img/productos/@imagenUrl" style="width:75px;height:75px;" />
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeDeDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeDeDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioConDescuento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PrecioConDescuento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EsDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EsDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlProductoDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UrlProductoDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EsActivo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EsActivo)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
-    <button class="btn btn-mg edit-button">
-        <a class="custom-button-ede d-flex align-items-center" asp-action="Edit" asp-route-id="@Model?.IdProducto"><i class="fas fa-edit"></i> Editar</a>
-    </button>
-</div>
+
+
+
