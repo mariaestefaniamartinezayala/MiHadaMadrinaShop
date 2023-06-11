@@ -44,7 +44,7 @@
                                 </td>
                                 <td class="pt-3 text-center">
                                     <a class="btn btn-warning mx-auto opacity-50" asp-action="Edit" asp-route-id="@rol.Id"><i class="fas fa-edit"></i></a>
-                                    <a class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@rol.Id"><i class="fas fa-trash"></i></a>
+                                    <buttom class="btn btn-danger mx-auto" asp-action="Delete" asp-route-id="@rol.Id" type="submit" onclick="confirmDeleteRole('@rol.Name', '@rol.Id')"><i class="fas fa-trash"></i></buttom>
                                 </td>
                             </tr>
                         }
@@ -54,3 +54,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDeleteRole(roleName, roleId) {
+        var result = confirm('¿Está seguro que desea borrar el rol: ' + roleName + '?');
+
+        if (result) {
+            // Si el usuario confirmó la eliminación, realizar una solicitud al servidor
+            deleteRole(roleId);
+        }
+    }
+
+    function deleteRole(roleId) {
+        // Realizar una solicitud AJAX al controlador para eliminar el rol
+        $.ajax({
+            url: '/Admin/Roles/Delete',
+            data: { id: roleId },
+            success: function (response) {
+                window.location.href = '/Admin/Roles/Index';
+            },
+            error: function (error) {
+                window.location.href = '/Admin/Roles/Index';
+            }
+        });
+    }
+</script>
