@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MiHadaMadrinaShop.Models.Factura>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Facturas</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Número de factura
+            </th>
+            <th>
+                Número de pedido
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(q=>q.IdFactura))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPedido)
+                </td>
+                <td>
+                    <a asp-area="Public" asp-controller="ImprimirFactura" asp-action="ImprimirFactura" asp-route-id="@item.IdPedido" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir factura</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

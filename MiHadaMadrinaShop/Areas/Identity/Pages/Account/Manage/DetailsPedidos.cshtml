@@ -11,7 +11,8 @@
     List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.Pedido.IdPedido)).ToList();
     Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionDomicilio)).FirstOrDefault();
     Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.Pedido.IdDireccionFacturacion)).FirstOrDefault();
-
+  
+  
 }
 
 <div class="container py-5 d-flex flex-column min-vh-100">

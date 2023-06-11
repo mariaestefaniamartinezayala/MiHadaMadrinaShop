@@ -1,108 +1,45 @@
 ﻿@model IEnumerable<MiHadaMadrinaShop.Models.Pedido>
+@inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var listaEstados = _context.Estados.ToList();
 }
 
-<h1>Index</h1>
+<h1>Gestionar pedidos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDireccionDomicilio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Iva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PorcentajeDescuento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalSinIva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaPedido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaEnvio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDireccionFacturacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdAspNetUsersNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEstadoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdFormaDeEntregaNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdFormaDeEnvioNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdFormaDePagoNavigation)
-            </th>
+            <th>Número de pedido</th>
+            <th>Fecha pedido</th>
+            <th>Fecha envío</th>
+            <th>Total sin iva</th>
+            <th>IVA</th>
+            <th>Total</th>
+            <th>Estado</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDireccionDomicilio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Iva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeDescuento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalSinIva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaPedido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaEnvio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDireccionFacturacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdAspNetUsersNavigation.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEstadoNavigation.IdEstado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdFormaDeEntregaNavigation.IdFormaDeEntrega)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdFormaDeEnvioNavigation.IdFormaDeEnvio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdFormaDePagoNavigation.IdFormaDePago)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdPedido">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdPedido">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdPedido">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.OrderByDescending(q=>q.FechaPedido))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaEnvio)</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalSinIva)</td>
+                <td>@Html.DisplayFor(modelItem => item.Iva)</td>
+                <td>@Html.DisplayFor(modelItem => item.Total)</td>
+                <td>@listaEstados.Where(q=>q.IdEstado.Equals(item.IdEstado)).FirstOrDefault().Estado1</td>
+                
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdPedido">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdPedido">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdPedido">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

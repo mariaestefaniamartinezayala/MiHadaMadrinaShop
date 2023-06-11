@@ -1,97 +1,129 @@
 ﻿@model MiHadaMadrinaShop.Models.Pedido
+@inject MiHadaMadrinaHandMadeDBContext _context;
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var listaEstados = _context.Estados.ToList();
+    List<TCestum> listaCestas = _context.TCesta.Where(q => q.IdPedido.Equals(Model.IdPedido)).ToList();
+    Direccione direccionDomicilio = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionDomicilio)).FirstOrDefault();
+    Direccione direccionFacturacion = (Direccione)_context.Direcciones.Where(q => q.IdDireccion.Equals(Model.IdDireccionFacturacion)).FirstOrDefault();
+    var userId = listaCestas.FirstOrDefault().IdAppNetUsers;
+    AspNetUser user = _context.AspNetUsers.Where(q => q.Id.Equals(userId)).FirstOrDefault();
 }
 
-<h1>Details</h1>
+<h1>Detalles del pedido</h1>
 
 <div>
-    <h4>Pedido</h4>
+    <h5>Número de pedido: @Model.IdPedido</h5>
     <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdDireccionDomicilio)
+        <dt class="col-sm-2">
+            Número de pedido
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdDireccionDomicilio)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdPedido)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Iva)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Iva)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PorcentajeDescuento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PorcentajeDescuento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalSinIva)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalSinIva)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaPedido)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaPedido)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaEnvio)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaEnvio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdDireccionFacturacion)
+        <dt class="col-sm-2">
+           Cliente
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdDireccionFacturacion)
+        <dd class="col-sm-10">
+            @user.Nombre<br />
+            @user.Apellidos<br />
+            @user.Dni<br />
+            @user.Email<br />
+            @user.PhoneNumber<br />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAspNetUsersNavigation)
+        <dt class="col-sm-2">
+            Dirección de domicilio
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdAspNetUsersNavigation.Id)
+        <dd class="col-sm-10">
+            @direccionDomicilio.Direccion<br />
+            @direccionDomicilio.CodPostal<br />
+            @direccionDomicilio.Localidad<br />
+            @direccionDomicilio.Provincia<br />
+            @direccionDomicilio.Pais<br />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEstadoNavigation)
+        <dt class="col-sm-2">
+            Dirección de facturación
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEstadoNavigation.IdEstado)
+        <dd class="col-sm-10">
+            @direccionFacturacion.Direccion<br />
+            @direccionFacturacion.CodPostal<br />
+            @direccionFacturacion.Localidad<br />
+            @direccionFacturacion.Provincia<br />
+            @direccionFacturacion.Pais<br />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdFormaDeEntregaNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdFormaDeEntregaNavigation.IdFormaDeEntrega)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdFormaDeEnvioNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdFormaDeEnvioNavigation.IdFormaDeEnvio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdFormaDePagoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdFormaDePagoNavigation.IdFormaDePago)
-        </dd>
+
     </dl>
+
+    @*Productos*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in listaCestas)
+                {
+                    <tr>
+                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().Nombre</td>
+                        <td>@item.Cantidad</td>
+                        <td>@_context.Productos.Where(q=>q.IdProducto.Equals(item.IdProducto)).FirstOrDefault().PrecioConDescuento€</td>
+                        <td>@item.Total€</td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <dl class="row">
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalSinIva)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalSinIva)€
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Iva)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Iva)%
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Total)€
+        </dd>
+
+    </dl>
+
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdPedido">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.IdPedido">Editar</a> |
+    <a asp-action="Index">Volver</a>
 </div>
