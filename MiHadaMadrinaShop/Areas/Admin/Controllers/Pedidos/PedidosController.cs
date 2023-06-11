@@ -110,16 +110,16 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-               
-                    _context.Update(pedido);
-                    await _context.SaveChangesAsync();
+            Pedido pedidoSinEditar = _context.Pedidos.Where(q => q.IdPedido.Equals(id)).FirstOrDefault();
+            pedidoSinEditar.IdEstado = pedido.IdEstado;
+            pedidoSinEditar.FechaEnvio = pedido.FechaEnvio;
 
-                return RedirectToAction(nameof(Index));
+            _context.Update(pedidoSinEditar);
+            await _context.SaveChangesAsync();
 
-            }
             return RedirectToAction(nameof(Index));
+
+
         }
 
         // GET: Admin/Pedidoes/Delete/5
