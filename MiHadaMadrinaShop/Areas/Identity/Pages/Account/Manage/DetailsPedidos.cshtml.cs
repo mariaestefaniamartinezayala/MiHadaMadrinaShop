@@ -37,29 +37,11 @@ namespace MiHadaMadrinaShop.Areas.Identity.Pages.Account.Manage.Pedidos
                 Pedido = pedido;
             }
 
-            CrearFactura(pedido);
 
             return Page();
         }
 
-        public void CrearFactura(Pedido pedido)
-        {
 
-
-            if (pedido.IdEstado == 7)
-            {
-
-                if (!_context.Facturas.Any(q => q.IdPedido.Equals(pedido.IdPedido)))
-                {
-                    Factura factura = new Factura();
-                    factura.IdPedido = pedido.IdPedido;
-
-                    _context.Add(factura);
-                    _context.SaveChangesAsync();
-                }
-
-
-            }
-        }
+       
     }
 }

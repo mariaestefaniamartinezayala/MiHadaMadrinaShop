@@ -117,10 +117,28 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Pedidos
             _context.Update(pedidoSinEditar);
             await _context.SaveChangesAsync();
 
+            if (pedido.IdEstado == 7)
+            {
+
+                if (!_context.Facturas.Any(q => q.IdPedido.Equals(pedido.IdPedido)))
+                {
+                    Factura factura = new Factura();
+                    factura.IdPedido = pedido.IdPedido;
+
+                    _context.Add(factura);
+                   await _context.SaveChangesAsync();
+                }
+
+
+            }
+
+
             return RedirectToAction(nameof(Index));
 
 
         }
+
+      
 
         // GET: Admin/Pedidoes/Delete/5
         public async Task<IActionResult> Delete(long? id)
