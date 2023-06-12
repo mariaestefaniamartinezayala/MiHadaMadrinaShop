@@ -33,11 +33,11 @@
                 </div>
                 <form asp-action="Delete" method="post">
                     <div class="card-body py-0">
-                        <h3>¿Seguro que desea eliminar el pedido n&uacute;mero: @Model.IdPedido?</h3>
-                        <input type="hidden" asp-for="IdPedido" />
                         @{
                             if (Model.IdEstado != 7)
                             {
+                                <h3>¿Seguro que desea eliminar el pedido n&uacute;mero: @Model.IdPedido?</h3>
+                                <input type="hidden" asp-for="IdPedido" />
                                 <div class="card-footer">
                                     <div class="form-group justify-content-between" role="group" aria-label="Botones">
                                         <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
@@ -47,6 +47,8 @@
                             }
                             else
                             {
+                                <h3>El pedido ya ha sido facturado. No se puede eliminar.</h3>
+                                <input type="hidden" asp-for="IdPedido" />
                                 <div class="card-footer">
                                     <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>
                                 </div>
