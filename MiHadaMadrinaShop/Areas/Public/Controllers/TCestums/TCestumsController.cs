@@ -270,7 +270,7 @@ namespace MiHadaMadrinaShop.Areas.Public.Controllers.TCestums
         [HttpPost]
         public async Task<IActionResult> ActualizarCesta([FromBody] TCestum data)
         {
-            var cestaContextUsuario = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId()));
+            var cestaContextUsuario = _context.TCesta.Where(q => q.IdAppNetUsers.Equals(User.Identity.GetUserId())).ToList();
 
             
 
