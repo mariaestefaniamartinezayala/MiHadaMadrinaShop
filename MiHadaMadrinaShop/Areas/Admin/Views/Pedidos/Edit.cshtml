@@ -147,6 +147,16 @@
                                             }
                                         </select>
                                     </div>
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FechaEnvio" class="control-label"></label>
+                                        <input asp-for="FechaEnvio" class="form-control" disabled />
+                                        <span asp-validation-for="FechaEnvio" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="alert alert-danger">No se puede editar un pedido facturado</div>
+
+                                    
                                 }
                                 else
                                 {
@@ -161,24 +171,25 @@
                                             }
                                         </select>
                                     </div>
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FechaEnvio" class="control-label"></label>
+                                        <input asp-for="FechaEnvio" class="form-control" />
+                                        <span asp-validation-for="FechaEnvio" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label asp-for="IdAspNetUsers" class="control-label" hidden="hidden"></label>
+                                        <input asp-for="IdAspNetUsers" class="form-control" hidden="hidden" />
+                                        <span asp-validation-for="IdAspNetUsers" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group justify-content-between" role="group" aria-label="Botones">
+                                        <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
+                                        <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
+                                    </div>
                                 }
 
                             }
-
-                            <div class="form-group mb-3">
-                                <label asp-for="FechaEnvio" class="control-label"></label>
-                                <input asp-for="FechaEnvio" class="form-control" />
-                                <span asp-validation-for="FechaEnvio" class="text-danger"></span>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="IdAspNetUsers" class="control-label" hidden="hidden"></label>
-                                <input asp-for="IdAspNetUsers" class="form-control" hidden="hidden" />
-                                <span asp-validation-for="IdAspNetUsers" class="text-danger"></span>
-                            </div>
-                            <div class="form-group justify-content-between" role="group" aria-label="Botones">
-                                <a asp-action="Index" class="btn btn-secondary w-auto mb-1"><i class="fas fa-arrow-left"></i> Volver</a>&nbsp;
-                                <button type="submit" class="btn btn-primary w-auto mb-1"><i class="fas fa-save"></i> Guardar</button>
-                            </div>
                         </div>
                     </form>
                 </div>
