@@ -94,7 +94,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
             };
 
             //Obtenemos todos los usuarios
-            foreach(var usuario in _userManager.Users)
+            foreach(var usuario in _userManager.Users.ToList())
             {
                 if (await _userManager.IsInRoleAsync(usuario, rol.Name))
                 {
@@ -153,7 +153,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
 
             var model = new List<UsuarioRolModelo>();
 
-            foreach (var user in _userManager.Users)
+            foreach (var user in _userManager.Users.ToList())
             {
                 var usuarioRolModelo = new UsuarioRolModelo
                 {
@@ -251,7 +251,7 @@ namespace MiHadaMadrinaShop.Areas.Admin.Controllers.Roles
                     return RedirectToAction(nameof(Index));
                 }
 
-                foreach (var error in resultado.Errors)
+                foreach (var error in resultado.Errors.ToList())
                 {
                     ModelState.AddModelError("", error.Description);
                 }
