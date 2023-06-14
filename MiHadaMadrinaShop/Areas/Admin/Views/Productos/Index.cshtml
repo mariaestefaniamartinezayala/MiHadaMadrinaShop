@@ -49,12 +49,12 @@
                             <th class="py-3 text-center" scope="col">
                                 Nombre
                             </th>
-                            <th class="py-3 text-center" scope="col">
+                         @*   <th class="py-3 text-center" scope="col">
                                 Descripci&oacute;n corta
                             </th>
                             <th class="py-3 text-center" scope="col" width="15%">
                                 Descripci&oacute;n larga
-                            </th>
+                            </th>*@
                             <th class="py-3 text-center" scope="col">
                                 Fecha de entrada
                             </th>
@@ -76,9 +76,9 @@
                             <th class="py-3 text-center" scope="col">
                                 Es digital
                             </th>
-                            <th class="py-3 text-center" scope="col">
+                           @* <th class="py-3 text-center" scope="col">
                                 Url producto digital
-                            </th>
+                            </th>*@
                             <th class="py-3 text-center" scope="col">
                                 Es activo
                             </th>
@@ -92,14 +92,14 @@
                                 <td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
-                                <td class="pt-3 text-center">
+                                @*<td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.DescripcionCorta)
                                 </td>
                                 <td class="text-center align-middle" width="15%">
                                     <p class="module line-clamp">
                                         @Html.DisplayFor(modelItem => item.DescripcionLarga)
                                     </p>
-                                </td>
+                                </td>*@
                                 <td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.FechaDeEntrada)
                                 </td>
@@ -122,9 +122,9 @@
                                 <td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.EsDigital)
                                 </td>
-                                <td class="pt-3 text-center">
+                                @*<td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.UrlProductoDigital)
-                                </td>
+                                </td>*@
                                 <td class="pt-3 text-center">
                                     @Html.DisplayFor(modelItem => item.EsActivo)
                                 </td>
